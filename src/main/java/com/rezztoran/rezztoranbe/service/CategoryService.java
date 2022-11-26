@@ -33,4 +33,21 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+
+    public Category update(Category category) {
+        var existing = getCategoryByID(category.getId());
+        if (categoryRepository.findByCategoryName(category.getCategoryName()).isPresent()) {
+            throw new CategoryAlreadyExistsException("category already exists!");
+        }
+        existing.setCategoryName(category.getCategoryName());
+        existing.setCategoryImage(category.getCategoryImage());
+        return categoryRepository.save(category);
+    }
+
+
+    public void delete(Long id) {
+        var existing = getCategoryByID(id);
+        categoryRepository.delete(existing);
+    }
+
 }

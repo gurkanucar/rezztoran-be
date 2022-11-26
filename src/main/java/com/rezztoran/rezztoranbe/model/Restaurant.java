@@ -25,6 +25,9 @@ public class Restaurant extends BaseEntity {
     private Double starCount;
 
     @OneToOne
+    private User user;
+
+    @OneToOne
     private Menu menu;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL)

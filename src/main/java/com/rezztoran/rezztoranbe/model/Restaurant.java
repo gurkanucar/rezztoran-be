@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @SuperBuilder
 @Entity
@@ -22,9 +22,13 @@ public class Restaurant extends BaseEntity {
     private String detailedAddress;
     private Double latitude;
     private Double longitude;
+    private Double starCount;
 
     @OneToOne
     private Menu menu;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
 
 }

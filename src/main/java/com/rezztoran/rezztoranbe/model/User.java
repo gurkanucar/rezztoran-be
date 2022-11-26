@@ -1,7 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -27,6 +26,6 @@ public class User extends BaseEntity {
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    private List<Review> reviews;
 
 }

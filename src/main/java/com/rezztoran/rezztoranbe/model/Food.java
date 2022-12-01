@@ -21,6 +21,12 @@ public class Food extends BaseEntity {
     @ManyToMany
     private List<Category> categories;
 
+    @OneToOne
+    private Category mainCategory;
+
+    private Double price;
+    private Double cal;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;

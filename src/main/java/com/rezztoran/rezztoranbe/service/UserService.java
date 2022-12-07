@@ -53,9 +53,10 @@ public class UserService {
     public User update(User user) {
         User existing = findUserByID(user.getId());
         existing.setName(user.getName());
+        existing.setSurname(user.getSurname());
         existing.setUsername(user.getUsername());
         existing.setMail(user.getMail());
-        return userRepository.save(user);
+        return userRepository.save(existing);
     }
 
     public User findUserByID(Long id) {

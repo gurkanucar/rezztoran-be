@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.exception.NotFoundException;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +58,7 @@ public class RestaurantService {
 
     public Restaurant getById(Long id) {
         return restaurantRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("restaurant not found!"));
+                .orElseThrow(() -> new NotFoundException("restaurant not found!"));
     }
 
     public void delete(Long id) {

@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.exception.NotFoundException;
 import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class MenuService {
 
     public Menu getMenuById(Long id) {
         return menuRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("menu not found!"));
+                .orElseThrow(() -> new NotFoundException("menu not found!"));
     }
 
 }

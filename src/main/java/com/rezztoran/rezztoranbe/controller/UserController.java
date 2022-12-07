@@ -9,6 +9,7 @@ import com.rezztoran.rezztoranbe.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,13 @@ public class UserController {
         return ResponseEntity.ok(modelMapper.map(userService.update(user), UserDTO.class));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        var user = modelMapper.map(userService.findUserByID(id), UserDTO.class);
+        return ResponseEntity.ok(user);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id) {
         userService.deleteUser(id);
@@ -52,6 +60,7 @@ public class UserController {
                 .collect(Collectors.toList()));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create-user-by-role")
     public ResponseEntity<UserDTO> createUserByRole(@RequestBody RegisterModel registerModel) {
         return ResponseEntity.ok(modelMapper.map(userService.create(registerModel), UserDTO.class));

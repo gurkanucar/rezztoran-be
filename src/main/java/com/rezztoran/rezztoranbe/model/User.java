@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 public class User extends BaseEntity {
 
     private String username;
+    @JsonIgnore
     private String password;
     private String name;
     private String surname;

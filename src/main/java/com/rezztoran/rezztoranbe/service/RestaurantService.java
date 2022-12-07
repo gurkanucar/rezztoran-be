@@ -1,9 +1,11 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.exception.GenericErrorResponse;
 import com.rezztoran.rezztoranbe.exception.NotFoundException;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class RestaurantService {
 
     public Restaurant create(Restaurant restaurant) {
         if (doesRestaurantExistByName(restaurant)) {
-            throw new RuntimeException("Restaurant already exists!");
+            throw new GenericErrorResponse("Restaurant already exists!", HttpStatus.CONFLICT);
         }
         return restaurantRepository.save(restaurant);
     }
@@ -42,7 +44,7 @@ public class RestaurantService {
     public Restaurant updateOwner(Restaurant restaurant) {
         var existing = getById(restaurant.getId());
         if (doesRestaurantExistByUser(restaurant)) {
-            throw new RuntimeException("User already owner of a restaurant!");
+            throw new GenericErrorResponse("User already owner of a restaurant!", HttpStatus.CONFLICT);
         }
         existing.setUser(restaurant.getUser());
         return restaurantRepository.save(restaurant);

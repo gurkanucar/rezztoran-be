@@ -48,4 +48,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(GenericErrorResponse.class)
+    public ResponseEntity<?> genericError(GenericErrorResponse exception) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", exception.getMessage());
+        return new ResponseEntity<>(errors, exception.getHttpStatus());
+    }
+
 }

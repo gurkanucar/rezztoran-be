@@ -15,6 +15,7 @@ import java.util.List;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final UserService userService;
 
 
     public List<Restaurant> getRestaurants() {
@@ -38,7 +39,7 @@ public class RestaurantService {
         existing.setLatitude(restaurant.getLatitude());
         existing.setDetailedAddress(restaurant.getDetailedAddress());
         existing.setMenu(restaurant.getMenu());
-        return restaurantRepository.save(restaurant);
+        return restaurantRepository.save(existing);
     }
 
     public Restaurant updateOwner(Restaurant restaurant) {
@@ -46,8 +47,9 @@ public class RestaurantService {
         if (doesRestaurantExistByUser(restaurant)) {
             throw new GenericErrorResponse("User already owner of a restaurant!", HttpStatus.CONFLICT);
         }
-        existing.setUser(restaurant.getUser());
-        return restaurantRepository.save(restaurant);
+        var user = userService.findUserByID(restaurant.getUser().getId());
+        existing.setUser(user);
+        return restaurantRepository.save(existing);
     }
 
     public boolean doesRestaurantExistByName(Restaurant restaurant) {

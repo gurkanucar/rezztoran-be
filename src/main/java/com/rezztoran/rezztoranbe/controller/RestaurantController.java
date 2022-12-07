@@ -1,12 +1,15 @@
 package com.rezztoran.rezztoranbe.controller;
 
+import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/restaurant")
@@ -14,33 +17,40 @@ import java.util.List;
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
+    private final ModelMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<Restaurant>> getAll() {
-        return ResponseEntity.ok(restaurantService.getRestaurants());
+    public ResponseEntity<List<RestaurantDTO>> getAll() {
+        return ResponseEntity.ok(restaurantService.getRestaurants()
+                .stream().map(x -> mapper.map(x, RestaurantDTO.class))
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(restaurantService.getById(id));
+    public ResponseEntity<RestaurantDTO> getById(@PathVariable Long id) {
+        var response = mapper.map(restaurantService.getById(id), RestaurantDTO.class);
+        return ResponseEntity.ok(response);
     }
 
 
     @PostMapping
-    public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) {
-        return ResponseEntity.ok(restaurantService.create(restaurant));
+    public ResponseEntity<RestaurantDTO> create(@RequestBody Restaurant restaurant) {
+        var response = mapper.map(restaurantService.create(restaurant), RestaurantDTO.class);
+        return ResponseEntity.ok(response);
     }
 
 
     @PutMapping
-    public ResponseEntity<Restaurant> update(@RequestBody Restaurant restaurant) {
-        return ResponseEntity.ok(restaurantService.update(restaurant));
+    public ResponseEntity<RestaurantDTO> update(@RequestBody Restaurant restaurant) {
+        var response = mapper.map(restaurantService.update(restaurant), RestaurantDTO.class);
+        return ResponseEntity.ok(response);
     }
 
 
     @PutMapping("/update-owner")
-    public ResponseEntity<Restaurant> updateOwner(@RequestBody Restaurant restaurant) {
-        return ResponseEntity.ok(restaurantService.updateOwner(restaurant));
+    public ResponseEntity<RestaurantDTO> updateOwner(@RequestBody Restaurant restaurant) {
+        var response = mapper.map(restaurantService.updateOwner(restaurant), RestaurantDTO.class);
+        return ResponseEntity.ok(response);
     }
 
 

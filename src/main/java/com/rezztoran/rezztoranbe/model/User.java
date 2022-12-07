@@ -21,11 +21,15 @@ public class User extends BaseEntity {
     private String password;
     private String name;
     private String surname;
+    private String mail;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Review> reviews;
+
+    private boolean resetPassword;
+    private Integer resetPasswordCode;
 
 }

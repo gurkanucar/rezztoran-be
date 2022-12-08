@@ -193,13 +193,43 @@
 					"response": []
 				},
 				{
+					"name": "restaurant create list",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n  \"restaurantName\": \"Lalezar\",\r\n  \"restaurantImage\": \"stringhttps://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n  \"restaurantImageList\":[\"img1\",\"img2\"],\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"phone\":\"\",\r\n  \"latitude\": 41.66228570277216,\r\n  \"longitude\": 26.546912915340750,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n},\r\n  {\r\n  \"restaurantName\": \"Ciğerci Niyazi Usta\",\r\n  \"restaurantImage\": \"https://cigerciniyaziusta.com.tr/wp-content/uploads/2021/07/MG_5793-1024x683.jpg\",\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Kale Içi Mevki Ali Paşa Orta Kapı Cad. No:9 Edirne Merkez, Edirne Türkiye\",\r\n  \"phone\":\"02842133222\",\r\n  \"latitude\": 41.675581854050854,\r\n  \"longitude\": 26.551856953637284,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n},\r\n  {\r\n  \"restaurantName\": \"Köfteci Osman\",\r\n  \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\",\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Sarıcapaşa, Kıyık Cd. No:8, 22000 Edirne Merkez/Edirne\",\r\n    \"phone\":\"02842127725\",\r\n  \"latitude\": 41.676875049736786, \r\n  \"longitude\": 26.558356007385267,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n},\r\n  {\r\n  \"restaurantName\": \"Ayçiceği Restaurant\",\r\n  \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Abdurrahman, Talat Paşa Cd. No:1, 22100 Edirne Merkez/Edirne\",\r\n    \"phone\":\"(0284) 225 66 52\",\r\n  \"latitude\": 41.66892551241609, \r\n  \"longitude\": 26.569701638636992,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n}\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/restaurant/insert-list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"restaurant",
+								"insert-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "restaurant update",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"restaurantName\": \"Lalezar updated\",\r\n    \"restaurantImage\": \"stringhttps://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.546912915340750,\r\n    \"starCount\": 0\r\n}",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"restaurantName\": \"Lalezar updated\",\r\n    \"restaurantImageList\": [\r\n        \"updated_img1\",\r\n        \"updated_img2\",\r\n        \"created_img3\"\r\n    ],\r\n    \"restaurantImage\": \"stringhttps://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.54691291534075,\r\n    \"starCount\": 0.0,\r\n    \"user\": {\r\n        \"id\": 1,\r\n        \"username\": \"grkn\",\r\n        \"name\": \"grkn\",\r\n        \"surname\": \"ucar\",\r\n        \"mail\": \"gurkan@mail\",\r\n        \"profileImageUrl\": null,\r\n        \"resetPassword\": false,\r\n        \"role\": \"ADMIN\"\r\n    },\r\n    \"phone\": \"\",\r\n    \"menu\": null,\r\n    \"reviews\": []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -487,7 +517,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/user/1",
+							"raw": "http://localhost:8080/api/user/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -496,13 +526,72 @@
 							"path": [
 								"api",
 								"user",
-								"1"
+								"2"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "menu",
+			"item": [
+				{
+					"name": "menu get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/menu/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create menu",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"restaurant\":{\r\n        \"id\":1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/menu",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "food",
+			"item": []
 		}
 	],
 	"auth": {
@@ -510,7 +599,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndXJrYW4iLCJpc3MiOiJyZXp6dG9yYW4iLCJleHAiOjE2NzA0NjA3MTB9.QRrDC4oHMILUvTqHpYCL0M_XI_vfilDfxp-0OWT0r30",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndXJrYW4iLCJpc3MiOiJyZXp6dG9yYW4iLCJleHAiOjE2Njk2MDk5NzB9.exWZhOi26V_z1r0i043CjKnMLbwl-RhJRrxZAdDt_ck",
 				"type": "string"
 			}
 		]

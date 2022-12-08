@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Restaurant extends BaseEntity {
 
     private String restaurantName;
@@ -40,8 +39,7 @@ public class Restaurant extends BaseEntity {
     private User user;
 
 
-    @OneToOne
-    @JoinColumn(name = "menu_id")
+    @OneToOne(mappedBy = "restaurant")
     private Menu menu;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL)

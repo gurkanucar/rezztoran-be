@@ -21,10 +21,7 @@ public class MenuService {
         var restaurant = restaurantService.getById(menu.getRestaurant().getId());
         menu.setRestaurant(restaurant);
         menu.setMenuCode(UUID.randomUUID().toString());
-        menu = menuRepository.save(menu);
-        restaurant.setMenu(menu);
-        restaurantService.update(restaurant);
-        return menu;
+        return menuRepository.save(menu);
     }
 
     public Menu update(Menu menu) {

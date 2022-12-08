@@ -22,6 +22,12 @@ public class Restaurant extends BaseEntity {
 
     private String restaurantName;
     private String restaurantImage;
+
+    @ElementCollection
+    @CollectionTable(name = "restaurant_image_list", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "restaurant_image_list")
+    private List<String> restaurantImageList;
+
     private String city;
     private String district;
     private String detailedAddress;

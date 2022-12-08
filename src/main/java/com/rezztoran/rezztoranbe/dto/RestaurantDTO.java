@@ -10,6 +10,7 @@ import java.util.List;
 public class RestaurantDTO {
     private Long id;
     private String restaurantName;
+    private List<String> restaurantImageList;
     private String restaurantImage;
     private String city;
     private String district;

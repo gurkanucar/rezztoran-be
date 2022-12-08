@@ -39,6 +39,13 @@ public class RestaurantController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/insert-list")
+    public ResponseEntity<List<RestaurantDTO>> create(@RequestBody List<Restaurant> restaurants) {
+        return ResponseEntity.ok(restaurantService.create(restaurants)
+                .stream().map(x -> mapper.map(x, RestaurantDTO.class))
+                .collect(Collectors.toList()));
+    }
+
 
     @PutMapping
     public ResponseEntity<RestaurantDTO> update(@RequestBody Restaurant restaurant) {

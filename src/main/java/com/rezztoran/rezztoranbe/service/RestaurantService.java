@@ -30,6 +30,17 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
+    public List<Restaurant> create(List<Restaurant> restaurants) {
+        restaurants.forEach(
+                x -> {
+                    if (!doesRestaurantExistByName(x)) {
+                        create(x);
+                    }
+                }
+        );
+        return getRestaurants();
+    }
+
 
     public Restaurant update(Restaurant restaurant) {
         var existing = getById(restaurant.getId());
@@ -39,6 +50,7 @@ public class RestaurantService {
         existing.setLatitude(restaurant.getLatitude());
         existing.setDetailedAddress(restaurant.getDetailedAddress());
         existing.setMenu(restaurant.getMenu());
+        existing.setPhone(restaurant.getPhone());
         return restaurantRepository.save(existing);
     }
 

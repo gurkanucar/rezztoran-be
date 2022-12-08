@@ -23,6 +23,7 @@ public class Restaurant extends BaseEntity {
     private Double latitude;
     private Double longitude;
     private Double starCount;
+    private String phone;
 
     @OneToOne
     private User user;

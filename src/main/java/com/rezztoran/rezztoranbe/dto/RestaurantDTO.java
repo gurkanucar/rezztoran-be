@@ -17,6 +17,7 @@ public class RestaurantDTO {
     private Double longitude;
     private Double starCount;
     private UserDTO user;
+    private String phone;
     private Menu menu;
     private List<Review> reviews;
 }

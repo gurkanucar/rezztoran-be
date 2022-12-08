@@ -19,7 +19,9 @@ public class RestaurantService {
 
 
     public List<Restaurant> getRestaurants() {
-        return restaurantRepository.findAll();
+        var restaurants = restaurantRepository.findAll();
+        restaurants.forEach(x -> x.setMenu(null));
+        return restaurants;
     }
 
 

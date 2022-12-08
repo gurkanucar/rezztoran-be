@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,6 +30,7 @@ public class RestaurantController {
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDTO> getById(@PathVariable Long id) {
         var response = mapper.map(restaurantService.getById(id), RestaurantDTO.class);
+        Optional.of(response.getMenu()).ifPresent((x) -> x.setRestaurant(null));
         return ResponseEntity.ok(response);
     }
 

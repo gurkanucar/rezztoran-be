@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class RestaurantDTO {
+    private Long id;
     private String restaurantName;
     private String restaurantImage;
     private String city;

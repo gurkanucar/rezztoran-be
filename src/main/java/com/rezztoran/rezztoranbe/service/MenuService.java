@@ -4,10 +4,14 @@ import com.rezztoran.rezztoranbe.exception.NotFoundException;
 import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MenuService {
 
     private final MenuRepository menuRepository;
@@ -16,7 +20,11 @@ public class MenuService {
     public Menu create(Menu menu) {
         var restaurant = restaurantService.getById(menu.getRestaurant().getId());
         menu.setRestaurant(restaurant);
-        return menuRepository.save(menu);
+        menu.setMenuCode(UUID.randomUUID().toString());
+        menu = menuRepository.save(menu);
+        restaurant.setMenu(menu);
+        restaurantService.update(restaurant);
+        return menu;
     }
 
     public Menu update(Menu menu) {
@@ -32,8 +40,9 @@ public class MenuService {
     }
 
     public Menu getMenuById(Long id) {
-        return menuRepository.findById(id)
+        var menu = menuRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("menu not found!"));
+        return menu;
     }
 
 }

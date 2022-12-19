@@ -52,7 +52,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"gurkan\",\r\n    \"email\":\"g@mail.com\",\r\n    \"password\":\"password\",\r\n    \"name\":\"Gurkan\",\r\n    \"surname\":\"UCAR\"\r\n}",
+							"raw": "{\r\n    \"username\":\"gurkan\",\r\n    \"mail\":\"g@mail.com\",\r\n    \"password\":\"password\",\r\n    \"name\":\"Gurkan\",\r\n    \"surname\":\"UCAR\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

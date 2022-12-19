@@ -62,6 +62,10 @@ public class SecurityConfig {
         return (web) -> web.ignoring().antMatchers(
                 "/h2-console/**",
                 "/api/auth/**",
+                "/api/restaurant/**",
+                "/api/menu/**",
+                "/api/food/**",
+                "/api/review",
                 "/api/user/reset-request",
                 "/api/user/reset-password",
                 "/swagger-resources/**",

@@ -3,11 +3,13 @@ package com.rezztoran.rezztoranbe.service;
 import com.rezztoran.rezztoranbe.dto.request.MailModel;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
+import com.rezztoran.rezztoranbe.exception.GenericErrorResponse;
 import com.rezztoran.rezztoranbe.exception.UserNotFoundException;
 import com.rezztoran.rezztoranbe.model.Role;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class UserService {
 
     public User create(User user) {
         if (userRepository.findUserByMail(user.getMail()).isPresent() || userRepository.findUserByUsername(user.getUsername()).isPresent()) {
-            throw new RuntimeException("User already exists!");
+            throw new GenericErrorResponse("User already exists!", HttpStatus.CONFLICT);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);

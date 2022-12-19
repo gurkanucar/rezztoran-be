@@ -8,7 +8,10 @@ import com.rezztoran.rezztoranbe.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,7 +23,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody RegisterModel registerModel) {
+    public ResponseEntity<UserDTO> register(@Valid @RequestBody RegisterModel registerModel) {
         return ResponseEntity.ok(modelMapper.map(authService.tryRegister(registerModel), UserDTO.class));
     }
 

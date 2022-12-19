@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @SuperBuilder
@@ -18,11 +19,13 @@ import java.util.List;
 @Table(name = "`user`")
 public class User extends BaseEntity {
 
+    @Column(nullable = false, unique = true)
     private String username;
     @JsonIgnore
     private String password;
     private String name;
     private String surname;
+    @Email
     private String mail;
 
     @Enumerated(EnumType.STRING)

@@ -591,7 +591,108 @@
 		},
 		{
 			"name": "food",
-			"item": []
+			"item": [
+				{
+					"name": "food create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"foodName\": \"Yaprak Sarma\",\r\n  \"foodImage\": \"image_sarma\",\r\n  \"categories\": [\r\n    {\r\n      \"id\": 1\r\n    }\r\n  ],\r\n  \"mainCategory\": {\r\n    \"id\": 1\r\n  },\r\n  \"price\": 0,\r\n  \"cal\": 0,\r\n  \"menu\": {\r\n    \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/food",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"food"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "food update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"foodName\": \"Yaprak Sarma_update\",\r\n    \"foodImage\": \"image_sarma_update\",\r\n    \"categories\": [\r\n        {\r\n            \"id\": 1\r\n        },\r\n        {\r\n            \"id\": 2\r\n        }\r\n    ],\r\n    \"mainCategory\": {\r\n        \"id\": 2\r\n    },\r\n    \"price\": 0,\r\n    \"cal\": 0,\r\n    \"menu\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/food",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"food"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "food get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/food/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"food",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "food delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/food/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"food",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {

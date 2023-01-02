@@ -26,12 +26,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.badRequest().body(errors);
   }
 
-  @ExceptionHandler(CategoryNotFoundException.class)
-  public ResponseEntity<?> categoryNotFoundException(CategoryNotFoundException exception) {
-    HashMap<String, String> errors = new HashMap<>();
-    errors.put("error", exception.getMessage());
-    return ResponseEntity.status(404).body(errors);
-  }
 
   @ExceptionHandler(CategoryAlreadyExistsException.class)
   public ResponseEntity<?> categoryAlreadyExists(CategoryAlreadyExistsException exception) {
@@ -48,14 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
 
-  @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<?> userNotFoundException(UserNotFoundException exception) {
-    Map<String, String> errors = new HashMap<>();
-    errors.put("error", exception.getMessage());
-    return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
-  }
-
-  @ExceptionHandler(NotFoundException.class)
+  @ExceptionHandler({CategoryNotFoundException.class,UserNotFoundException.class,NotFoundException.class})
   public ResponseEntity<?> notFoundException(NotFoundException exception) {
     Map<String, String> errors = new HashMap<>();
     errors.put("error", exception.getMessage());

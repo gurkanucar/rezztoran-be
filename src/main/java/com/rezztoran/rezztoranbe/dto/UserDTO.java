@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.dto;
 
-import com.rezztoran.rezztoranbe.model.Role;
+import com.rezztoran.rezztoranbe.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

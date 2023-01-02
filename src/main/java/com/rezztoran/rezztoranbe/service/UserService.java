@@ -5,7 +5,7 @@ import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.exception.GenericErrorResponse;
 import com.rezztoran.rezztoranbe.exception.UserNotFoundException;
-import com.rezztoran.rezztoranbe.model.Role;
+import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

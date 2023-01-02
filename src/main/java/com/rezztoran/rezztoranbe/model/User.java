@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rezztoran.rezztoranbe.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

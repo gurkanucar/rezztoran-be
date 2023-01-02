@@ -1,11 +1,10 @@
 package com.rezztoran.rezztoranbe.dto.request;
 
-import com.rezztoran.rezztoranbe.model.Role;
+import com.rezztoran.rezztoranbe.enums.Role;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class RegisterModel {

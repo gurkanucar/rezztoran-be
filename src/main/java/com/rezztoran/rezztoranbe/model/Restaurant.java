@@ -1,9 +1,5 @@
 package com.rezztoran.rezztoranbe.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +30,10 @@ public class Restaurant extends BaseEntity {
     private Double longitude;
     private Double starCount;
     private String phone;
+
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Table> tables;
 
     @OneToOne
     private User user;

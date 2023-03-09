@@ -20,7 +20,7 @@ public class Reservation extends BaseEntity{
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "table_id")
-  private Table table;
+  private RestaurantTable restaurantTable;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")

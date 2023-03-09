@@ -9,12 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import lombok.Data;
 
 @Data
 @Entity
-public class Table extends BaseEntity {
+public class RestaurantTable extends BaseEntity {
 
   private Boolean isAvailable;
 
@@ -25,6 +26,10 @@ public class Table extends BaseEntity {
   @ElementCollection
   @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
   private List<LocalDate> busy_dates;
+
+  @ManyToOne
+  @JoinColumn(name = "restaurant_id")
+  private Restaurant restaurant;
 
   @ElementCollection
   @MapKeyColumn(name = "name")

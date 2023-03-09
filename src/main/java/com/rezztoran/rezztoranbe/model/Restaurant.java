@@ -33,7 +33,7 @@ public class Restaurant extends BaseEntity {
 
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Table> tables;
+    private List<RestaurantTable> restaurantTables;
 
     @OneToOne
     private User user;

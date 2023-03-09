@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
-import com.rezztoran.rezztoranbe.exception.BusinessException.Exception;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.repository.FoodRepository;
@@ -37,7 +37,7 @@ public class FoodService {
   public Food getFoodByID(Long id) {
     return foodRepository
         .findById(id)
-        .orElseThrow(() -> exceptionUtil.buildException(Exception.FOOD_NOT_FOUND_EXCEPTION));
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.FOOD_NOT_FOUND_EXCEPTION));
   }
 
   public void deleteFoodByID(Long id) {

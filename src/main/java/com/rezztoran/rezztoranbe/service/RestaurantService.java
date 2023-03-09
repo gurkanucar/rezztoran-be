@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
-import com.rezztoran.rezztoranbe.exception.BusinessException.Exception;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
@@ -24,7 +24,7 @@ public class RestaurantService {
 
   public Restaurant create(Restaurant restaurant) {
     if (doesRestaurantExistByName(restaurant)) {
-      throw exceptionUtil.buildException(Exception.RESTAURANT_ALREADY_EXISTS_EXCEPTION);
+      throw exceptionUtil.buildException(Ex.RESTAURANT_ALREADY_EXISTS_EXCEPTION);
     }
     return restaurantRepository.save(restaurant);
   }
@@ -55,7 +55,7 @@ public class RestaurantService {
   public Restaurant updateOwner(Restaurant restaurant) {
     var existing = getById(restaurant.getId());
     if (doesRestaurantExistByUser(restaurant)) {
-      throw exceptionUtil.buildException(Exception.USER_ALREADY_OWNER_OF_A_RESTAURANT_EXCEPTION);
+      throw exceptionUtil.buildException(Ex.USER_ALREADY_OWNER_OF_A_RESTAURANT_EXCEPTION);
     }
     var user = userService.findUserByID(restaurant.getUser().getId());
     existing.setUser(user);
@@ -75,7 +75,7 @@ public class RestaurantService {
   public Restaurant getById(Long id) {
     return restaurantRepository
         .findById(id)
-        .orElseThrow(() -> exceptionUtil.buildException(Exception.RESTAURANT_NOT_FOUND_EXCEPTION));
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
   }
 
   public void delete(Long id) {

@@ -4,7 +4,7 @@ import com.rezztoran.rezztoranbe.dto.request.MailModel;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.enums.Role;
-import com.rezztoran.rezztoranbe.exception.BusinessException.Exception;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.UserRepository;
@@ -26,7 +26,7 @@ public class UserService {
   public User create(User user) {
     if (userRepository.findUserByMail(user.getMail()).isPresent()
         || userRepository.findUserByUsername(user.getUsername()).isPresent()) {
-      throw exceptionUtil.buildException(Exception.USER_ALREADY_EXISTS_EXCEPTION);
+      throw exceptionUtil.buildException(Ex.USER_ALREADY_EXISTS_EXCEPTION);
     }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRole(Role.USER);
@@ -62,7 +62,7 @@ public class UserService {
   public User findUserByID(Long id) {
     return userRepository
         .findById(id)
-        .orElseThrow(() -> exceptionUtil.buildException(Exception.USER_NOT_FOUND_EXCEPTION));
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION));
   }
 
   public boolean doesUserExistByID(Long id) {
@@ -70,15 +70,17 @@ public class UserService {
   }
 
   public User findUserByUsername(String username) {
-    return userRepository
-        .findUserByUsername(username)
-        .orElseThrow(() -> exceptionUtil.buildException(Exception.USER_NOT_FOUND_EXCEPTION));
+    var user = userRepository.findUserByUsername(username);
+    if(user.isPresent()){
+      return user.get();
+    }
+    throw exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION);
   }
 
   public User findUserByMail(String mail) {
     return userRepository
         .findUserByMail(mail)
-        .orElseThrow(() -> exceptionUtil.buildException(Exception.USER_NOT_FOUND_EXCEPTION));
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION));
   }
 
   public List<User> getUsers() {
@@ -89,7 +91,7 @@ public class UserService {
     if (doesUserExistByID(id)) {
       userRepository.deleteById(id);
     } else {
-      throw exceptionUtil.buildException(Exception.USER_NOT_FOUND_EXCEPTION);
+      throw exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION);
     }
   }
 

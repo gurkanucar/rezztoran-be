@@ -9,6 +9,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,12 +25,6 @@ public class GlobalBaseExceptionHandler extends BaseExceptionHandler {
   @Order(Ordered.HIGHEST_PRECEDENCE)
   public ResponseEntity<ApiResponse<Object>> generalException(BusinessException exception) {
     return buildErrorResponse(exception.getMessage(), exception.getStatus());
-  }
-
-  @ExceptionHandler(Exception.class)
-  public final ResponseEntity<ApiResponse<Object>> handleAllException(
-      Exception ex, WebRequest request) {
-    return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -57,4 +52,23 @@ public class GlobalBaseExceptionHandler extends BaseExceptionHandler {
             });
     return buildErrorResponse(errors, HttpStatus.BAD_REQUEST);
   }
+
+  @ExceptionHandler(ClientRequestException.class)
+  public ResponseEntity<Map<String, Object>> generalException(ClientRequestException exception) {
+    return buildErrorResponse(exception.getMessage(), exception.getStatus());
+  }
+
+  @ExceptionHandler(Exception.class)
+  public final ResponseEntity<Map<String, Object>> handleAllException(
+      Exception ex, WebRequest request) {
+    return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public final ResponseEntity<Map<String, Object>> handleHttpMessageNotReadableException(
+      Exception ex, WebRequest request) {
+    return buildErrorResponse("Required request body is missing", HttpStatus.BAD_REQUEST);
+
+  }
+
 }

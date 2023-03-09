@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
-import com.rezztoran.rezztoranbe.exception.BusinessException.Exception;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.repository.CategoryRepository;
@@ -22,12 +22,12 @@ public class CategoryService {
   public Category getCategoryByID(Long id) {
     return categoryRepository
         .findById(id)
-        .orElseThrow(() -> exceptionUtil.buildException(Exception.CATEGORY_NOT_FOUND_EXCEPTION));
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.CATEGORY_NOT_FOUND_EXCEPTION));
   }
 
   public Category create(Category category) {
     if (categoryRepository.findByCategoryName(category.getCategoryName()).isPresent()) {
-      throw exceptionUtil.buildException(Exception.CATEGORY_ALREADY_EXISTS_EXCEPTION);
+      throw exceptionUtil.buildException(Ex.CATEGORY_ALREADY_EXISTS_EXCEPTION);
     }
     return categoryRepository.save(category);
   }
@@ -35,7 +35,7 @@ public class CategoryService {
   public Category update(Category category) {
     var existing = getCategoryByID(category.getId());
     if (categoryRepository.findByCategoryName(category.getCategoryName()).isPresent()) {
-      throw exceptionUtil.buildException(Exception.CATEGORY_ALREADY_EXISTS_EXCEPTION);
+      throw exceptionUtil.buildException(Ex.CATEGORY_ALREADY_EXISTS_EXCEPTION);
     }
     existing.setCategoryName(category.getCategoryName());
     existing.setCategoryImage(category.getCategoryImage());

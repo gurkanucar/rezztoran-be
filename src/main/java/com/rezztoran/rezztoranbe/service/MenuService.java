@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
-import com.rezztoran.rezztoranbe.exception.BusinessException.Exception;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.repository.MenuRepository;
@@ -41,7 +41,7 @@ public class MenuService {
     var menu =
         menuRepository
             .findById(id)
-            .orElseThrow(() -> exceptionUtil.buildException(Exception.NOT_FOUND_EXCEPTION));
+            .orElseThrow(() -> exceptionUtil.buildException(Ex.NOT_FOUND_EXCEPTION));
     return menu;
   }
 }

@@ -12,7 +12,7 @@ public class BusinessException extends RuntimeException {
     this.status = status;
   }
 
-  public enum Exception {
+  public enum Ex {
     DEFAULT_EXCEPTION("messages.error.default_message", HttpStatus.BAD_REQUEST),
     ALREADY_EXISTS_EXCEPTION("messages.error.already_exists_exception", HttpStatus.BAD_REQUEST),
     NOT_FOUND_EXCEPTION("messages.error.not_found_exception", HttpStatus.NOT_FOUND),
@@ -36,7 +36,7 @@ public class BusinessException extends RuntimeException {
     private final String message;
     private final HttpStatus status;
 
-    Exception(String message, HttpStatus status) {
+    Ex(String message, HttpStatus status) {
       this.message = message;
       this.status = status;
     }

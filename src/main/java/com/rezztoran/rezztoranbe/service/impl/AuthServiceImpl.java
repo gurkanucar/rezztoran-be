@@ -4,7 +4,7 @@ import com.rezztoran.rezztoranbe.dto.TokenDTO;
 import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.LoginModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
-import com.rezztoran.rezztoranbe.exception.BusinessException.Exception;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.AuthService;
@@ -13,7 +13,6 @@ import com.rezztoran.rezztoranbe.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,8 +40,8 @@ public class AuthServiceImpl implements AuthService {
               modelMapper.map(
                   userService.findUserByUsername(loginRequest.getUsername()), UserDTO.class))
           .build();
-    } catch (final BadCredentialsException badCredentialsException) {
-      throw exceptionUtil.buildException(Exception.WRONG_CREDENTIALS_EXCEPTION);
+    } catch (Exception e) {
+      throw exceptionUtil.buildException(Ex.WRONG_CREDENTIALS_EXCEPTION);
     }
   }
 

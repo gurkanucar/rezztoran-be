@@ -32,7 +32,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers(
             "/h2-console/**","/api/auth/**", "/api/restaurant/**",
-            "/api/menu/**","/api/review","/api/user/reset-request", "/api/user/reset-password",
+            "/api/menu/**","/api/food/**","/api/review","/api/user/reset-request", "/api/user/reset-password",
             "/swagger-resources/**","/swagger-ui.html/**", "/swagger-resources/**","/swagger-ui/**",
             "/v3/api-docs/**");
     }

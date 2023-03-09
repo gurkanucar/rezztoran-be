@@ -2,6 +2,7 @@ package com.rezztoran.rezztoranbe.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rezztoran.rezztoranbe.config.MessageConfig;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -37,7 +38,7 @@ public class JWTAccessDeniedHandler implements AccessDeniedHandler {
                 ApiResponse.builder()
                     .error(
                         messageSource.getMessage(
-                            "messages.error.access_denied_exception",
+                            Ex.ACCESS_DENIED_EXCEPTION.getMessage(),
                             new String[] {
                               localeResolver.localeResolver().resolveLocale(request).getLanguage()
                             },

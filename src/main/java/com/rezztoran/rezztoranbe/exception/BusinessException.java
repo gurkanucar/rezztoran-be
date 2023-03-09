@@ -17,6 +17,8 @@ public class BusinessException extends RuntimeException {
     ALREADY_EXISTS_EXCEPTION("messages.error.already_exists_exception", HttpStatus.BAD_REQUEST),
     NOT_FOUND_EXCEPTION("messages.error.not_found_exception", HttpStatus.NOT_FOUND),
     USER_NOT_FOUND_EXCEPTION("messages.error.user_not_found_exception", HttpStatus.NOT_FOUND),
+    ACCESS_DENIED_EXCEPTION("messages.error.access_denied_exception", HttpStatus.UNAUTHORIZED),
+    FORBIDDEN_EXCEPTION("messages.error.forbidden_exception", HttpStatus.FORBIDDEN),
     FOOD_NOT_FOUND_EXCEPTION("messages.error.food_not_found_exception", HttpStatus.NOT_FOUND),
     USER_ALREADY_OWNER_OF_A_RESTAURANT_EXCEPTION(
         "messages.error.user_already_owner_of_a_restaurant_exception", HttpStatus.BAD_REQUEST),

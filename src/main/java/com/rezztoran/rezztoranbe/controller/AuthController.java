@@ -2,6 +2,8 @@ package com.rezztoran.rezztoranbe.controller;
 
 import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.LoginModel;
+import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
+import com.rezztoran.rezztoranbe.dto.request.PasswordResetRequest;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.AuthService;
@@ -40,5 +42,19 @@ public class AuthController {
   public ResponseEntity<ApiResponse<Object>> getMyself() {
     var user = modelMapper.map(authService.getAuthenticatedUser(), UserDTO.class);
     return ApiResponse.builder().data(user).build();
+  }
+
+  @PostMapping("/reset-request")
+  public ResponseEntity<ApiResponse<Object>> resetMail(
+      @RequestBody PasswordResetRequest passwordResetRequest) {
+    authService.resetPasswordRequestCodeGenerate(passwordResetRequest.getMail());
+    return ApiResponse.builder().build();
+  }
+
+  @PostMapping("/reset-password")
+  public ResponseEntity<ApiResponse<Object>> resetPassword(
+      @RequestBody PasswordResetModel passwordResetModel) {
+    authService.resetPassword(passwordResetModel);
+    return ApiResponse.builder().build();
   }
 }

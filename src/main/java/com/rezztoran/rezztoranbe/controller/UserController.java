@@ -1,8 +1,6 @@
 package com.rezztoran.rezztoranbe.controller;
 
 import com.rezztoran.rezztoranbe.dto.UserDTO;
-import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
-import com.rezztoran.rezztoranbe.dto.request.PasswordResetRequest;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
@@ -45,20 +43,6 @@ public class UserController {
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> delete(@PathVariable Long id) {
     userService.deleteUser(id);
-    return ApiResponse.builder().build();
-  }
-
-  @PostMapping("/reset-request")
-  public ResponseEntity<ApiResponse<Object>> resetMail(
-      @RequestBody PasswordResetRequest passwordResetRequest) {
-    userService.resetPasswordRequestCodeGenerate(passwordResetRequest.getMail());
-    return ApiResponse.builder().build();
-  }
-
-  @PostMapping("/reset-password")
-  public ResponseEntity<ApiResponse<Object>> resetPassword(
-      @RequestBody PasswordResetModel passwordResetModel) {
-    userService.resetPassword(passwordResetModel);
     return ApiResponse.builder().build();
   }
 

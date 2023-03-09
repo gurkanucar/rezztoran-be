@@ -21,7 +21,7 @@ public class FoodService {
     return foodRepository.save(food);
   }
 
-  public Food udateFood(Food food) {
+  public Food updateFood(Food food) {
     var menu = menuService.getMenuById(food.getMenu().getId());
     var existingFood = getFoodByID(food.getId());
     existingFood.setMenu(menu);

@@ -33,7 +33,7 @@ public class FoodController {
 
   @PutMapping
   public ResponseEntity<FoodDTO> updateFood(@RequestBody Food food) {
-    return ResponseEntity.ok(FoodDTO.toDTO(foodService.udateFood(food)));
+    return ResponseEntity.ok(FoodDTO.toDTO(foodService.updateFood(food)));
   }
 
   @DeleteMapping("/{id}")

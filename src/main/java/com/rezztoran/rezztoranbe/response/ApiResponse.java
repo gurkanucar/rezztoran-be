@@ -81,7 +81,10 @@ public class ApiResponse {
       return this;
     }
 
-    public Builder error(Object obj) {
+    public Builder error(Object obj, HttpStatus status) {
+      this.code = ResponseConstants.FAILURE.getCode();
+      this.status = status;
+      this.message = null;
       this.error = obj;
       this.isPageable = null;
       return this;

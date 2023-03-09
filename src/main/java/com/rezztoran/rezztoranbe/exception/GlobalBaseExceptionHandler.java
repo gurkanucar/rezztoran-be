@@ -68,7 +68,5 @@ public class GlobalBaseExceptionHandler extends BaseExceptionHandler {
   public final ResponseEntity<Map<String, Object>> handleHttpMessageNotReadableException(
       Exception ex, WebRequest request) {
     return buildErrorResponse("Required request body is missing", HttpStatus.BAD_REQUEST);
-
   }
-
 }

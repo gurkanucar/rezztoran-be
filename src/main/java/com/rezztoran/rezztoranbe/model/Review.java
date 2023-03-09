@@ -1,14 +1,13 @@
 package com.rezztoran.rezztoranbe.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Entity
@@ -17,15 +16,14 @@ import javax.persistence.ManyToOne;
 @Data
 public class Review extends BaseEntity {
 
-    private String content;
-    private int star;
+  private String content;
+  private int star;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
-
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "restaurant_id", nullable = false)
+  private Restaurant restaurant;
 }

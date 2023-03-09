@@ -22,14 +22,6 @@ public class ApiResponse<T> {
   private T error;
   private T content;
 
-  public static <T> Builder<T> builder(HttpStatus status, ResponseConstants responseConstants) {
-    return new Builder<>(status, responseConstants);
-  }
-
-  public static <T> Builder<T> builder() {
-    return new Builder<>();
-  }
-
   private ApiResponse(Builder<T> builder) {
     this.status = builder.status;
     this.httpHeaders = builder.httpHeaders;
@@ -38,6 +30,14 @@ public class ApiResponse<T> {
     this.content = builder.content;
     this.message = builder.message;
     this.error = builder.error;
+  }
+
+  public static <T> Builder<T> builder(HttpStatus status, ResponseConstants responseConstants) {
+    return new Builder<>(status, responseConstants);
+  }
+
+  public static <T> Builder<T> builder() {
+    return new Builder<>();
   }
 
   public static class Builder<T> {

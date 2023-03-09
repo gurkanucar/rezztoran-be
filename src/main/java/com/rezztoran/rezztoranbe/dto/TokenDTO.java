@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TokenDTO {
-    private String accessToken;
-    private UserDTO user;
+  private String accessToken;
+  private UserDTO user;
 }

@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.config;
 
-import com.rezztoran.rezztoranbe.service.UserService;
+import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StartupConfig implements CommandLineRunner {
 
-  @Autowired private UserService userService;
+  @Autowired private UserServiceImpl userService;
 
   @Override
   public void run(String... args) throws Exception {

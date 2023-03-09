@@ -1,17 +1,16 @@
 package com.rezztoran.rezztoranbe.model;
 
+import java.time.LocalDateTime;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
 
 @MappedSuperclass
 @SuperBuilder
@@ -20,13 +19,11 @@ import java.time.LocalDateTime;
 @Data
 public abstract class BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @CreationTimestamp
-    private LocalDateTime createdDateTime;
+  @CreationTimestamp private LocalDateTime createdDateTime;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedDateTime;
+  @UpdateTimestamp private LocalDateTime updatedDateTime;
 }

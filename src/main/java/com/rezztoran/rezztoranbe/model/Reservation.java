@@ -12,7 +12,7 @@ import org.springframework.data.annotation.Id;
 
 @Entity
 @Data
-public class Reservation extends BaseEntity{
+public class Reservation extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +27,4 @@ public class Reservation extends BaseEntity{
   private User user;
 
   private LocalDateTime reservationTime;
-
 }

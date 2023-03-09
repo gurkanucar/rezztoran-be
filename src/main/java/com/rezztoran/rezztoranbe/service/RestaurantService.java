@@ -4,6 +4,7 @@ import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
+import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class RestaurantService {
 
   private final RestaurantRepository restaurantRepository;
-  private final UserService userService;
+  private final UserServiceImpl userService;
   private final ExceptionUtil exceptionUtil;
 
   public List<Restaurant> getRestaurants() {

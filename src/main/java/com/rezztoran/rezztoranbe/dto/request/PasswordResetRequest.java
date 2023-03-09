@@ -1,11 +1,9 @@
 package com.rezztoran.rezztoranbe.dto.request;
 
-import lombok.Data;
-
 import javax.validation.constraints.NotBlank;
+import lombok.Data;
 
 @Data
 public class PasswordResetRequest {
-    @NotBlank
-    private String mail;
+  @NotBlank private String mail;
 }

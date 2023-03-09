@@ -4,7 +4,8 @@ import com.rezztoran.rezztoranbe.dto.TokenDTO;
 import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.LoginModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
-import com.rezztoran.rezztoranbe.exception.WrongCredientalsException;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Exception;
+import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.AuthService;
 import com.rezztoran.rezztoranbe.service.TokenService;
@@ -26,6 +27,7 @@ public class AuthServiceImpl implements AuthService {
   private final UserService userService;
   private final TokenService tokenService;
   private final ModelMapper modelMapper;
+  private final ExceptionUtil exceptionUtil;
 
   public TokenDTO tryLogin(LoginModel loginRequest) {
     try {
@@ -40,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
                   userService.findUserByUsername(loginRequest.getUsername()), UserDTO.class))
           .build();
     } catch (final BadCredentialsException badCredentialsException) {
-      throw new WrongCredientalsException("Invalid Username or Password");
+      throw exceptionUtil.buildException(Exception.WRONG_CREDENTIALS_EXCEPTION);
     }
   }
 

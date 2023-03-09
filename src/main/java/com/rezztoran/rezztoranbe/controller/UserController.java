@@ -30,40 +30,40 @@ public class UserController {
   private final UserService userService;
 
   @PutMapping
-  public ResponseEntity<ApiResponse> updateUser(@RequestBody User user) {
+  public ResponseEntity<ApiResponse<Object>> updateUser(@RequestBody User user) {
     var userResponse = modelMapper.map(userService.update(user), UserDTO.class);
     return ApiResponse.builder().data(userResponse).build();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<ApiResponse> getUserById(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> getUserById(@PathVariable Long id) {
     var user = modelMapper.map(userService.findUserByID(id), UserDTO.class);
     return ApiResponse.builder().data(user).build();
   }
 
   @PreAuthorize("hasAuthority('ADMIN')")
   @DeleteMapping("/{id}")
-  public ResponseEntity<ApiResponse> delete(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> delete(@PathVariable Long id) {
     userService.deleteUser(id);
     return ApiResponse.builder().build();
   }
 
   @PostMapping("/reset-request")
-  public ResponseEntity<ApiResponse> resetMail(
+  public ResponseEntity<ApiResponse<Object>> resetMail(
       @RequestBody PasswordResetRequest passwordResetRequest) {
     userService.resetPasswordRequestCodeGenerate(passwordResetRequest.getMail());
     return ApiResponse.builder().build();
   }
 
   @PostMapping("/reset-password")
-  public ResponseEntity<ApiResponse> resetPassword(
+  public ResponseEntity<ApiResponse<Object>> resetPassword(
       @RequestBody PasswordResetModel passwordResetModel) {
     userService.resetPassword(passwordResetModel);
     return ApiResponse.builder().build();
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse> getUsers() {
+  public ResponseEntity<ApiResponse<Object>> getUsers() {
     var users =
         userService.getUsers().stream()
             .map(x -> modelMapper.map(x, UserDTO.class))
@@ -73,7 +73,8 @@ public class UserController {
 
   @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping("/create-user-by-role")
-  public ResponseEntity<ApiResponse> createUserByRole(@RequestBody RegisterModel registerModel) {
+  public ResponseEntity<ApiResponse<Object>> createUserByRole(
+      @RequestBody RegisterModel registerModel) {
     var user = modelMapper.map(userService.create(registerModel), UserDTO.class);
     return ApiResponse.builder().data(user).build();
   }

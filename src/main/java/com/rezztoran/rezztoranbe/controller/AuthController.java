@@ -24,19 +24,20 @@ public class AuthController {
   private final ModelMapper modelMapper;
 
   @PostMapping("/register")
-  public ResponseEntity<ApiResponse> register(@Valid @RequestBody RegisterModel registerModel) {
+  public ResponseEntity<ApiResponse<Object>> register(
+      @Valid @RequestBody RegisterModel registerModel) {
     var registerResponse = modelMapper.map(authService.tryRegister(registerModel), UserDTO.class);
     return ApiResponse.builder().data(registerResponse).build();
   }
 
   @PostMapping("/login")
-  public ResponseEntity<ApiResponse> login(@RequestBody LoginModel loginModel) {
+  public ResponseEntity<ApiResponse<Object>> login(@RequestBody LoginModel loginModel) {
     var token = authService.tryLogin(loginModel);
     return ApiResponse.builder().data(token).build();
   }
 
   @GetMapping("/me")
-  public ResponseEntity<ApiResponse> getMyself() {
+  public ResponseEntity<ApiResponse<Object>> getMyself() {
     var user = modelMapper.map(authService.getAuthenticatedUser(), UserDTO.class);
     return ApiResponse.builder().data(user).build();
   }

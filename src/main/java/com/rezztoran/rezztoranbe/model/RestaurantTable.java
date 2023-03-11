@@ -25,7 +25,7 @@ public class RestaurantTable extends BaseEntity {
 
   @ElementCollection
   @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
-  private List<LocalDate> busy_dates;
+  private List<LocalDate> busyDates;
 
   @ManyToOne
   @JoinColumn(name = "restaurant_id")

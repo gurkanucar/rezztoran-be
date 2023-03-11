@@ -13,26 +13,27 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
 
-
-    @Bean
-    public OpenAPI customOpenAPI(@Value("${application-description}") String description,
-                                 @Value("${application-version}") String version) {
-        final String securitySchemeName = "bearerAuth";
-        return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-                .components(
-                        new Components()
-                                .addSecuritySchemes(securitySchemeName,
-                                        new SecurityScheme()
-                                                .name(securitySchemeName)
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")
-                                )
-                )
-                .info(new Info().title("Rezztoran API")
-                        .version(version)
-                        .description(description)
-                        .license(new License().name("Rezztoran API Licence")));
-    }
+  @Bean
+  public OpenAPI customOpenAPI(
+      @Value("${application-description}") String description,
+      @Value("${application-version}") String version) {
+    final String securitySchemeName = "bearerAuth";
+    return new OpenAPI()
+        .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+        .components(
+            new Components()
+                .addSecuritySchemes(
+                    securitySchemeName,
+                    new SecurityScheme()
+                        .name(securitySchemeName)
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT")))
+        .info(
+            new Info()
+                .title("Rezztoran API")
+                .version(version)
+                .description(description)
+                .license(new License().name("Rezztoran API Licence")));
+  }
 }

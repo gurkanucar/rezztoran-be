@@ -1,11 +1,10 @@
 package com.rezztoran.rezztoranbe.model;
 
+import javax.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import javax.persistence.Entity;
 
 @SuperBuilder
 @Entity
@@ -14,7 +13,6 @@ import javax.persistence.Entity;
 @Data
 public class Category extends BaseEntity {
 
-    private String categoryName;
-    private String categoryImage;
-
+  private String categoryName;
+  private String categoryImage;
 }

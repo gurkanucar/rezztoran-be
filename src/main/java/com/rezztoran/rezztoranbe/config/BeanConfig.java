@@ -8,15 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class BeanConfig {
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
+  @Bean
+  public ModelMapper modelMapper() {
+    return new ModelMapper();
+  }
 }

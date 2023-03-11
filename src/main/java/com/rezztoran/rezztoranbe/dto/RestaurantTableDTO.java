@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.dto;
 
-import com.rezztoran.rezztoranbe.model.TimeOfDay;
+import com.rezztoran.rezztoranbe.enums.TimeOfDay;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;

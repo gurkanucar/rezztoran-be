@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
+import com.rezztoran.rezztoranbe.enums.TimeOfDay;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;

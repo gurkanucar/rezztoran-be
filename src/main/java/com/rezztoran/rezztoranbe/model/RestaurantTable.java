@@ -1,7 +1,7 @@
 package com.rezztoran.rezztoranbe.model;
 
 import com.rezztoran.rezztoranbe.enums.TimeOfDay;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class RestaurantTable extends BaseEntity {
 
   @ElementCollection
   @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
-  private List<LocalDate> busyDates;
+  private List<Date> busyDates;
 
   @ManyToOne
   @JoinColumn(name = "restaurant_id")

@@ -7,7 +7,7 @@ import com.rezztoran.rezztoranbe.model.RestaurantTable;
 import com.rezztoran.rezztoranbe.repository.RestaurantTableRepository;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.RestaurantTableService;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +35,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
   }
 
   @Override
-  public List<RestaurantTable> getAvailableTablesByRestaurantAndDate(
-      Long restaurantId, LocalDate date) {
+  public List<RestaurantTable> getAvailableTablesByRestaurantAndDate(Long restaurantId, Date date) {
     return tableRepository.findAvailableTablesByDateAndRestaurant(restaurantId, date);
   }
 

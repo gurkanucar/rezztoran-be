@@ -2,6 +2,7 @@ package com.rezztoran.rezztoranbe.repository;
 
 import com.rezztoran.rezztoranbe.model.RestaurantTable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,6 @@ public interface RestaurantTableRepository extends JpaRepository<RestaurantTable
           + "AND t.id NOT IN (SELECT r.restaurantTable.id FROM Reservation r "
           + "WHERE DATE(r.reservationTime) = :date) AND t.isAvailable = true")
   List<RestaurantTable> findAvailableTablesByDateAndRestaurant(
-      @Param("restaurantId") Long restaurantId, @Param("date") LocalDate date);
+      @Param("restaurantId") Long restaurantId, @Param("date") Date date);
+
 }

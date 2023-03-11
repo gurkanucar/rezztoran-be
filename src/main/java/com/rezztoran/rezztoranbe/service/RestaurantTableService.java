@@ -2,7 +2,7 @@ package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.request.RestaurantTableRequestModel;
 import com.rezztoran.rezztoranbe.model.RestaurantTable;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface RestaurantTableService {
@@ -11,7 +11,7 @@ public interface RestaurantTableService {
 
   List<RestaurantTable> getTablesByRestaurant(Long restaurantId);
 
-  List<RestaurantTable> getAvailableTablesByRestaurantAndDate(Long restaurantId, LocalDate date);
+  List<RestaurantTable> getAvailableTablesByRestaurantAndDate(Long restaurantId, Date date);
 
   RestaurantTable createTable(RestaurantTableRequestModel requestModel);
 

@@ -11,10 +11,16 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @Entity
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RestaurantTable extends BaseEntity {
 
   private Boolean isAvailable;

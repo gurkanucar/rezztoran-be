@@ -11,7 +11,7 @@ public interface RestaurantTableService {
 
   List<RestaurantTable> getTablesByRestaurant(Long restaurantId);
 
-  List<RestaurantTable> getTablesByRestaurantAndDate(Long restaurantId, LocalDate date);
+  List<RestaurantTable> getAvailableTablesByRestaurantAndDate(Long restaurantId, LocalDate date);
 
   RestaurantTable createTable(RestaurantTableRequestModel requestModel);
 

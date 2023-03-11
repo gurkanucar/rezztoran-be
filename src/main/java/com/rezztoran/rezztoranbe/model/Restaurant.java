@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -38,6 +39,7 @@ public class Restaurant extends BaseEntity {
   private Double starCount;
   private String phone;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
   private List<RestaurantTable> restaurantTables;
 

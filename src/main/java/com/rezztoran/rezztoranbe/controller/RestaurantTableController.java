@@ -1,10 +1,15 @@
 package com.rezztoran.rezztoranbe.controller;
 
+import com.rezztoran.rezztoranbe.dto.RestaurantTableDTO;
 import com.rezztoran.rezztoranbe.dto.request.RestaurantTableRequestModel;
+import com.rezztoran.rezztoranbe.model.RestaurantTable;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.RestaurantTableService;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,10 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantTableController {
 
   private final RestaurantTableService tableService;
+  private final ModelMapper modelMapper;
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> getTableById(@PathVariable Long id) {
-    return ApiResponse.builder().data(tableService.getTableById(id)).build();
+    var restaurantTable = tableService.getTableById(id);
+    RestaurantTableDTO restaurantTableDTO =
+        modelMapper.map(restaurantTable, RestaurantTableDTO.class);
+    restaurantTableDTO.setRestaurantId(restaurantTable.getRestaurant().getId());
+    return ApiResponse.builder().data(restaurantTableDTO).build();
   }
 
   @GetMapping("/restaurant/{id}")
@@ -34,23 +44,47 @@ public class RestaurantTableController {
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date localDate) {
     if (localDate != null) {
-      return ApiResponse.builder()
-          .data(tableService.getAvailableTablesByRestaurantAndDate(id, localDate))
-          .build();
+      List<RestaurantTable> restaurantTables =
+          tableService.getAvailableTablesByRestaurantAndDate(id, localDate);
+      return getApiResponseResponseEntity(restaurantTables);
     }
-    return ApiResponse.builder().data(tableService.getTablesByRestaurant(id)).build();
+    List<RestaurantTable> restaurantTables = tableService.getTablesByRestaurant(id);
+    return getApiResponseResponseEntity(restaurantTables);
+  }
+
+  private ResponseEntity<ApiResponse<Object>> getApiResponseResponseEntity(
+      List<RestaurantTable> restaurantTables) {
+    var restaurantTableDtos =
+        restaurantTables.stream()
+            .map(
+                restaurantTable -> {
+                  RestaurantTableDTO restaurantTableDTO =
+                      modelMapper.map(restaurantTable, RestaurantTableDTO.class);
+                  restaurantTableDTO.setRestaurantId(restaurantTable.getRestaurant().getId());
+                  return restaurantTableDTO;
+                })
+            .collect(Collectors.toList());
+    return ApiResponse.builder().data(restaurantTableDtos).build();
   }
 
   @PostMapping
   public ResponseEntity<ApiResponse<Object>> createTable(
       @RequestBody RestaurantTableRequestModel requestModel) {
-    return ApiResponse.builder().data(tableService.createTable(requestModel)).build();
+    var restaurantTable = tableService.createTable(requestModel);
+    RestaurantTableDTO restaurantTableDTO =
+        modelMapper.map(restaurantTable, RestaurantTableDTO.class);
+    restaurantTableDTO.setRestaurantId(restaurantTable.getRestaurant().getId());
+    return ApiResponse.builder().data(restaurantTableDTO).build();
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> updateTableById(
       @RequestBody RestaurantTableRequestModel requestModel) {
-    return ApiResponse.builder().data(tableService.createTable(requestModel)).build();
+    var restaurantTable = tableService.updateTable(requestModel);
+    RestaurantTableDTO restaurantTableDTO =
+        modelMapper.map(restaurantTable, RestaurantTableDTO.class);
+    restaurantTableDTO.setRestaurantId(restaurantTable.getRestaurant().getId());
+    return ApiResponse.builder().data(restaurantTableDTO).build();
   }
 
   @DeleteMapping("/{id}")

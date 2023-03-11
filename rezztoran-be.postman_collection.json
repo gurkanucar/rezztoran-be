@@ -19,7 +19,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"gurkan\",\r\n    \"password\":\"password\"\r\n}",
+							"raw": "{\r\n    \"username\":\"grkn\",\r\n    \"password\":\"pass\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -27,12 +27,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/auth/login",
-							"protocol": "http",
+							"raw": "{{server}}/api/auth/login",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -60,12 +58,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/auth/register",
-							"protocol": "http",
+							"raw": "{{server}}/api/auth/register",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -79,14 +75,19 @@
 					"name": "me",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
-							"raw": "http://localhost:8080/api/auth/me",
-							"protocol": "http",
+							"raw": "{{server}}/api/auth/me",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"auth",
@@ -107,12 +108,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/restaurant",
-							"protocol": "http",
+							"raw": "{{server}}/api/restaurant",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"restaurant"
@@ -127,12 +126,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/restaurant/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/restaurant/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"restaurant",
@@ -148,12 +145,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/restaurant/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/restaurant/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"restaurant",
@@ -178,12 +173,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/restaurant",
-							"protocol": "http",
+							"raw": "{{server}}/api/restaurant",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"restaurant"
@@ -207,12 +200,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/restaurant/insert-list",
-							"protocol": "http",
+							"raw": "{{server}}/api/restaurant/insert-list",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"restaurant",
@@ -237,12 +228,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/restaurant",
-							"protocol": "http",
+							"raw": "{{server}}/api/restaurant",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"restaurant"
@@ -266,12 +255,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/restaurant/update-owner",
-							"protocol": "http",
+							"raw": "{{server}}/api/restaurant/update-owner",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"restaurant",
@@ -292,12 +279,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/category",
-							"protocol": "http",
+							"raw": "{{server}}/api/category",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"category"
@@ -321,12 +306,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/category",
-							"protocol": "http",
+							"raw": "{{server}}/api/category",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"category"
@@ -350,12 +333,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/category",
-							"protocol": "http",
+							"raw": "{{server}}/api/category",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"category"
@@ -370,12 +351,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/category/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/category/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"category",
@@ -391,12 +370,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/category/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/category/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"category",
@@ -417,12 +394,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/user",
-							"protocol": "http",
+							"raw": "{{server}}/api/user",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"user"
@@ -446,12 +421,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/user/create-user-by-role",
-							"protocol": "http",
+							"raw": "{{server}}/api/user/create-user-by-role",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"user",
@@ -476,12 +449,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/user",
-							"protocol": "http",
+							"raw": "{{server}}/api/user",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"user"
@@ -496,12 +467,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/user/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/user/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"user",
@@ -517,12 +486,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/user/2",
-							"protocol": "http",
+							"raw": "{{server}}/api/user/2",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"user",
@@ -543,12 +510,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/menu/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/menu/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"menu",
@@ -607,12 +572,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/food",
-							"protocol": "http",
+							"raw": "{{server}}/api/food",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"food"
@@ -636,12 +599,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/food",
-							"protocol": "http",
+							"raw": "{{server}}/api/food",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"food"
@@ -656,12 +617,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/food/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/food/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"food",
@@ -677,12 +636,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/food/1",
-							"protocol": "http",
+							"raw": "{{server}}/api/food/1",
 							"host": [
-								"localhost"
+								"{{server}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"food",
@@ -693,6 +650,133 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "restaurantTable",
+			"item": [
+				{
+					"name": "create restaurantTable",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isAvailable\": true,\r\n    \"availableDayTimeZone\": \"MORNING\",\r\n    \"capacity\": 4,\r\n    \"busyDates\": [\r\n        \"2023-03-07\",\r\n        \"2023-03-06\"\r\n    ],\r\n    \"restaurantId\": 1,\r\n    \"tableAttributes\": {\r\n        \"konum\": \"cam kenari\",\r\n        \"sigara\": \"icilebilir\",\r\n        \"kat\": \"teras\",\r\n        \"somine\": \"\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/restaurant-table",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant-table"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update restaurantTable",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"isAvailable\": true,\r\n    \"availableDayTimeZone\": \"AFTERNOON\",\r\n    \"capacity\": 4,\r\n    \"busyDates\": [\r\n        \"2023-01-03\",\r\n        \"2023-02-04\"\r\n    ],\r\n    \"restaurantId\": 1,\r\n    \"tableAttributes\": {\r\n        \"konum\": \"yol kenari\",\r\n        \"sigara\": \"hayir\",\r\n        \"kat\": \"bodrum\",\r\n        \"somine\": \"yok\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/restaurant-table",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant-table"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by restaurant id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/restaurant-table/restaurant/1?localDate=2019-04-25",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant-table",
+								"restaurant",
+								"1"
+							],
+							"query": [
+								{
+									"key": "localDate",
+									"value": "2019-04-25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/restaurant-table/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant-table",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/restaurant-table/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant-table",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reservation",
+			"item": []
 		}
 	],
 	"auth": {
@@ -700,7 +784,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndXJrYW4iLCJpc3MiOiJyZXp6dG9yYW4iLCJleHAiOjE2Njk2MDk5NzB9.exWZhOi26V_z1r0i043CjKnMLbwl-RhJRrxZAdDt_ck",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJncmtuIiwiaXNzIjoicmV6enRvcmFuIiwiZXhwIjoxNjc3NTcwMjcxfQ.QgooK02wfoHpM9iVP8cy-mbCX1fhtv6UFi_6DGlcDcY",
 				"type": "string"
 			}
 		]
@@ -723,6 +807,19 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "server",
+			"value": "http://localhost:8080",
+			"type": "string"
 		}
 	]
 }

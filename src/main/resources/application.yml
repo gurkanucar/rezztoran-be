@@ -1,0 +1,42 @@
+application-description: Rezztoran
+application-version: 1.0
+
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8082
+spring:
+  datasource:
+    password: 1234
+    url: jdbc:mysql://localhost:3306/rezztoran?createDatabaseIfNotExist=true
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+jwt-variables:
+  EXPIRES_ACCESS_TOKEN_MINUTE: 200000
+  ISSUER: rezztoran
+  KEY: rezztoran
+#logging:
+#  level:
+#    org:
+#      hibernate: DEBUG
+#      springframework:
+#        web: DEBUG
+mail:
+  address: MAIL
+  password: PASSWORD
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    image: rezztoran-be
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/rezztoran?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+      jwt-variables.KEY: rezztoran
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - db
+    command: [ "java", "-jar", "rezztoran-be-0.0.1-SNAPSHOT.jar" ]
+    restart: always
+    networks:
+      - shared-net
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: rezztoran
+      MYSQL_PASSWORD: 1234
+    ports:
+      - 3307:3306
+    volumes:
+      - db_data:/var/lib/mysql
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    networks:
+      - shared-net
+
+volumes:
+  db_data:
+
+networks:
+  shared-net:
+    driver: bridge

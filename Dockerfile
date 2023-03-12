@@ -12,4 +12,4 @@ FROM openjdk:11-jdk-slim
 ARG JAR_FILE=target/rezztoran-be-0.0.1-SNAPSHOT.jar
 COPY --from=build /app/${JAR_FILE} rezztoran-be-0.0.1-SNAPSHOT.jar
 EXPOSE 8082
-#ENTRYPOINT ["java", "-jar" , "rezztoran-be-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar" , "rezztoran-be-0.0.1-SNAPSHOT.jar"]

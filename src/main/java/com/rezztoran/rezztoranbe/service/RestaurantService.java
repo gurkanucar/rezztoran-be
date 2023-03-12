@@ -46,6 +46,7 @@ public class RestaurantService {
     existing.setDistrict(restaurant.getDistrict());
     existing.setLongitude(restaurant.getLongitude());
     existing.setLatitude(restaurant.getLatitude());
+    existing.setRestaurantImage(restaurant.getRestaurantImage());
     existing.setRestaurantImageList(restaurant.getRestaurantImageList());
     existing.setDetailedAddress(restaurant.getDetailedAddress());
     existing.setMenu(restaurant.getMenu());

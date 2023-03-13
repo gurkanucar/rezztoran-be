@@ -1,11 +1,13 @@
 package com.rezztoran.rezztoranbe.service.impl;
 
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
+import com.rezztoran.rezztoranbe.dto.request.MailModel;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
 import com.rezztoran.rezztoranbe.model.Booking;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.BookRepository;
 import com.rezztoran.rezztoranbe.service.BookService;
+import com.rezztoran.rezztoranbe.service.MailService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.time.LocalDate;
@@ -26,6 +28,7 @@ public class BookServiceImpl implements BookService {
   private final BookRepository bookRepository;
   private final RestaurantService restaurantService;
   private final UserService userService;
+  private final MailService mailService;
 
   @Override
   public Booking createBook(BookRequestModel bookRequestModel) {
@@ -44,7 +47,10 @@ public class BookServiceImpl implements BookService {
             .note(bookRequestModel.getNote())
             .build();
 
-    return bookRepository.save(book);
+    var result = bookRepository.save(book);
+    mailService.sendBookCreatedMail(
+        MailModel.builder().subject("Password Reset").to(user.getMail()).build(), book);
+    return result;
   }
 
   private boolean isAvailable(BookRequestModel bookRequestModel, Restaurant restaurant) {

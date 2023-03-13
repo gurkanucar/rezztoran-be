@@ -37,6 +37,7 @@ public class SecurityConfig {
                 "/api/restaurant/**",
                 "/api/menu/**",
                 "/api/food/**",
+                "/api/category/**",
                 "/api/review",
                 "/api/user/reset-request",
                 "/api/user/reset-password",

@@ -46,10 +46,17 @@ public class RestaurantService {
     existing.setDistrict(restaurant.getDistrict());
     existing.setLongitude(restaurant.getLongitude());
     existing.setLatitude(restaurant.getLatitude());
+    existing.setRestaurantImage(restaurant.getRestaurantImage());
     existing.setRestaurantImageList(restaurant.getRestaurantImageList());
     existing.setDetailedAddress(restaurant.getDetailedAddress());
     existing.setMenu(restaurant.getMenu());
     existing.setPhone(restaurant.getPhone());
+    existing.setBookingAvailable(restaurant.getBookingAvailable());
+    existing.setOpeningTime(restaurant.getOpeningTime());
+    existing.setClosingTime(restaurant.getClosingTime());
+    existing.setIntervalMinutes(restaurant.getIntervalMinutes());
+    existing.setBusyDates(restaurant.getBusyDates());
+    existing.setRestaurantAttributes(restaurant.getRestaurantAttributes());
     return restaurantRepository.save(existing);
   }
 

@@ -19,4 +19,7 @@ public interface BookService {
 
   void deleteBook(Long id);
 
+  List<Booking> getBooksByUser(Long id);
+
+  List<Booking> getBooksByUserAndDate(Long id,LocalDate date);
 }

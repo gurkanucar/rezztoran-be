@@ -85,7 +85,8 @@ public class BookServiceImpl implements BookService {
     Map<LocalTime, Boolean> availableSlots = new TreeMap<>();
     Restaurant restaurant = restaurantService.getById(restaurantId);
     int interval = restaurant.getIntervalMinutes() != 0 ? restaurant.getIntervalMinutes() : 30;
-    var bookings = getBooks(date, restaurantId);
+    var bookings =
+        getBooksByDateAndRestaurantIdAndStatusIs(date, restaurantId, BookingStatus.PENDING);
 
     // Get the start and end time for the day
     LocalTime startDateTime = restaurant.getOpeningTime();
@@ -108,6 +109,25 @@ public class BookServiceImpl implements BookService {
     return availableSlots;
   }
 
+  // TODO check access
+  @Override
+  public void deleteBook(Long id) {
+    Booking existing =
+        bookRepository.findById(id).orElseThrow(() -> new RuntimeException("book not found!"));
+    existing.setBookingStatus(BookingStatus.CANCELLED);
+    bookRepository.save(existing);
+  }
+
+  @Override
+  public List<Booking> getBooksByUser(Long id) {
+    return bookRepository.findAllByUser_Id(id);
+  }
+
+  @Override
+  public List<Booking> getBooksByUserAndDate(Long id, LocalDate date) {
+    return bookRepository.findAllByUser_IdAndReservationDate(id, date);
+  }
+
   public boolean isBeforeOrEquals(LocalTime dateTime1, LocalTime dateTime2) {
     return !dateTime1.isAfter(dateTime2);
   }
@@ -115,5 +135,17 @@ public class BookServiceImpl implements BookService {
   public boolean isSameDateTime(Booking existing, BookRequestModel bookRequestModel) {
     return existing.getReservationDate().equals(bookRequestModel.getReservationDate())
         && existing.getReservationTime().equals(bookRequestModel.getReservationTime());
+  }
+
+  public List<Booking> getBooksByDateAndRestaurantIdAndStatusIs(
+      LocalDate bookingDate, Long restaurantId, BookingStatus bookingStatus) {
+    return bookRepository.findAllByRestaurant_IdAndReservationDateAndBookingStatus(
+        restaurantId, bookingDate, bookingStatus);
+  }
+
+  public List<Booking> getBooksByDateAndRestaurantIdAndStatusIsNot(
+      LocalDate bookingDate, Long restaurantId, BookingStatus bookingStatus) {
+    return bookRepository.findAllByRestaurant_IdAndReservationDateAndBookingStatusNot(
+        restaurantId, bookingDate, bookingStatus);
   }
 }

@@ -60,7 +60,7 @@ public class BookServiceImpl implements BookService {
     Booking existing =
         bookRepository
             .findById(bookRequestModel.getId())
-            .orElseThrow(() -> new RuntimeException("could not book!"));
+            .orElseThrow(() -> new RuntimeException("book not found!"));
 
     if (!isSameDateTime(existing, bookRequestModel) && !isAvailable(bookRequestModel, restaurant)) {
       throw new RuntimeException("could not book!");

@@ -41,4 +41,10 @@ public class BookingController {
       @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.updateBook(bookRequestModel)).build();
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<ApiResponse<Object>> deleteBooking(@PathVariable Long id) {
+    bookService.deleteBook(id);
+    return ApiResponse.builder().build();
+  }
 }

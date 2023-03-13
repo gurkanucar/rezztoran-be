@@ -16,4 +16,7 @@ public interface BookService {
   List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
 
   Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId);
+
+  void deleteBook(Long id);
+
 }

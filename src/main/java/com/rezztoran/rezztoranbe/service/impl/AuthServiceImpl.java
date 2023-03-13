@@ -77,12 +77,13 @@ public class AuthServiceImpl implements AuthService {
     var code = generateRandomCode();
     user.setResetPasswordCode(code);
     userService.save(user);
-    mailService.sendSimpleMessage(
+    mailService.sendResetPasswordEmail(
         MailModel.builder()
             .subject("Password Reset")
             .text("Your code is: " + code.toString())
             .to(email)
-            .build());
+            .build(),
+        user);
   }
 
   public void resetPassword(PasswordResetModel passwordResetModel) {

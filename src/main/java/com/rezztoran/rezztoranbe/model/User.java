@@ -1,7 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.rezztoran.rezztoranbe.enums.Role;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -24,7 +23,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 @Table(name = "`user`")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends BaseEntity {
 
   @Column(nullable = false, unique = true)

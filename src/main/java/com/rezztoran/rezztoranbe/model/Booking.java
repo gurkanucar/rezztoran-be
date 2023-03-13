@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -33,6 +34,7 @@ public class Booking extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
+  @JsonIgnore
   private User user;
 
   private String note;

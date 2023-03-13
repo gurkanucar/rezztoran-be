@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Restaurant extends BaseEntity {
 
   private String restaurantName;

@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.rezztoran.rezztoranbe.enums.BookingStatus;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import javax.validation.constraints.NotBlank;
@@ -8,6 +9,8 @@ import lombok.Data;
 
 @Data
 public class BookRequestModel {
+
+  private Long id;
 
   @NotBlank private Long userId;
 
@@ -22,4 +25,6 @@ public class BookRequestModel {
   private LocalTime reservationTime;
 
   private String note;
+
+  private BookingStatus bookingStatus;
 }

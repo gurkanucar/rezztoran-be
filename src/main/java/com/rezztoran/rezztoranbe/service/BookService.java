@@ -11,6 +11,8 @@ public interface BookService {
 
   Booking createBook(BookRequestModel bookRequestModel);
 
+  Booking updateBook(BookRequestModel bookRequestModel);
+
   List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
 
   Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId);

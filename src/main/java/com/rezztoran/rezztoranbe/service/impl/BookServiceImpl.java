@@ -56,7 +56,22 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public Booking updateBook(BookRequestModel bookRequestModel) {
-    return null;
+    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
+    Booking existing =
+        bookRepository
+            .findById(bookRequestModel.getId())
+            .orElseThrow(() -> new RuntimeException("could not book!"));
+
+    if (!isSameDateTime(existing, bookRequestModel) && !isAvailable(bookRequestModel, restaurant)) {
+      throw new RuntimeException("could not book!");
+    }
+
+    existing.setBookingStatus(bookRequestModel.getBookingStatus());
+    existing.setReservationDate(bookRequestModel.getReservationDate());
+    existing.setReservationTime(bookRequestModel.getReservationTime());
+    existing.setNote(bookRequestModel.getNote());
+
+    return bookRepository.save(existing);
   }
 
   @Override
@@ -95,5 +110,10 @@ public class BookServiceImpl implements BookService {
 
   public boolean isBeforeOrEquals(LocalTime dateTime1, LocalTime dateTime2) {
     return !dateTime1.isAfter(dateTime2);
+  }
+
+  public boolean isSameDateTime(Booking existing, BookRequestModel bookRequestModel) {
+    return existing.getReservationDate().equals(bookRequestModel.getReservationDate())
+        && existing.getReservationTime().equals(bookRequestModel.getReservationTime());
   }
 }

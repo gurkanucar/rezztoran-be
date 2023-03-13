@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -69,6 +71,35 @@ public class BookServiceImpl implements BookService {
       LocalTime tempSlot = currentSlot; // create a temporary variable
       if (bookings.stream().noneMatch(x -> tempSlot.equals(x.getReservationTime()))) {
         availableSlots.add(tempSlot); // add the temp variable to the list
+      }
+      currentSlot = currentSlot.plusMinutes(interval);
+    }
+
+    return availableSlots;
+  }
+
+  @Override
+  public Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId) {
+    // List<LocalTime> availableSlots = new ArrayList<>();
+    Map<LocalTime, Boolean> availableSlots = new TreeMap<>();
+    Restaurant restaurant = restaurantService.getById(restaurantId);
+    int interval = restaurant.getIntervalMinutes() != 0 ? restaurant.getIntervalMinutes() : 30;
+    var bookings = getBooks(date, restaurantId);
+
+    // Get the start and end time for the day
+    LocalTime startDateTime = restaurant.getOpeningTime();
+    LocalTime endDateTime = restaurant.getClosingTime();
+
+    // Initialize the current time slot to the start time
+    LocalTime currentSlot = startDateTime;
+
+    while (isBeforeOrEquals(currentSlot, endDateTime)) {
+      LocalTime tempSlot = currentSlot; // create a temporary variable
+
+      if (bookings.stream().noneMatch(x -> tempSlot.equals(x.getReservationTime()))) {
+        availableSlots.put(tempSlot, false); // add the temp variable to the list
+      } else {
+        availableSlots.put(tempSlot, true);
       }
       currentSlot = currentSlot.plusMinutes(interval);
     }

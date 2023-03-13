@@ -90,6 +90,6 @@ public class RestaurantController {
   public ResponseEntity<ApiResponse<Object>> getTablesByRestaurantIdAndDate(
       @PathVariable Long id,
       @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    return ApiResponse.builder().data(bookService.getAvailableTimeSlots(localDate, id)).build();
+    return ApiResponse.builder().data(bookService.getAvailableTimeSlotsMap(localDate, id)).build();
   }
 }

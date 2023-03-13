@@ -5,6 +5,7 @@ import com.rezztoran.rezztoranbe.model.Booking;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 public interface BookService {
 
@@ -13,4 +14,6 @@ public interface BookService {
   List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
 
   List<LocalTime> getAvailableTimeSlots(LocalDate date, Long restaurantId);
+
+  Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId);
 }

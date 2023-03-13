@@ -13,7 +13,5 @@ public interface BookService {
 
   List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
 
-  List<LocalTime> getAvailableTimeSlots(LocalDate date, Long restaurantId);
-
   Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId);
 }

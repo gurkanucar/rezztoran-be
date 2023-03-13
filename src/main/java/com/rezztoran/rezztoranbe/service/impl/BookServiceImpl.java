@@ -10,7 +10,6 @@ import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -32,8 +31,8 @@ public class BookServiceImpl implements BookService {
     var user = userService.findUserByID(bookRequestModel.getUserId());
     var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
     var availableTimes =
-        getAvailableTimeSlots(bookRequestModel.getReservationDate(), restaurant.getId());
-    if (!availableTimes.contains(bookRequestModel.getReservationTime())) {
+        getAvailableTimeSlotsMap(bookRequestModel.getReservationDate(), restaurant.getId());
+    if (Boolean.TRUE.equals(availableTimes.get(bookRequestModel.getReservationTime()))) {
       throw new RuntimeException("could not book!");
     }
     var book =
@@ -43,6 +42,7 @@ public class BookServiceImpl implements BookService {
             .reservationTime(bookRequestModel.getReservationTime())
             .user(user)
             .restaurant(restaurant)
+            .note(bookRequestModel.getNote())
             .build();
 
     return bookRepository.save(book);
@@ -51,31 +51,6 @@ public class BookServiceImpl implements BookService {
   @Override
   public List<Booking> getBooks(LocalDate bookingDate, Long restaurantId) {
     return bookRepository.findAllByRestaurant_IdAndReservationDate(restaurantId, bookingDate);
-  }
-
-  @Override
-  public List<LocalTime> getAvailableTimeSlots(LocalDate date, Long restaurantId) {
-    List<LocalTime> availableSlots = new ArrayList<>();
-    Restaurant restaurant = restaurantService.getById(restaurantId);
-    int interval = restaurant.getIntervalMinutes() != 0 ? restaurant.getIntervalMinutes() : 30;
-    var bookings = getBooks(date, restaurantId);
-
-    // Get the start and end time for the day
-    LocalTime startDateTime = restaurant.getOpeningTime();
-    LocalTime endDateTime = restaurant.getClosingTime();
-
-    // Initialize the current time slot to the start time
-    LocalTime currentSlot = startDateTime;
-
-    while (isBeforeOrEquals(currentSlot, endDateTime)) {
-      LocalTime tempSlot = currentSlot; // create a temporary variable
-      if (bookings.stream().noneMatch(x -> tempSlot.equals(x.getReservationTime()))) {
-        availableSlots.add(tempSlot); // add the temp variable to the list
-      }
-      currentSlot = currentSlot.plusMinutes(interval);
-    }
-
-    return availableSlots;
   }
 
   @Override

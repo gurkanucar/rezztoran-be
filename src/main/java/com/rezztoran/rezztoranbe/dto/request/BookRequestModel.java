@@ -20,4 +20,6 @@ public class BookRequestModel {
   @NotBlank
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
   private LocalTime reservationTime;
+
+  private String note;
 }

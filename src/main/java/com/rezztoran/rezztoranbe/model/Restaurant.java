@@ -1,7 +1,11 @@
 package com.rezztoran.rezztoranbe.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -9,6 +13,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -39,10 +44,6 @@ public class Restaurant extends BaseEntity {
   private Double starCount;
   private String phone;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-  private List<RestaurantTable> restaurantTables;
-
   @OneToOne private User user;
 
   @OneToOne(mappedBy = "restaurant")
@@ -50,4 +51,32 @@ public class Restaurant extends BaseEntity {
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL)
   private List<Review> reviews;
+
+  @ElementCollection
+  @MapKeyColumn(name = "name")
+  @Column(name = "value")
+  @CollectionTable(
+      name = "restaurant_attributes",
+      joinColumns = @JoinColumn(name = "restaurant_id"))
+  private Map<String, String> restaurantAttributes = new HashMap<>();
+
+  //  @JsonIgnore
+  //  @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+  //  private List<RestaurantTable> restaurantTables;
+
+  private Boolean bookingAvailable;
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+  private LocalTime openingTime;
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+  private LocalTime closingTime;
+
+  // default 30 minutes
+  private Integer intervalMinutes = 30;
+
+  @ElementCollection
+  @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+  private List<Date> busyDates;
 }

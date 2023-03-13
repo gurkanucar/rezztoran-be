@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +31,7 @@ public class BookServiceImpl implements BookService {
   public Booking createBook(BookRequestModel bookRequestModel) {
     var user = userService.findUserByID(bookRequestModel.getUserId());
     var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
-    var availableTimes =
-        getAvailableTimeSlotsMap(bookRequestModel.getReservationDate(), restaurant.getId());
-    if (Boolean.TRUE.equals(availableTimes.get(bookRequestModel.getReservationTime()))) {
+    if (!isAvailable(bookRequestModel, restaurant)) {
       throw new RuntimeException("could not book!");
     }
     var book =
@@ -46,6 +45,18 @@ public class BookServiceImpl implements BookService {
             .build();
 
     return bookRepository.save(book);
+  }
+
+  private boolean isAvailable(BookRequestModel bookRequestModel, Restaurant restaurant) {
+    var availableTimes =
+        getAvailableTimeSlotsMap(bookRequestModel.getReservationDate(), restaurant.getId());
+    var result = availableTimes.get(bookRequestModel.getReservationTime());
+    return !Objects.isNull(result) && Boolean.FALSE.equals(result);
+  }
+
+  @Override
+  public Booking updateBook(BookRequestModel bookRequestModel) {
+    return null;
   }
 
   @Override

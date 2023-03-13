@@ -2,12 +2,16 @@ package com.rezztoran.rezztoranbe.controller;
 
 import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.model.Restaurant;
+import com.rezztoran.rezztoranbe.response.ApiResponse;
+import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantController {
 
   private final RestaurantService restaurantService;
+  private final BookService bookService;
   private final ModelMapper mapper;
 
   @GetMapping
@@ -71,5 +77,19 @@ public class RestaurantController {
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     restaurantService.delete(id);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/{id}/book")
+  public ResponseEntity<ApiResponse<Object>> getBooksByRestaurantIdAndDate(
+      @PathVariable Long id,
+      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
+    return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("/{id}/book/slots")
+  public ResponseEntity<ApiResponse<Object>> getTablesByRestaurantIdAndDate(
+      @PathVariable Long id,
+      @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
+    return ApiResponse.builder().data(bookService.getAvailableTimeSlotsMap(localDate, id)).build();
   }
 }

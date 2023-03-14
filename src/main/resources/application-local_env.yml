@@ -26,6 +26,23 @@ spring:
   web:
     resources:
       add-mappings: false
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      schedule-group-id: group
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    consumers:
+      default-group-id: group
+      scheduler-group-id: scheduler
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    topics:
+      book-created: book-created
+      password-reset: password-reset
+
+
 
 jwt-variables:
   EXPIRES_ACCESS_TOKEN_MINUTE: 200000

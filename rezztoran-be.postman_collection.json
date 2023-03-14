@@ -188,14 +188,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant/11",
+							"raw": "{{server}}/api/restaurant/1",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"restaurant",
-								"11"
+								"1"
 							]
 						}
 					},
@@ -227,7 +227,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"restaurantName\": \"Lalezar2\",\r\n    \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.546912915340750,\r\n    \"starCount\": 0,\r\n    \"user\": {\r\n        \"id\": 1\r\n    },\r\n    \"restaurantAttributes\": {\r\n        \"additionalProp1\": \"string\",\r\n        \"additionalProp2\": \"string\",\r\n        \"additionalProp3\": \"string\"\r\n    },\r\n    \"bookingAvailable\": true,\r\n    \"openingTime\":\"10:00\",\r\n    \"closingTime\":\"18:00\",\r\n    \"intervalMinutes\": 30,\r\n    \"busyDates\": [\r\n        \"2023-08-13\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"restaurantName\": \"Lalezar\",\r\n    \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.546912915340750,\r\n    \"starCount\": 0,\r\n    \"user\": {\r\n        \"id\": 1\r\n    },\r\n    \"restaurantAttributes\": {\r\n        \"isitma\": \"somine\",\r\n        \"konum\": \"deniz kenari\",\r\n        \"alkol\": \"var\"\r\n    },\r\n    \"bookingAvailable\": true,\r\n    \"openingTime\": \"10:00\",\r\n    \"closingTime\": \"18:00\",\r\n    \"intervalMinutes\": 30,\r\n    \"busyDates\": [\r\n        \"2023-08-13\",\r\n        \"2023-03-07\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -282,7 +282,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"restaurantName\": \"Lalezar updated\",\r\n    \"restaurantImageList\": [\r\n        \"updated_img1\",\r\n        \"updated_img2\",\r\n        \"created_img3\"\r\n    ],\r\n    \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.54691291534075,\r\n    \"starCount\": 0.0,\r\n    \"user\": {\r\n        \"id\": 1,\r\n        \"username\": \"grkn\",\r\n        \"name\": \"grkn\",\r\n        \"surname\": \"ucar\",\r\n        \"mail\": \"gurkan@mail\",\r\n        \"profileImageUrl\": null,\r\n        \"resetPassword\": false,\r\n        \"role\": \"ADMIN\"\r\n    },\r\n    \"phone\": \"\",\r\n    \"menu\": null,\r\n    \"reviews\": []\r\n}",
+							"raw": "{\r\n    \"id\": 11,\r\n    \"restaurantName\": \"Lalezar\",\r\n    \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"phone\": \"\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.546912915340750,\r\n    \"starCount\": 0,\r\n    \"user\": {\r\n        \"id\": 1\r\n    },\r\n    \"restaurantAttributes\": {\r\n        \"isitma\": \"somine\",\r\n        \"konum\": \"deniz kenari\",\r\n        \"alkol\": \"var\"\r\n    },\r\n    \"bookingAvailable\": true,\r\n    \"openingTime\": \"10:00\",\r\n    \"closingTime\": \"18:00\",\r\n    \"intervalMinutes\": 30,\r\n    \"busyDates\": [\r\n        \"2023-08-13\",\r\n        \"2023-03-07\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -362,7 +362,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant/11/book/slots?localDate=2023-03-04",
+							"raw": "{{server}}/api/restaurant/11/book/slots?localDate=2023-03-09",
 							"host": [
 								"{{server}}"
 							],
@@ -376,7 +376,7 @@
 							"query": [
 								{
 									"key": "localDate",
-									"value": "2023-03-04"
+									"value": "2023-03-09"
 								}
 							]
 						}
@@ -807,7 +807,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 11,\r\n    \"reservationDate\": \"2023-03-05\",\r\n    \"reservationTime\": \"16:00\",\r\n    \"note\":\"lutfen cam kenari olsun yoksa gelmem bak\"\r\n}",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 11,\r\n    \"reservationDate\": \"2023-03-09\",\r\n    \"reservationTime\": \"11:30\",\r\n    \"note\":\"somineli yer ayarla\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -834,7 +834,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 2,\r\n    \"bookingStatus\": \"PENDING\",\r\n    \"userId\": 1,\r\n    \"restaurantId\": 11,\r\n    \"reservationDate\": \"2023-03-04\",\r\n    \"reservationTime\": \"11:00\",\r\n    \"note\": \"lutfen cam kenari olsun yoksa gelmem bak!\"\r\n}",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"bookingStatus\": \"PENDING\",\r\n    \"userId\": 1,\r\n    \"restaurantId\": 11,\r\n    \"reservationDate\": \"2023-03-04\",\r\n    \"reservationTime\": \"16:00\",\r\n    \"note\": \"lutfen cam kenari olsun yoksa gelmem bak!\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -860,7 +860,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/book/user/1?localDate=2023-03-05",
+							"raw": "{{server}}/api/book/user/1?localDate=2023-03-07",
 							"host": [
 								"{{server}}"
 							],
@@ -873,7 +873,7 @@
 							"query": [
 								{
 									"key": "localDate",
-									"value": "2023-03-05"
+									"value": "2023-03-07"
 								}
 							]
 						}
@@ -894,6 +894,60 @@
 								"api",
 								"book",
 								"19"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "file upload",
+			"item": [
+				{
+					"name": "upload file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Gurkan/Desktop/1672473725537.jfif"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/api/file/upload",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"file",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "download file",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/file/download/Qrpu3NgxvrZlgsKUObtizQEag5MGcRD3hLAVA8P3lAluHnpC4n.jfif",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"file",
+								"download",
+								"Qrpu3NgxvrZlgsKUObtizQEag5MGcRD3hLAVA8P3lAluHnpC4n.jfif"
 							]
 						}
 					},

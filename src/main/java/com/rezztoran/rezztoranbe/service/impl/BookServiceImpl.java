@@ -1,15 +1,18 @@
 package com.rezztoran.rezztoranbe.service.impl;
 
+import com.rezztoran.rezztoranbe.dto.BookDTO;
+import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
+import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
-import com.rezztoran.rezztoranbe.dto.request.MailModel;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
 import com.rezztoran.rezztoranbe.model.Booking;
 import com.rezztoran.rezztoranbe.model.Restaurant;
+import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.BookRepository;
 import com.rezztoran.rezztoranbe.service.BookService;
-import com.rezztoran.rezztoranbe.service.MailService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
+import com.rezztoran.rezztoranbe.service.kafka.producer.BookingProducer;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,7 +31,13 @@ public class BookServiceImpl implements BookService {
   private final BookRepository bookRepository;
   private final RestaurantService restaurantService;
   private final UserService userService;
-  private final MailService mailService;
+
+  private final BookingProducer bookingProducer;
+
+  @Override
+  public Booking getBookById(Long id) {
+    return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("book not found!"));
+  }
 
   @Override
   public Booking createBook(BookRequestModel bookRequestModel) {
@@ -48,8 +57,8 @@ public class BookServiceImpl implements BookService {
             .build();
 
     var result = bookRepository.save(book);
-    mailService.sendBookCreatedMail(
-        MailModel.builder().subject("Password Reset").to(user.getMail()).build(), book);
+
+    sendBookCreatedEvent(user, restaurant, result);
     return result;
   }
 
@@ -153,5 +162,38 @@ public class BookServiceImpl implements BookService {
       LocalDate bookingDate, Long restaurantId, BookingStatus bookingStatus) {
     return bookRepository.findAllByRestaurant_IdAndReservationDateAndBookingStatusNot(
         restaurantId, bookingDate, bookingStatus);
+  }
+
+  private void sendBookCreatedEvent(User user, Restaurant restaurant, Booking result) {
+    var restaurantDto =
+        RestaurantDTO.builder()
+            .id(restaurant.getId())
+            .restaurantName(restaurant.getRestaurantName())
+            .city(restaurant.getCity())
+            .latitude(restaurant.getLatitude())
+            .longitude(restaurant.getLongitude())
+            .build();
+
+    var userDto =
+        UserDTO.builder()
+            .id(user.getId())
+            .username(user.getUsername())
+            .mail(user.getMail())
+            .name(user.getName())
+            .surname(user.getSurname())
+            .build();
+
+    var bookDto =
+        BookDTO.builder()
+            .id(result.getId())
+            .bookingStatus(result.getBookingStatus())
+            .reservationDate(result.getReservationDate())
+            .reservationTime(result.getReservationTime())
+            .user(userDto)
+            .restaurant(restaurantDto)
+            .note(result.getNote())
+            .build();
+
+    bookingProducer.sendBookingCreatedMail(bookDto);
   }
 }

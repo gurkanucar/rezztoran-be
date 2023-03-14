@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface BookService {
 
+  Booking getBookById(Long id);
+
   Booking createBook(BookRequestModel bookRequestModel);
 
   Booking updateBook(BookRequestModel bookRequestModel);
@@ -21,5 +23,5 @@ public interface BookService {
 
   List<Booking> getBooksByUser(Long id);
 
-  List<Booking> getBooksByUserAndDate(Long id,LocalDate date);
+  List<Booking> getBooksByUserAndDate(Long id, LocalDate date);
 }

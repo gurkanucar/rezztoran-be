@@ -2,7 +2,7 @@ package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.MailModel;
-import com.rezztoran.rezztoranbe.model.User;
+import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import java.util.HashMap;
@@ -35,13 +35,13 @@ public class MailService {
     emailSender.send(message);
   }
 
-  public void sendResetPasswordEmail(MailModel mailModel, User user) {
+  public void sendResetPasswordEmail(PasswordResetMail passwordResetMail) {
     try {
 
       MimeMessage message = emailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-      helper.setTo(mailModel.getTo());
+      helper.setTo(passwordResetMail.getMailModel().getTo());
       helper.setSubject("Reset Password Email Template");
 
       // Load the email template
@@ -50,12 +50,15 @@ public class MailService {
 
       // Prepare the model data
       Map<String, Object> model = new HashMap<>();
-      model.put("username", user.getUsername());
-      model.put("code", mailModel.getText());
+      model.put("username", passwordResetMail.getUsername());
+      model.put("code", passwordResetMail.getMailModel().getText());
 
       // Generate the email content using the template and the model
       String emailContent = FreeMarkerTemplateUtils.processTemplateIntoString(emailTemplate, model);
       helper.setText(emailContent, true);
+
+      ClassPathResource imageResource = new ClassPathResource("static/rezztoran_logo.png");
+      helper.addInline("image", imageResource);
 
       // Add inline image (if any)
       //    ClassPathResource imageResource = new ClassPathResource("path/to/image.png");

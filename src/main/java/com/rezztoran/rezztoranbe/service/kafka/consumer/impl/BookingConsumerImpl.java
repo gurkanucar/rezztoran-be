@@ -14,11 +14,9 @@ import org.springframework.stereotype.Service;
 public class BookingConsumerImpl implements BookingConsumer {
 
   private final MailService mailService;
-  private final BookService bookService;
 
-  public BookingConsumerImpl(MailService mailService, BookService bookService) {
+  public BookingConsumerImpl(MailService mailService) {
     this.mailService = mailService;
-    this.bookService = bookService;
   }
 
   @KafkaListener(

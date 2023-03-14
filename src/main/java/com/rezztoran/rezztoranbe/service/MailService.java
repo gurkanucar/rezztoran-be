@@ -1,7 +1,7 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.MailModel;
-import com.rezztoran.rezztoranbe.model.Booking;
 import com.rezztoran.rezztoranbe.model.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -73,7 +73,7 @@ public class MailService {
     }
   }
 
-  public void sendBookCreatedMail(MailModel mailModel, Booking booking) {
+  public void sendBookCreatedMail(MailModel mailModel, BookDTO booking) {
     try {
 
       MimeMessage message = emailSender.createMimeMessage();

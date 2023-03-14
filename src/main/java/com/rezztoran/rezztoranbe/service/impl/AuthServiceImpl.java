@@ -4,14 +4,15 @@ import com.rezztoran.rezztoranbe.dto.TokenDTO;
 import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.LoginModel;
 import com.rezztoran.rezztoranbe.dto.request.MailModel;
+import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.AuthService;
-import com.rezztoran.rezztoranbe.service.MailService;
 import com.rezztoran.rezztoranbe.service.TokenService;
+import com.rezztoran.rezztoranbe.service.kafka.producer.PasswordResetMailProducer;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -31,8 +32,8 @@ public class AuthServiceImpl implements AuthService {
   private final TokenService tokenService;
   private final ModelMapper modelMapper;
   private final ExceptionUtil exceptionUtil;
-  private final MailService mailService;
   private final PasswordEncoder passwordEncoder;
+  private final PasswordResetMailProducer passwordResetMailProducer;
 
   public TokenDTO tryLogin(LoginModel loginRequest) {
     try {
@@ -77,13 +78,20 @@ public class AuthServiceImpl implements AuthService {
     var code = generateRandomCode();
     user.setResetPasswordCode(code);
     userService.save(user);
-    mailService.sendResetPasswordEmail(
-        MailModel.builder()
-            .subject("Password Reset")
-            .text("Your code is: " + code.toString())
-            .to(email)
-            .build(),
-        user);
+
+    var passwordResetMail =
+        PasswordResetMail.builder()
+            .code(code)
+            .mailModel(
+                MailModel.builder()
+                    .subject("Password Reset")
+                    .text("Your code is: " + code.toString())
+                    .to(email)
+                    .build())
+            .username(user.getUsername())
+            .mail(email)
+            .build();
+    passwordResetMailProducer.sendPasswordResetMail(passwordResetMail);
   }
 
   public void resetPassword(PasswordResetModel passwordResetModel) {

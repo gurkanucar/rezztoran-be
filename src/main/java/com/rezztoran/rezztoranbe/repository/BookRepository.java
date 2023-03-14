@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface BookRepository extends JpaRepository<Booking, Long> {
 
   List<Booking> findAllByUser_IdAndReservationDate(Long id, LocalDate localDate);
+
   List<Booking> findAllByUser_Id(Long id);
 
   List<Booking> findAllByRestaurant_IdAndReservationDateAndBookingStatus(

@@ -40,6 +40,7 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     topics:
       book-created: book-created
+      password-reset: password-reset
 
 
 

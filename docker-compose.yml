@@ -83,12 +83,14 @@ services:
       - shared-net
 
   localstack:
+    hostname: localstack
     image: localstack/localstack
     ports:
       - "4566:4566"
     environment:
       - SERVICES=s3
-      - HOSTNAME_EXTERNAL=localhost
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      #- HOSTNAME_EXTERNAL=localstack
       - LEGACY_DIRECTORIES=1
     volumes:
       - "/var/lib/localstack:/tmp/localstack"

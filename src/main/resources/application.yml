@@ -10,7 +10,7 @@ server:
 spring:
   datasource:
     password: 1234
-    url: jdbc:mysql://localhost:3306/rezztoran?createDatabaseIfNotExist=true
+    url: jdbc:mysql://db:3306/rezztoran?createDatabaseIfNotExist=true
     username: root
   jpa:
     hibernate:
@@ -24,7 +24,7 @@ spring:
     resources:
       add-mappings: false
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: broker:29092
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -43,19 +43,19 @@ spring.servlet.multipart:
 
 aws:
   s3:
-    endpoint-url: http://localhost:4566
+    endpoint-url: http://localstack:4566
     bucket-name: uploads
 
 jwt-variables:
   EXPIRES_ACCESS_TOKEN_MINUTE: 200000
   ISSUER: rezztoran
   KEY: rezztoran
-#logging:
-#  level:
-#    org:
-#      hibernate: DEBUG
-#      springframework:
-#        web: DEBUG
+logging:
+  level:
+    org:
+      hibernate: DEBUG
+      springframework:
+        web: DEBUG
 mail:
   address: MAIL
   password: PASSWORD

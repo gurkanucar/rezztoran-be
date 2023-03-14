@@ -8,9 +8,6 @@ server:
       enabled: false
   port: 8082
 spring:
-  config:
-    activate:
-      on-profile: local_env
   datasource:
     password: 1234
     url: jdbc:mysql://localhost:3306/rezztoran?createDatabaseIfNotExist=true
@@ -30,11 +27,9 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      schedule-group-id: group
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     consumers:
       default-group-id: group
-      scheduler-group-id: scheduler
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

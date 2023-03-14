@@ -5,6 +5,8 @@ import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
+import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Booking;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.User;
@@ -31,12 +33,14 @@ public class BookServiceImpl implements BookService {
   private final BookRepository bookRepository;
   private final RestaurantService restaurantService;
   private final UserService userService;
-
+  private final ExceptionUtil exceptionUtil;
   private final BookingProducer bookingProducer;
 
   @Override
   public Booking getBookById(Long id) {
-    return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("book not found!"));
+    return bookRepository
+        .findById(id)
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
   }
 
   @Override
@@ -44,7 +48,7 @@ public class BookServiceImpl implements BookService {
     var user = userService.findUserByID(bookRequestModel.getUserId());
     var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
     if (!isAvailable(bookRequestModel, restaurant)) {
-      throw new RuntimeException("could not book!");
+      throw exceptionUtil.buildException(Ex.AVAILABLE_BOOK_NOT_FOUND_EXCEPTION);
     }
     var book =
         Booking.builder()
@@ -66,7 +70,9 @@ public class BookServiceImpl implements BookService {
     var availableTimes =
         getAvailableTimeSlotsMap(bookRequestModel.getReservationDate(), restaurant.getId());
     var result = availableTimes.get(bookRequestModel.getReservationTime());
-    return !Objects.isNull(result) && Boolean.FALSE.equals(result);
+    return !Objects.isNull(result)
+        && Boolean.FALSE.equals(result)
+        && restaurant.getBookingAvailable();
   }
 
   @Override
@@ -75,10 +81,10 @@ public class BookServiceImpl implements BookService {
     Booking existing =
         bookRepository
             .findById(bookRequestModel.getId())
-            .orElseThrow(() -> new RuntimeException("book not found!"));
+            .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
 
     if (!isSameDateTime(existing, bookRequestModel) && !isAvailable(bookRequestModel, restaurant)) {
-      throw new RuntimeException("could not book!");
+      throw exceptionUtil.buildException(Ex.COULD_NOT_BOOK_EXCEPTION);
     }
 
     existing.setBookingStatus(bookRequestModel.getBookingStatus());
@@ -100,8 +106,8 @@ public class BookServiceImpl implements BookService {
     Restaurant restaurant = restaurantService.getById(restaurantId);
 
     var busyDates = restaurant.getBusyDates();
-    if (busyDates.contains(date)) {
-      throw new RuntimeException("now available booking!");
+    if (busyDates.contains(date) || Boolean.TRUE.equals(!restaurant.getBookingAvailable())) {
+      throw exceptionUtil.buildException(Ex.AVAILABLE_BOOK_NOT_FOUND_EXCEPTION);
     }
 
     int interval = restaurant.getIntervalMinutes() != 0 ? restaurant.getIntervalMinutes() : 30;
@@ -133,7 +139,9 @@ public class BookServiceImpl implements BookService {
   @Override
   public void deleteBook(Long id) {
     Booking existing =
-        bookRepository.findById(id).orElseThrow(() -> new RuntimeException("book not found!"));
+        bookRepository
+            .findById(id)
+            .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
     existing.setBookingStatus(BookingStatus.CANCELLED);
     bookRepository.save(existing);
   }

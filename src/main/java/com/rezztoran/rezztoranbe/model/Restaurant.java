@@ -2,8 +2,8 @@ package com.rezztoran.rezztoranbe.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,5 +80,5 @@ public class Restaurant extends BaseEntity {
   @ElementCollection
   @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  private List<Date> busyDates;
+  private List<LocalDate> busyDates;
 }

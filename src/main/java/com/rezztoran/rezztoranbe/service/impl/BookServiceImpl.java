@@ -96,9 +96,14 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId) {
-    // List<LocalTime> availableSlots = new ArrayList<>();
     Map<LocalTime, Boolean> availableSlots = new TreeMap<>();
     Restaurant restaurant = restaurantService.getById(restaurantId);
+
+    var busyDates = restaurant.getBusyDates();
+    if (busyDates.contains(date)) {
+      throw new RuntimeException("now available booking!");
+    }
+
     int interval = restaurant.getIntervalMinutes() != 0 ? restaurant.getIntervalMinutes() : 30;
     var bookings =
         getBooksByDateAndRestaurantIdAndStatusIs(date, restaurantId, BookingStatus.PENDING);

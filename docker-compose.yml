@@ -82,6 +82,21 @@ services:
     networks:
       - shared-net
 
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - HOSTNAME_EXTERNAL=localhost
+      - LEGACY_DIRECTORIES=1
+    volumes:
+      - "/var/lib/localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    networks:
+      - shared-net
+
 volumes:
   db_data:
 

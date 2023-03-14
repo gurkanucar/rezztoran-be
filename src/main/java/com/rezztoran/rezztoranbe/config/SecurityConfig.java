@@ -39,6 +39,7 @@ public class SecurityConfig {
                 "/api/food/**",
                 "/api/category/**",
                 "/api/review",
+                "/api/file/download/**",
                 "/api/user/reset-request",
                 "/api/user/reset-password",
                 "/swagger-resources/**",

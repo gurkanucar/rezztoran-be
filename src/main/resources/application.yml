@@ -37,6 +37,14 @@ spring:
       book-created: book-created
       password-reset: password-reset
 
+spring.servlet.multipart:
+  max-file-size: 10MB
+  max-request-size: 10MB
+
+aws:
+  s3:
+    endpoint-url: http://localhost:4566
+    bucket-name: uploads
 
 jwt-variables:
   EXPIRES_ACCESS_TOKEN_MINUTE: 200000

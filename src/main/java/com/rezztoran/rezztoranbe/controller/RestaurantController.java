@@ -39,7 +39,7 @@ public class RestaurantController {
   private final ModelMapper mapper;
 
   @GetMapping
-  public Page<Restaurant> search(
+  public Page<RestaurantDTO> search(
       @RequestParam(required = false) String city,
       @RequestParam(required = false) String restaurantName,
       @RequestParam(required = false) String district,
@@ -47,14 +47,15 @@ public class RestaurantController {
       @RequestParam(defaultValue = "restaurantName") String sortBy,
       @PageableDefault(size = 20) Pageable pageable) {
     Specification<Restaurant> specification =
-        RestaurantSpecifications.searchAndSortByFields(city, restaurantName, district, sortBy,sortDirection);
+        RestaurantSpecifications.searchAndSortByFields(
+            city, restaurantName, district, sortBy, sortDirection);
     return restaurantService.getRestaurants(specification, pageable);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<RestaurantDTO> getById(@PathVariable Long id) {
-    var response = mapper.map(restaurantService.getById(id), RestaurantDTO.class);
-    Optional.ofNullable(response.getMenu()).ifPresent((x) -> x.setRestaurant(null));
+    var response = restaurantService.getByIdDto(id);
+    Optional.ofNullable(response.getMenu()).ifPresent(x -> x.setRestaurant(null));
     return ResponseEntity.ok(response);
   }
 

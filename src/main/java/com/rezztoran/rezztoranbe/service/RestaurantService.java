@@ -1,13 +1,19 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
+import com.rezztoran.rezztoranbe.model.BaseEntity;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
+import com.rezztoran.rezztoranbe.service.impl.AuthServiceImpl;
 import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,17 +21,51 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class RestaurantService {
 
   private final RestaurantRepository restaurantRepository;
   private final UserServiceImpl userService;
+  private final AuthServiceImpl authService;
+  private final FavoriteRestaurantService favoriteRestaurantService;
   private final ExceptionUtil exceptionUtil;
+  private final ModelMapper mapper;
 
-  public Page<Restaurant> getRestaurants(Specification specifications, Pageable pageRequest) {
+  public RestaurantService(
+      RestaurantRepository restaurantRepository,
+      UserServiceImpl userService,
+      AuthServiceImpl authService,
+      @Lazy FavoriteRestaurantService favoriteRestaurantService,
+      ExceptionUtil exceptionUtil,
+      ModelMapper mapper) {
+    this.restaurantRepository = restaurantRepository;
+    this.userService = userService;
+    this.authService = authService;
+    this.favoriteRestaurantService = favoriteRestaurantService;
+    this.exceptionUtil = exceptionUtil;
+    this.mapper = mapper;
+  }
+
+  public Page<RestaurantDTO> getRestaurants(Specification specifications, Pageable pageRequest) {
+    var user = authService.getAuthenticatedUser();
+
     Pageable pageable = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize());
-    Page<Restaurant> restaurantPage = restaurantRepository.findAll(specifications, pageable);
+    Page<RestaurantDTO> restaurantPage =
+        restaurantRepository
+            .findAll(specifications, pageable)
+            .map(x -> mapper.map(x, RestaurantDTO.class));
     restaurantPage.getContent().forEach(x -> x.setMenu(null));
+
+    if (user.isEmpty()) {
+      return restaurantPage;
+    }
+    Set<Long> favoriteRestaurantIds =
+        favoriteRestaurantService.getFavoriteRestaurantsByUser(user.get().getId()).stream()
+            .map(BaseEntity::getId)
+            .collect(Collectors.toSet());
+
+    restaurantPage
+        .getContent()
+        .forEach(x -> x.setIsFavorite(favoriteRestaurantIds.contains(x.getId())));
     return restaurantPage;
   }
 
@@ -90,6 +130,29 @@ public class RestaurantService {
     return restaurantRepository
         .findById(id)
         .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
+  }
+
+  public RestaurantDTO getByIdDto(Long id) {
+    var user = authService.getAuthenticatedUser();
+    if (user.isEmpty()) {
+      var restaurant =
+          restaurantRepository
+              .findById(id)
+              .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
+      return mapper.map(restaurant, RestaurantDTO.class);
+    }
+    var favoriteRestaurant =
+        favoriteRestaurantService.getFavoriteRestaurantByUserAndRestaurantId(
+            user.get().getId(), id);
+    var restaurant =
+        restaurantRepository
+            .findById(id)
+            .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
+    var restaurantDto = mapper.map(restaurant, RestaurantDTO.class);
+
+    restaurantDto.setIsFavorite(favoriteRestaurant.isPresent());
+
+    return restaurantDto;
   }
 
   public void delete(Long id) {

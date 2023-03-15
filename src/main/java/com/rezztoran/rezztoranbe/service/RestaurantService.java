@@ -6,6 +6,7 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,7 @@ public class RestaurantService {
     return getRestaurants();
   }
 
+  @Transactional
   public Restaurant update(Restaurant restaurant) {
     var existing = getById(restaurant.getId());
     existing.setCity(restaurant.getCity());

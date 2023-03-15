@@ -3,8 +3,8 @@ package com.rezztoran.rezztoranbe.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.model.Review;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -44,5 +44,5 @@ public class RestaurantDTO {
   private Integer intervalMinutes;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-  private List<Date> busyDates;
+  private List<LocalDate> busyDates;
 }

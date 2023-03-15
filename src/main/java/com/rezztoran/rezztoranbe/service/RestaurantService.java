@@ -8,6 +8,10 @@ import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,10 +22,11 @@ public class RestaurantService {
   private final UserServiceImpl userService;
   private final ExceptionUtil exceptionUtil;
 
-  public List<Restaurant> getRestaurants() {
-    var restaurants = restaurantRepository.findAll();
-    restaurants.forEach(x -> x.setMenu(null));
-    return restaurants;
+  public Page<Restaurant> getRestaurants(Specification specifications, Pageable pageRequest) {
+    Pageable pageable = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize());
+    Page<Restaurant> restaurantPage = restaurantRepository.findAll(specifications, pageable);
+    restaurantPage.getContent().forEach(x -> x.setMenu(null));
+    return restaurantPage;
   }
 
   public Restaurant create(Restaurant restaurant) {
@@ -31,14 +36,13 @@ public class RestaurantService {
     return restaurantRepository.save(restaurant);
   }
 
-  public List<Restaurant> create(List<Restaurant> restaurants) {
+  public void create(List<Restaurant> restaurants) {
     restaurants.forEach(
         x -> {
           if (!doesRestaurantExistByName(x)) {
             create(x);
           }
         });
-    return getRestaurants();
   }
 
   @Transactional

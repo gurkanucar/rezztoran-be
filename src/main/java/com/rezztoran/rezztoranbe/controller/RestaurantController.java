@@ -5,12 +5,17 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
+import com.rezztoran.rezztoranbe.service.spesifications.RestaurantSpecifications;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/restaurant")
 @RequiredArgsConstructor
+@Slf4j
 public class RestaurantController {
 
   private final RestaurantService restaurantService;
@@ -33,11 +39,16 @@ public class RestaurantController {
   private final ModelMapper mapper;
 
   @GetMapping
-  public ResponseEntity<List<RestaurantDTO>> getAll() {
-    return ResponseEntity.ok(
-        restaurantService.getRestaurants().stream()
-            .map(x -> mapper.map(x, RestaurantDTO.class))
-            .collect(Collectors.toList()));
+  public Page<Restaurant> search(
+      @RequestParam(required = false) String city,
+      @RequestParam(required = false) String restaurantName,
+      @RequestParam(required = false) String district,
+      @RequestParam(required = false, defaultValue = "desc") String sortDirection,
+      @RequestParam(defaultValue = "restaurantName") String sortBy,
+      @PageableDefault(size = 20) Pageable pageable) {
+    Specification<Restaurant> specification =
+        RestaurantSpecifications.searchAndSortByFields(city, restaurantName, district, sortBy,sortDirection);
+    return restaurantService.getRestaurants(specification, pageable);
   }
 
   @GetMapping("/{id}")
@@ -55,10 +66,7 @@ public class RestaurantController {
 
   @PostMapping("/insert-list")
   public ResponseEntity<List<RestaurantDTO>> create(@RequestBody List<Restaurant> restaurants) {
-    return ResponseEntity.ok(
-        restaurantService.create(restaurants).stream()
-            .map(x -> mapper.map(x, RestaurantDTO.class))
-            .collect(Collectors.toList()));
+    return ResponseEntity.ok().build();
   }
 
   @PutMapping

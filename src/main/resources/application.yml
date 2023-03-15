@@ -9,9 +9,9 @@ server:
   port: 8082
 spring:
   datasource:
-    password: 1234
-    url: jdbc:mysql://db:3306/rezztoran?createDatabaseIfNotExist=true
-    username: root
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
   jpa:
     hibernate:
       ddl-auto: update
@@ -24,7 +24,7 @@ spring:
     resources:
       add-mappings: false
   kafka:
-    bootstrap-servers: broker:29092
+    bootstrap-servers: ${BOOTSTRAP_SERVERS}
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -43,7 +43,7 @@ spring.servlet.multipart:
 
 aws:
   s3:
-    endpoint-url: http://localstack:4566
+    endpoint-url: ${LOCALSTACK_URL}
     bucket-name: uploads
 
 jwt-variables:
@@ -57,8 +57,8 @@ logging:
       springframework:
         web: DEBUG
 mail:
-  address: MAIL
-  password: PASSWORD
+  address: ${MAIL_ADDRESS}
+  password: ${MAIL_PASSWORD}
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

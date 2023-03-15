@@ -24,6 +24,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Auth service.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -116,7 +119,12 @@ public class AuthServiceImpl implements AuthService {
     userService.save(user);
   }
 
-  public Integer generateRandomCode() {
+  /**
+   * Generate random code integer.
+   *
+   * @return the integer
+   */
+public Integer generateRandomCode() {
     int max = 99999;
     int min = 10000;
     Random r = new Random();

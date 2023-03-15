@@ -12,7 +12,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/** The type Restaurant controller. */
 @RestController
 @RequestMapping("/api/restaurant")
 @RequiredArgsConstructor
@@ -38,8 +38,19 @@ public class RestaurantController {
   private final BookService bookService;
   private final ModelMapper mapper;
 
+  /**
+   * Search response entity.
+   *
+   * @param city the city
+   * @param restaurantName the restaurant name
+   * @param district the district
+   * @param sortDirection the sort direction
+   * @param sortBy the sort by
+   * @param pageable the pageable
+   * @return the response entity
+   */
   @GetMapping
-  public Page<RestaurantDTO> search(
+  public ResponseEntity<ApiResponse<Object>> search(
       @RequestParam(required = false) String city,
       @RequestParam(required = false) String restaurantName,
       @RequestParam(required = false) String district,
@@ -49,52 +60,106 @@ public class RestaurantController {
     Specification<Restaurant> specification =
         RestaurantSpecifications.searchAndSortByFields(
             city, restaurantName, district, sortBy, sortDirection);
-    return restaurantService.getRestaurants(specification, pageable);
+    var response = restaurantService.getRestaurants(specification, pageable);
+    return ApiResponse.builder().pageableData(response).build();
   }
 
+  /**
+   * Gets by id.
+   *
+   * @param id the id
+   * @return the by id
+   */
   @GetMapping("/{id}")
-  public ResponseEntity<RestaurantDTO> getById(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> getById(@PathVariable Long id) {
     var response = restaurantService.getByIdDto(id);
     Optional.ofNullable(response.getMenu()).ifPresent(x -> x.setRestaurant(null));
-    return ResponseEntity.ok(response);
+    return ApiResponse.builder().data(response).build();
   }
 
+  /**
+   * Create response entity.
+   *
+   * @param restaurant the restaurant
+   * @return the response entity
+   */
   @PostMapping
-  public ResponseEntity<RestaurantDTO> create(@RequestBody Restaurant restaurant) {
+  public ResponseEntity<ApiResponse<Object>> create(@RequestBody Restaurant restaurant) {
     var response = mapper.map(restaurantService.create(restaurant), RestaurantDTO.class);
-    return ResponseEntity.ok(response);
+
+    return ApiResponse.builder().data(response).build();
   }
 
+  /**
+   * Create response entity.
+   *
+   * @param restaurants the restaurants
+   * @return the response entity
+   */
   @PostMapping("/insert-list")
-  public ResponseEntity<List<RestaurantDTO>> create(@RequestBody List<Restaurant> restaurants) {
-    return ResponseEntity.ok().build();
+  public ResponseEntity<ApiResponse<Object>> create(@RequestBody List<Restaurant> restaurants) {
+    restaurantService.create(restaurants);
+    return ApiResponse.builder().build();
   }
 
+  /**
+   * Update response entity.
+   *
+   * @param restaurant the restaurant
+   * @return the response entity
+   */
   @PutMapping
-  public ResponseEntity<RestaurantDTO> update(@RequestBody Restaurant restaurant) {
+  public ResponseEntity<ApiResponse<Object>> update(@RequestBody Restaurant restaurant) {
     var response = mapper.map(restaurantService.update(restaurant), RestaurantDTO.class);
-    return ResponseEntity.ok(response);
+    return ApiResponse.builder().data(response).build();
   }
 
+  /**
+   * Update owner response entity.
+   *
+   * @param restaurant the restaurant
+   * @return the response entity
+   */
   @PutMapping("/update-owner")
-  public ResponseEntity<RestaurantDTO> updateOwner(@RequestBody Restaurant restaurant) {
+  public ResponseEntity<ApiResponse<Object>> updateOwner(@RequestBody Restaurant restaurant) {
     var response = mapper.map(restaurantService.updateOwner(restaurant), RestaurantDTO.class);
-    return ResponseEntity.ok(response);
+    return ApiResponse.builder().data(response).build();
   }
 
+  /**
+   * Delete response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> delete(@PathVariable Long id) {
     restaurantService.delete(id);
-    return ResponseEntity.ok().build();
+    return ApiResponse.builder().build();
   }
 
+  /**
+   * Gets books by restaurant id and date.
+   *
+   * @param id the id
+   * @param localDate the local date
+   * @return the books by restaurant id and date
+   */
   @GetMapping("/{id}/book")
   public ResponseEntity<ApiResponse<Object>> getBooksByRestaurantIdAndDate(
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    return ResponseEntity.ok().build();
+    var response = bookService.getBooks(localDate, id);
+    return ApiResponse.builder().data(response).build();
   }
 
+  /**
+   * Gets tables by restaurant id and date.
+   *
+   * @param id the id
+   * @param localDate the local date
+   * @return the tables by restaurant id and date
+   */
   @GetMapping("/{id}/book/slots")
   public ResponseEntity<ApiResponse<Object>> getTablesByRestaurantIdAndDate(
       @PathVariable Long id,

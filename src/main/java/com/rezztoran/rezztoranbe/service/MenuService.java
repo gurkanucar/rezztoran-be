@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Menu service.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -18,26 +21,49 @@ public class MenuService {
   private final RestaurantService restaurantService;
   private final ExceptionUtil exceptionUtil;
 
-  public Menu create(Menu menu) {
+  /**
+   * Create menu.
+   *
+   * @param menu the menu
+   * @return the menu
+   */
+public Menu create(Menu menu) {
     var restaurant = restaurantService.getById(menu.getRestaurant().getId());
     menu.setRestaurant(restaurant);
     menu.setMenuCode(UUID.randomUUID().toString());
     return menuRepository.save(menu);
   }
 
-  public Menu update(Menu menu) {
+  /**
+   * Update menu.
+   *
+   * @param menu the menu
+   * @return the menu
+   */
+public Menu update(Menu menu) {
     var restaurant = restaurantService.getById(menu.getRestaurant().getId());
     var existing = getMenuById(menu.getId());
     existing.setRestaurant(restaurant);
     return menuRepository.save(existing);
   }
 
-  public void delete(Long id) {
+  /**
+   * Delete.
+   *
+   * @param id the id
+   */
+public void delete(Long id) {
     var existing = getMenuById(id);
     menuRepository.delete(existing);
   }
 
-  public Menu getMenuById(Long id) {
+  /**
+   * Gets menu by id.
+   *
+   * @param id the id
+   * @return the menu by id
+   */
+public Menu getMenuById(Long id) {
     var menu =
         menuRepository
             .findById(id)

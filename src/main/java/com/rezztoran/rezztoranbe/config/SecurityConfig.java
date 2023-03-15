@@ -18,6 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * The type Security config.
+ */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -27,7 +30,12 @@ public class SecurityConfig {
   private final JwtAuthenticationEntryPoint authenticationEntryPoint;
   private final JWTAccessDeniedHandler accessDeniedHandler;
 
-  @Bean
+  /**
+   * Web security customizer web security customizer.
+   *
+   * @return the web security customizer
+   */
+@Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) ->
         web.ignoring()
@@ -49,7 +57,14 @@ public class SecurityConfig {
                 "/v3/api-docs/**");
   }
 
-  @Bean
+  /**
+   * Filter chain security filter chain.
+   *
+   * @param http the http
+   * @return the security filter chain
+   * @throws Exception the exception
+   */
+@Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.headers()
         .frameOptions()
@@ -78,13 +93,25 @@ public class SecurityConfig {
         .build();
   }
 
-  @Bean
+  /**
+   * Authentication manager authentication manager.
+   *
+   * @param authenticationConfiguration the authentication configuration
+   * @return the authentication manager
+   * @throws Exception the exception
+   */
+@Bean
   public AuthenticationManager authenticationManager(
       final AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  @Bean
+  /**
+   * Cors configurer web mvc configurer.
+   *
+   * @return the web mvc configurer
+   */
+@Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
       @Override

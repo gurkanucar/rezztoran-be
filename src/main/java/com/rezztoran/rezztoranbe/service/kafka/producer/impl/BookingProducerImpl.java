@@ -8,15 +8,27 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Booking producer.
+ */
 @Service
 @Slf4j
 public class BookingProducerImpl implements BookingProducer {
   @Qualifier("BookingKafkaProducerFactory")
   private final KafkaTemplate<String, BookDTO> kafkaTemplate;
-  @Value("${spring.kafka.topics.book-created}")
+
+  /**
+   * The Topic name.
+   */
+@Value("${spring.kafka.topics.book-created}")
   String topicName;
 
-  public BookingProducerImpl(KafkaTemplate<String, BookDTO> kafkaTemplate) {
+  /**
+   * Instantiates a new Booking producer.
+   *
+   * @param kafkaTemplate the kafka template
+   */
+public BookingProducerImpl(KafkaTemplate<String, BookDTO> kafkaTemplate) {
     this.kafkaTemplate = kafkaTemplate;
   }
 

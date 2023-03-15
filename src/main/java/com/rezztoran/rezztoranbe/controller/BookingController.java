@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Booking controller.
+ */
 @RestController
 @RequestMapping("/api/book")
 @RequiredArgsConstructor
@@ -26,7 +29,14 @@ public class BookingController {
 
   private final BookService bookService;
 
-  @GetMapping("/user/{id}")
+  /**
+   * Gets books by user id.
+   *
+   * @param id the id
+   * @param localDate the local date
+   * @return the books by user id
+   */
+@GetMapping("/user/{id}")
   public ResponseEntity<ApiResponse<Object>> getBooksByUserId(
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
@@ -39,19 +49,37 @@ public class BookingController {
     return ApiResponse.builder().data(response).build();
   }
 
-  @PostMapping
+  /**
+   * Create booking response entity.
+   *
+   * @param bookRequestModel the book request model
+   * @return the response entity
+   */
+@PostMapping
   public ResponseEntity<ApiResponse<Object>> createBooking(
       @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.createBook(bookRequestModel)).build();
   }
 
-  @PutMapping
+  /**
+   * Update booking response entity.
+   *
+   * @param bookRequestModel the book request model
+   * @return the response entity
+   */
+@PutMapping
   public ResponseEntity<ApiResponse<Object>> updateBooking(
       @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.updateBook(bookRequestModel)).build();
   }
 
-  @DeleteMapping("/{id}")
+  /**
+   * Delete booking response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
+@DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> deleteBooking(@PathVariable Long id) {
     bookService.deleteBook(id);
     return ApiResponse.builder().build();

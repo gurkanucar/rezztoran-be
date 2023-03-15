@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+/**
+ * The type Global base exception handler.
+ */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -27,19 +30,39 @@ public class GlobalBaseExceptionHandler extends BaseExceptionHandler {
 
   private final ExceptionUtil exceptionUtil;
 
-  @ExceptionHandler(BusinessException.class)
+  /**
+   * General exception response entity.
+   *
+   * @param exception the exception
+   * @return the response entity
+   */
+@ExceptionHandler(BusinessException.class)
   @Order(Ordered.HIGHEST_PRECEDENCE)
   public ResponseEntity<ApiResponse<Object>> generalException(BusinessException exception) {
     return buildErrorResponse(exception.getMessage(), exception.getStatus());
   }
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
+  /**
+   * Handle method argument not valid ex response entity.
+   *
+   * @param ex the ex
+   * @param request the request
+   * @return the response entity
+   */
+@ExceptionHandler(MethodArgumentNotValidException.class)
   public final ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidEx(
       MethodArgumentNotValidException ex, WebRequest request) {
     return getMapResponseEntity(ex);
   }
 
-  @ExceptionHandler(ConstraintViolationException.class)
+  /**
+   * Handle constraint violation ex response entity.
+   *
+   * @param ex the ex
+   * @param request the request
+   * @return the response entity
+   */
+@ExceptionHandler(ConstraintViolationException.class)
   public final ResponseEntity<ApiResponse<Object>> handleConstraintViolationEx(
       MethodArgumentNotValidException ex, WebRequest request) {
     return getMapResponseEntity(ex);
@@ -59,25 +82,52 @@ public class GlobalBaseExceptionHandler extends BaseExceptionHandler {
     return buildErrorResponse(errors, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(ClientRequestException.class)
+  /**
+   * General exception response entity.
+   *
+   * @param exception the exception
+   * @return the response entity
+   */
+@ExceptionHandler(ClientRequestException.class)
   public ResponseEntity<ApiResponse<Object>> generalException(ClientRequestException exception) {
     return buildErrorResponse(exception.getMessage(), exception.getStatus());
   }
 
-  @ExceptionHandler(AccessDeniedException.class)
+  /**
+   * Handle access denied exception response entity.
+   *
+   * @param ex the ex
+   * @param request the request
+   * @return the response entity
+   */
+@ExceptionHandler(AccessDeniedException.class)
   public final ResponseEntity<ApiResponse<Object>> handleAccessDeniedException(
       AccessDeniedException ex, WebRequest request) {
     // return buildErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN);
     throw exceptionUtil.buildException(Ex.ACCESS_DENIED_EXCEPTION);
   }
 
-  @ExceptionHandler(Exception.class)
+  /**
+   * Handle all exception response entity.
+   *
+   * @param ex the ex
+   * @param request the request
+   * @return the response entity
+   */
+@ExceptionHandler(Exception.class)
   public final ResponseEntity<ApiResponse<Object>> handleAllException(
       Exception ex, WebRequest request) {
     return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(HttpMessageNotReadableException.class)
+  /**
+   * Handle http message not readable exception response entity.
+   *
+   * @param ex the ex
+   * @param request the request
+   * @return the response entity
+   */
+@ExceptionHandler(HttpMessageNotReadableException.class)
   public final ResponseEntity<ApiResponse<Object>> handleHttpMessageNotReadableException(
       Exception ex, WebRequest request) {
     return buildErrorResponse("Required request body is missing", HttpStatus.BAD_REQUEST);

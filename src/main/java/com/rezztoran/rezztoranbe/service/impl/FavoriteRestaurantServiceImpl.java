@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Favorite restaurant service.
+ */
 @Service
 @Slf4j
 public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService {
@@ -21,7 +24,14 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   private final UserService userService;
   private final RestaurantService restaurantService;
 
-  public FavoriteRestaurantServiceImpl(
+  /**
+   * Instantiates a new Favorite restaurant service.
+   *
+   * @param favoriteRestaurantRepository the favorite restaurant repository
+   * @param userService the user service
+   * @param restaurantService the restaurant service
+   */
+public FavoriteRestaurantServiceImpl(
       FavoriteRestaurantRepository favoriteRestaurantRepository,
       UserService userService,
       RestaurantService restaurantService) {

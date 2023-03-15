@@ -22,6 +22,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * The type Restaurant.
+ */
 @SuperBuilder
 @Entity
 @AllArgsConstructor

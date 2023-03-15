@@ -2,20 +2,27 @@ package com.rezztoran.rezztoranbe.service.kafka.consumer.impl;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.MailModel;
-import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.MailService;
 import com.rezztoran.rezztoranbe.service.kafka.consumer.BookingConsumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Booking consumer.
+ */
 @Service
 @Slf4j
 public class BookingConsumerImpl implements BookingConsumer {
 
   private final MailService mailService;
 
-  public BookingConsumerImpl(MailService mailService) {
+  /**
+   * Instantiates a new Booking consumer.
+   *
+   * @param mailService the mail service
+   */
+public BookingConsumerImpl(MailService mailService) {
     this.mailService = mailService;
   }
 

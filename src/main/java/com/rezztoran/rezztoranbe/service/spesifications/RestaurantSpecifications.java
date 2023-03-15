@@ -7,13 +7,32 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
+/**
+ * The type Restaurant specifications.
+ */
 public class RestaurantSpecifications {
-  public static Specification<Restaurant> search(String value) {
+  /**
+   * Search specification.
+   *
+   * @param value the value
+   * @return the specification
+   */
+public static Specification<Restaurant> search(String value) {
     return (root, query, criteriaBuilder) ->
         criteriaBuilder.like(root.get("title"), "%" + value + "%");
   }
 
-  public static Specification<Restaurant> searchAndSortByFields(
+  /**
+   * Search and sort by fields specification.
+   *
+   * @param city the city
+   * @param restaurantName the restaurant name
+   * @param district the district
+   * @param sortBy the sort by
+   * @param sortDirection the sort direction
+   * @return the specification
+   */
+public static Specification<Restaurant> searchAndSortByFields(
       String city, String restaurantName, String district, String sortBy, String sortDirection) {
     return (root, query, builder) -> {
       if (sortBy != null) {

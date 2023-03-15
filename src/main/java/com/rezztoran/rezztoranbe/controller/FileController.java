@@ -16,29 +16,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * The type File controller.
+ */
 @RestController
 @RequestMapping("/api/file")
 public class FileController {
 
   private final StorageService storageService;
 
-  public FileController(StorageService storageService) {
+  /**
+   * Instantiates a new File controller.
+   *
+   * @param storageService the storage service
+   */
+public FileController(StorageService storageService) {
     this.storageService = storageService;
   }
 
-  @PostMapping(value = "/upload", produces = "application/json")
+  /**
+   * Upload response entity.
+   *
+   * @param file the file
+   * @return the response entity
+   */
+@PostMapping(value = "/upload", produces = "application/json")
   public ResponseEntity<ApiResponse<Object>> upload(@RequestParam("file") MultipartFile file) {
     String key = storageService.upload(file);
     return ApiResponse.builder().data(key).build();
   }
 
-  @GetMapping("/download/{id}")
+  /**
+   * Download response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
+@GetMapping("/download/{id}")
   public ResponseEntity<Resource> download(@PathVariable String id) {
     StoredFile storedFile = storageService.download(id);
     return ResponseEntity.ok()
-        .header(
-            HttpHeaders.CONTENT_DISPOSITION,
-            "attachment; filename=" + storedFile.getFileName())
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + storedFile.getFileName())
         .contentLength(storedFile.getContentLength())
         .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .body(new InputStreamResource(storedFile.getInputStream()));

@@ -12,31 +12,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Favorite restaurant controller.
+ */
 @RestController
 @RequestMapping("/api/favorite")
 public class FavoriteRestaurantController {
 
   private final FavoriteRestaurantService favoriteRestaurantService;
 
-  public FavoriteRestaurantController(FavoriteRestaurantService favoriteRestaurantService) {
+  /**
+   * Instantiates a new Favorite restaurant controller.
+   *
+   * @param favoriteRestaurantService the favorite restaurant service
+   */
+public FavoriteRestaurantController(FavoriteRestaurantService favoriteRestaurantService) {
     this.favoriteRestaurantService = favoriteRestaurantService;
   }
 
-  @PostMapping
+  /**
+   * Add favorite restaurant response entity.
+   *
+   * @param requestModel the request model
+   * @return the response entity
+   */
+@PostMapping
   ResponseEntity<ApiResponse<Object>> addFavoriteRestaurant(
       @RequestBody FavoriteRestaurantRequestModel requestModel) {
     favoriteRestaurantService.addToFavorite(requestModel);
     return ApiResponse.builder().build();
   }
 
-  @DeleteMapping
+  /**
+   * Remove favorite restaurant response entity.
+   *
+   * @param requestModel the request model
+   * @return the response entity
+   */
+@DeleteMapping
   ResponseEntity<ApiResponse<Object>> removeFavoriteRestaurant(
       @RequestBody FavoriteRestaurantRequestModel requestModel) {
     favoriteRestaurantService.removeFromFavorite(requestModel);
     return ApiResponse.builder().build();
   }
 
-  @GetMapping("/user/{id}")
+  /**
+   * Gets favorite restaurants by user.
+   *
+   * @param id the id
+   * @return the favorite restaurants by user
+   */
+@GetMapping("/user/{id}")
   ResponseEntity<ApiResponse<Object>> getFavoriteRestaurantsByUser(@PathVariable Long id) {
     return ApiResponse.builder()
         .data(favoriteRestaurantService.getFavoriteRestaurantsByUser(id))

@@ -25,6 +25,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Book service.
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -156,22 +159,52 @@ public class BookServiceImpl implements BookService {
     return bookRepository.findAllByUser_IdAndReservationDate(id, date);
   }
 
-  public boolean isBeforeOrEquals(LocalTime dateTime1, LocalTime dateTime2) {
+  /**
+   * Is before or equals boolean.
+   *
+   * @param dateTime1 the date time 1
+   * @param dateTime2 the date time 2
+   * @return the boolean
+   */
+public boolean isBeforeOrEquals(LocalTime dateTime1, LocalTime dateTime2) {
     return !dateTime1.isAfter(dateTime2);
   }
 
-  public boolean isSameDateTime(Booking existing, BookRequestModel bookRequestModel) {
+  /**
+   * Is same date time boolean.
+   *
+   * @param existing the existing
+   * @param bookRequestModel the book request model
+   * @return the boolean
+   */
+public boolean isSameDateTime(Booking existing, BookRequestModel bookRequestModel) {
     return existing.getReservationDate().equals(bookRequestModel.getReservationDate())
         && existing.getReservationTime().equals(bookRequestModel.getReservationTime());
   }
 
-  public List<Booking> getBooksByDateAndRestaurantIdAndStatusIs(
+  /**
+   * Gets books by date and restaurant id and status is.
+   *
+   * @param bookingDate the booking date
+   * @param restaurantId the restaurant id
+   * @param bookingStatus the booking status
+   * @return the books by date and restaurant id and status is
+   */
+public List<Booking> getBooksByDateAndRestaurantIdAndStatusIs(
       LocalDate bookingDate, Long restaurantId, BookingStatus bookingStatus) {
     return bookRepository.findAllByRestaurant_IdAndReservationDateAndBookingStatus(
         restaurantId, bookingDate, bookingStatus);
   }
 
-  public List<Booking> getBooksByDateAndRestaurantIdAndStatusIsNot(
+  /**
+   * Gets books by date and restaurant id and status is not.
+   *
+   * @param bookingDate the booking date
+   * @param restaurantId the restaurant id
+   * @param bookingStatus the booking status
+   * @return the books by date and restaurant id and status is not
+   */
+public List<Booking> getBooksByDateAndRestaurantIdAndStatusIsNot(
       LocalDate bookingDate, Long restaurantId, BookingStatus bookingStatus) {
     return bookRepository.findAllByRestaurant_IdAndReservationDateAndBookingStatusNot(
         restaurantId, bookingDate, bookingStatus);

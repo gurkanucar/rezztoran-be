@@ -13,13 +13,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * The type Storage service.
+ */
 @Service
 public class StorageServiceImpl implements StorageService {
 
   private final AmazonS3 amazonS3;
   private final String bucketName;
 
-  public StorageServiceImpl(AmazonS3 amazonS3, @Value("${aws.s3.bucket-name}") String bucketName) {
+  /**
+   * Instantiates a new Storage service.
+   *
+   * @param amazonS3 the amazon s 3
+   * @param bucketName the bucket name
+   */
+public StorageServiceImpl(AmazonS3 amazonS3, @Value("${aws.s3.bucket-name}") String bucketName) {
     this.amazonS3 = amazonS3;
     this.bucketName = bucketName;
 

@@ -36,9 +36,7 @@ public class FileController {
   public ResponseEntity<Resource> download(@PathVariable String id) {
     StoredFile storedFile = storageService.download(id);
     return ResponseEntity.ok()
-        .header(
-            HttpHeaders.CONTENT_DISPOSITION,
-            "attachment; filename=" + storedFile.getFileName())
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + storedFile.getFileName())
         .contentLength(storedFile.getContentLength())
         .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .body(new InputStreamResource(storedFile.getInputStream()));

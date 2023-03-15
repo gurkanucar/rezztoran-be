@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class BookingProducerImpl implements BookingProducer {
   @Qualifier("BookingKafkaProducerFactory")
   private final KafkaTemplate<String, BookDTO> kafkaTemplate;
+
   @Value("${spring.kafka.topics.book-created}")
   String topicName;
 

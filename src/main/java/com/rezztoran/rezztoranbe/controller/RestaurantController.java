@@ -12,7 +12,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
@@ -39,7 +38,7 @@ public class RestaurantController {
   private final ModelMapper mapper;
 
   @GetMapping
-  public Page<RestaurantDTO> search(
+  public ResponseEntity<ApiResponse<Object>> search(
       @RequestParam(required = false) String city,
       @RequestParam(required = false) String restaurantName,
       @RequestParam(required = false) String district,
@@ -49,50 +48,54 @@ public class RestaurantController {
     Specification<Restaurant> specification =
         RestaurantSpecifications.searchAndSortByFields(
             city, restaurantName, district, sortBy, sortDirection);
-    return restaurantService.getRestaurants(specification, pageable);
+    var response = restaurantService.getRestaurants(specification, pageable);
+    return ApiResponse.builder().pageableData(response).build();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<RestaurantDTO> getById(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> getById(@PathVariable Long id) {
     var response = restaurantService.getByIdDto(id);
     Optional.ofNullable(response.getMenu()).ifPresent(x -> x.setRestaurant(null));
-    return ResponseEntity.ok(response);
+    return ApiResponse.builder().data(response).build();
   }
 
   @PostMapping
-  public ResponseEntity<RestaurantDTO> create(@RequestBody Restaurant restaurant) {
+  public ResponseEntity<ApiResponse<Object>> create(@RequestBody Restaurant restaurant) {
     var response = mapper.map(restaurantService.create(restaurant), RestaurantDTO.class);
-    return ResponseEntity.ok(response);
+
+    return ApiResponse.builder().data(response).build();
   }
 
   @PostMapping("/insert-list")
-  public ResponseEntity<List<RestaurantDTO>> create(@RequestBody List<Restaurant> restaurants) {
-    return ResponseEntity.ok().build();
+  public ResponseEntity<ApiResponse<Object>> create(@RequestBody List<Restaurant> restaurants) {
+    restaurantService.create(restaurants);
+    return ApiResponse.builder().build();
   }
 
   @PutMapping
-  public ResponseEntity<RestaurantDTO> update(@RequestBody Restaurant restaurant) {
+  public ResponseEntity<ApiResponse<Object>> update(@RequestBody Restaurant restaurant) {
     var response = mapper.map(restaurantService.update(restaurant), RestaurantDTO.class);
-    return ResponseEntity.ok(response);
+    return ApiResponse.builder().data(response).build();
   }
 
   @PutMapping("/update-owner")
-  public ResponseEntity<RestaurantDTO> updateOwner(@RequestBody Restaurant restaurant) {
+  public ResponseEntity<ApiResponse<Object>> updateOwner(@RequestBody Restaurant restaurant) {
     var response = mapper.map(restaurantService.updateOwner(restaurant), RestaurantDTO.class);
-    return ResponseEntity.ok(response);
+    return ApiResponse.builder().data(response).build();
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> delete(@PathVariable Long id) {
     restaurantService.delete(id);
-    return ResponseEntity.ok().build();
+    return ApiResponse.builder().build();
   }
 
   @GetMapping("/{id}/book")
   public ResponseEntity<ApiResponse<Object>> getBooksByRestaurantIdAndDate(
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    return ResponseEntity.ok().build();
+    var response = bookService.getBooks(localDate, id);
+    return ApiResponse.builder().data(response).build();
   }
 
   @GetMapping("/{id}/book/slots")

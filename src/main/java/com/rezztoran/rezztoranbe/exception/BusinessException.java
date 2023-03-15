@@ -21,7 +21,8 @@ public class BusinessException extends RuntimeException {
     FORBIDDEN_EXCEPTION("messages.error.forbidden_exception", HttpStatus.FORBIDDEN),
     COULD_NOT_BOOK_EXCEPTION("messages.error.could_not_book_exception", HttpStatus.BAD_REQUEST),
     BOOK_NOT_FOUND_EXCEPTION("messages.error.book_not_found_exception", HttpStatus.NOT_FOUND),
-    AVAILABLE_BOOK_NOT_FOUND_EXCEPTION("messages.error.available_book_not_found_exception", HttpStatus.NOT_FOUND),
+    AVAILABLE_BOOK_NOT_FOUND_EXCEPTION(
+        "messages.error.available_book_not_found_exception", HttpStatus.NOT_FOUND),
     FOOD_NOT_FOUND_EXCEPTION("messages.error.food_not_found_exception", HttpStatus.NOT_FOUND),
     USER_ALREADY_OWNER_OF_A_RESTAURANT_EXCEPTION(
         "messages.error.user_already_owner_of_a_restaurant_exception", HttpStatus.BAD_REQUEST),

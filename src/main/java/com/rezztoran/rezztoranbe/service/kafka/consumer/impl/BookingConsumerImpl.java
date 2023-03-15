@@ -2,7 +2,6 @@ package com.rezztoran.rezztoranbe.service.kafka.consumer.impl;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.MailModel;
-import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.MailService;
 import com.rezztoran.rezztoranbe.service.kafka.consumer.BookingConsumer;
 import lombok.extern.slf4j.Slf4j;

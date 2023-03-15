@@ -2,8 +2,8 @@ package com.rezztoran.rezztoranbe.controller;
 
 import com.rezztoran.rezztoranbe.dto.CategoryDTO;
 import com.rezztoran.rezztoranbe.model.Category;
+import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.CategoryService;
-import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -29,32 +29,38 @@ public class CategoryController {
   }
 
   @GetMapping
-  public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+  public ResponseEntity<ApiResponse<Object>> getAllCategories() {
     var categoryDTOs =
         categoryService.getAllCategories().stream()
             .map(x -> mapper.map(x, CategoryDTO.class))
             .collect(Collectors.toList());
-    return ResponseEntity.ok(categoryDTOs);
+    return ApiResponse.builder().data(categoryDTOs).build();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CategoryDTO> getCategoryByID(@PathVariable Long id) {
-    return ResponseEntity.ok(mapper.map(categoryService.getCategoryByID(id), CategoryDTO.class));
+  public ResponseEntity<ApiResponse<Object>> getCategoryByID(@PathVariable Long id) {
+    return ApiResponse.builder()
+        .data(mapper.map(categoryService.getCategoryByID(id), CategoryDTO.class))
+        .build();
   }
 
   @PostMapping
-  public ResponseEntity<CategoryDTO> createCategory(@RequestBody Category category) {
-    return ResponseEntity.ok(mapper.map(categoryService.create(category), CategoryDTO.class));
+  public ResponseEntity<ApiResponse<Object>> createCategory(@RequestBody Category category) {
+    return ApiResponse.builder()
+        .data(mapper.map(categoryService.create(category), CategoryDTO.class))
+        .build();
   }
 
   @PutMapping
-  public ResponseEntity<CategoryDTO> updateCategory(@RequestBody Category category) {
-    return ResponseEntity.ok(mapper.map(categoryService.update(category), CategoryDTO.class));
+  public ResponseEntity<ApiResponse<Object>> updateCategory(@RequestBody Category category) {
+    return ApiResponse.builder()
+        .data(mapper.map(categoryService.update(category), CategoryDTO.class))
+        .build();
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> deleteCategory(@PathVariable Long id) {
     categoryService.delete(id);
-    return ResponseEntity.ok().build();
+    return ApiResponse.builder().build();
   }
 }

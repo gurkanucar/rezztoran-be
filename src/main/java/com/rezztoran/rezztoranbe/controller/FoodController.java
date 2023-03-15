@@ -2,6 +2,7 @@ package com.rezztoran.rezztoranbe.controller;
 
 import com.rezztoran.rezztoranbe.dto.FoodDTO;
 import com.rezztoran.rezztoranbe.model.Food;
+import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,23 +23,23 @@ public class FoodController {
   private final FoodService foodService;
 
   @GetMapping("/{id}")
-  public ResponseEntity<FoodDTO> getFoodByID(@PathVariable Long id) {
-    return ResponseEntity.ok(FoodDTO.toDTO(foodService.getFoodByID(id)));
+  public ResponseEntity<ApiResponse<Object>> getFoodByID(@PathVariable Long id) {
+    return ApiResponse.builder().data(FoodDTO.toDTO(foodService.getFoodByID(id))).build();
   }
 
   @PostMapping
-  public ResponseEntity<FoodDTO> createFood(@RequestBody Food food) {
-    return ResponseEntity.ok(FoodDTO.toDTO(foodService.createFood(food)));
+  public ResponseEntity<ApiResponse<Object>> createFood(@RequestBody Food food) {
+    return ApiResponse.builder().data(FoodDTO.toDTO(foodService.createFood(food))).build();
   }
 
   @PutMapping
-  public ResponseEntity<FoodDTO> updateFood(@RequestBody Food food) {
-    return ResponseEntity.ok(FoodDTO.toDTO(foodService.updateFood(food)));
+  public ResponseEntity<ApiResponse<Object>> updateFood(@RequestBody Food food) {
+    return ApiResponse.builder().data(FoodDTO.toDTO(foodService.updateFood(food))).build();
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteFoodByID(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> deleteFoodByID(@PathVariable Long id) {
     foodService.deleteFoodByID(id);
-    return ResponseEntity.ok().build();
+    return ApiResponse.builder().build();
   }
 }

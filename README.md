@@ -9,6 +9,11 @@
 
 Rezztoran-be, is a backend restaurant reservation (booking) system that allows restaurants to manage their reservations efficiently. The system enables customers to reserve tables online, while restaurant owners can manage reservations, availability, and guest preferences
 
+
+## Entity Class Diagram
+
+![uml_entity_class_diagram](./images/uml_entity_class_diagram.png)
+
 ## Tech Stack
 
 

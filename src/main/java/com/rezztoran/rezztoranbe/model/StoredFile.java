@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type Stored file.
- */
+/** The type Stored file. */
 @Data
 @Builder
 @AllArgsConstructor

@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/**
- * The type Category.
- */
+/** The type Category. */
 @SuperBuilder
 @Entity
 @AllArgsConstructor

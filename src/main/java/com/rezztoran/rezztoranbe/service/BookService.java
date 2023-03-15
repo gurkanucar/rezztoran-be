@@ -7,9 +7,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
-/**
- * The interface Book service.
- */
+/** The interface Book service. */
 public interface BookService {
 
   /**
@@ -18,7 +16,7 @@ public interface BookService {
    * @param id the id
    * @return the book by id
    */
-Booking getBookById(Long id);
+  Booking getBookById(Long id);
 
   /**
    * Create book booking.
@@ -26,7 +24,7 @@ Booking getBookById(Long id);
    * @param bookRequestModel the book request model
    * @return the booking
    */
-Booking createBook(BookRequestModel bookRequestModel);
+  Booking createBook(BookRequestModel bookRequestModel);
 
   /**
    * Update book booking.
@@ -34,7 +32,7 @@ Booking createBook(BookRequestModel bookRequestModel);
    * @param bookRequestModel the book request model
    * @return the booking
    */
-Booking updateBook(BookRequestModel bookRequestModel);
+  Booking updateBook(BookRequestModel bookRequestModel);
 
   /**
    * Gets books.
@@ -43,7 +41,7 @@ Booking updateBook(BookRequestModel bookRequestModel);
    * @param restaurantId the restaurant id
    * @return the books
    */
-List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
+  List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
 
   /**
    * Gets available time slots map.
@@ -52,14 +50,14 @@ List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
    * @param restaurantId the restaurant id
    * @return the available time slots map
    */
-Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId);
+  Map<LocalTime, Boolean> getAvailableTimeSlotsMap(LocalDate date, Long restaurantId);
 
   /**
    * Delete book.
    *
    * @param id the id
    */
-void deleteBook(Long id);
+  void deleteBook(Long id);
 
   /**
    * Gets books by user.
@@ -67,7 +65,7 @@ void deleteBook(Long id);
    * @param id the id
    * @return the books by user
    */
-List<Booking> getBooksByUser(Long id);
+  List<Booking> getBooksByUser(Long id);
 
   /**
    * Gets books by user and date.
@@ -76,5 +74,5 @@ List<Booking> getBooksByUser(Long id);
    * @param date the date
    * @return the books by user and date
    */
-List<Booking> getBooksByUserAndDate(Long id, LocalDate date);
+  List<Booking> getBooksByUserAndDate(Long id, LocalDate date);
 }

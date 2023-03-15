@@ -6,9 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
-/**
- * The type Bean config.
- */
+/** The type Bean config. */
 @Configuration
 public class BeanConfig {
 
@@ -17,7 +15,7 @@ public class BeanConfig {
    *
    * @return the b crypt password encoder
    */
-@Bean
+  @Bean
   public BCryptPasswordEncoder bCryptPasswordEncoder() {
     return new BCryptPasswordEncoder();
   }
@@ -27,7 +25,7 @@ public class BeanConfig {
    *
    * @return the model mapper
    */
-@Bean
+  @Bean
   public ModelMapper modelMapper() {
     return new ModelMapper();
   }
@@ -37,7 +35,7 @@ public class BeanConfig {
    *
    * @return the free marker configuration
    */
-@Bean
+  @Bean
   public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
     FreeMarkerConfigurationFactoryBean fmConfigFactoryBean =
         new FreeMarkerConfigurationFactoryBean();

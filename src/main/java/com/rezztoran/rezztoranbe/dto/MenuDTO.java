@@ -4,9 +4,7 @@ import com.rezztoran.rezztoranbe.model.Food;
 import java.util.List;
 import lombok.Data;
 
-/**
- * The type Menu dto.
- */
+/** The type Menu dto. */
 @Data
 public class MenuDTO {
   private RestaurantDTO restaurant;

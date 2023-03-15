@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-/**
- * The type Async task executor.
- */
+/** The type Async task executor. */
 @Configuration
 public class AsyncTaskExecutor {
   /**
@@ -15,7 +13,7 @@ public class AsyncTaskExecutor {
    *
    * @return the executor
    */
-@Bean
+  @Bean
   public Executor asyncExecutor() {
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(2);

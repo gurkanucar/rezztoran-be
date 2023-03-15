@@ -3,9 +3,7 @@ package com.rezztoran.rezztoranbe.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-/**
- * The type Client request exception.
- */
+/** The type Client request exception. */
 @Getter
 public class ClientRequestException extends RuntimeException {
 
@@ -17,7 +15,7 @@ public class ClientRequestException extends RuntimeException {
    * @param message the message
    * @param status the status
    */
-public ClientRequestException(String message, HttpStatus status) {
+  public ClientRequestException(String message, HttpStatus status) {
     super(message);
   }
 }

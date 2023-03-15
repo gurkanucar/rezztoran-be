@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * The type Open api config.
- */
+/** The type Open api config. */
 @Configuration
 public class OpenApiConfig {
 
@@ -23,7 +21,7 @@ public class OpenApiConfig {
    * @param version the version
    * @return the open api
    */
-@Bean
+  @Bean
   public OpenAPI customOpenAPI(
       @Value("${application-description}") String description,
       @Value("${application-version}") String version) {

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * The type S 3 client configuration.
- */
+/** The type S 3 client configuration. */
 @Configuration
 public class S3ClientConfiguration {
 
@@ -22,7 +20,7 @@ public class S3ClientConfiguration {
    *
    * @return the amazon s 3
    */
-@Bean
+  @Bean
   AmazonS3 amazonS3() {
     AwsClientBuilder.EndpointConfiguration endpointConfiguration =
         new AwsClientBuilder.EndpointConfiguration(endpointUrl, Regions.US_EAST_1.getName());

@@ -5,9 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * The interface User repository.
- */
+/** The interface User repository. */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
   /**
@@ -16,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
    * @param mail the mail
    * @return the optional
    */
-Optional<User> findUserByMail(String mail);
+  Optional<User> findUserByMail(String mail);
 
   /**
    * Find user by username optional.
@@ -24,5 +22,5 @@ Optional<User> findUserByMail(String mail);
    * @param mail the mail
    * @return the optional
    */
-Optional<User> findUserByUsername(String mail);
+  Optional<User> findUserByUsername(String mail);
 }

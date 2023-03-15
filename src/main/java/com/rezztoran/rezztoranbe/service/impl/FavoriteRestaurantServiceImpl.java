@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-/**
- * The type Favorite restaurant service.
- */
+/** The type Favorite restaurant service. */
 @Service
 @Slf4j
 public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService {
@@ -31,7 +29,7 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
    * @param userService the user service
    * @param restaurantService the restaurant service
    */
-public FavoriteRestaurantServiceImpl(
+  public FavoriteRestaurantServiceImpl(
       FavoriteRestaurantRepository favoriteRestaurantRepository,
       UserService userService,
       RestaurantService restaurantService) {

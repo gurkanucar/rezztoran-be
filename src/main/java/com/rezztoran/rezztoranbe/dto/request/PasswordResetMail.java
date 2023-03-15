@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type Password reset mail.
- */
+/** The type Password reset mail. */
 @Data
 @Builder
 @AllArgsConstructor

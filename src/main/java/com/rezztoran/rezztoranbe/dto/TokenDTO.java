@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type Token dto.
- */
+/** The type Token dto. */
 @Data
 @Builder
 @NoArgsConstructor

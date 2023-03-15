@@ -5,9 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * The interface Category repository.
- */
+/** The interface Category repository. */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
@@ -17,5 +15,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
    * @param name the name
    * @return the optional
    */
-Optional<Category> findByCategoryName(String name);
+  Optional<Category> findByCategoryName(String name);
 }

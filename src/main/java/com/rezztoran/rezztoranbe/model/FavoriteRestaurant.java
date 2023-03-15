@@ -9,9 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type Favorite restaurant.
- */
+/** The type Favorite restaurant. */
 @Data
 @Entity
 @Table(name = "favorite_restaurants")

@@ -6,9 +6,7 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * The interface Favorite restaurant service.
- */
+/** The interface Favorite restaurant service. */
 public interface FavoriteRestaurantService {
 
   /**
@@ -16,14 +14,14 @@ public interface FavoriteRestaurantService {
    *
    * @param requestModel the request model
    */
-void addToFavorite(FavoriteRestaurantRequestModel requestModel);
+  void addToFavorite(FavoriteRestaurantRequestModel requestModel);
 
   /**
    * Remove from favorite.
    *
    * @param requestModel the request model
    */
-void removeFromFavorite(FavoriteRestaurantRequestModel requestModel);
+  void removeFromFavorite(FavoriteRestaurantRequestModel requestModel);
 
   /**
    * Gets favorite restaurants by user.
@@ -31,7 +29,7 @@ void removeFromFavorite(FavoriteRestaurantRequestModel requestModel);
    * @param userId the user id
    * @return the favorite restaurants by user
    */
-List<Restaurant> getFavoriteRestaurantsByUser(Long userId);
+  List<Restaurant> getFavoriteRestaurantsByUser(Long userId);
 
   /**
    * Gets favorite restaurant by user and restaurant id.
@@ -40,7 +38,7 @@ List<Restaurant> getFavoriteRestaurantsByUser(Long userId);
    * @param restaurantId the restaurant id
    * @return the favorite restaurant by user and restaurant id
    */
-Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
+  Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
       Long userId, Long restaurantId);
 
   //  List<Restaurant> getMostFavoriteRestaurants();

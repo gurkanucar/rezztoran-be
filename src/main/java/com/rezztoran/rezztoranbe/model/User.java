@@ -18,9 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/**
- * The type User.
- */
+/** The type User. */
 @SuperBuilder
 @Entity
 @AllArgsConstructor

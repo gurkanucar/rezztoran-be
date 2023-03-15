@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-/**
- * The type Mail service.
- */
+/** The type Mail service. */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -35,7 +33,7 @@ public class MailService {
    *
    * @param mailModel the mail model
    */
-public void sendSimpleMessage(MailModel mailModel) {
+  public void sendSimpleMessage(MailModel mailModel) {
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(mailModel.getTo());
     message.setSubject(mailModel.getSubject());
@@ -48,7 +46,7 @@ public void sendSimpleMessage(MailModel mailModel) {
    *
    * @param passwordResetMail the password reset mail
    */
-public void sendResetPasswordEmail(PasswordResetMail passwordResetMail) {
+  public void sendResetPasswordEmail(PasswordResetMail passwordResetMail) {
     try {
 
       MimeMessage message = emailSender.createMimeMessage();
@@ -95,7 +93,7 @@ public void sendResetPasswordEmail(PasswordResetMail passwordResetMail) {
    * @param mailModel the mail model
    * @param booking the booking
    */
-public void sendBookCreatedMail(MailModel mailModel, BookDTO booking) {
+  public void sendBookCreatedMail(MailModel mailModel, BookDTO booking) {
     try {
 
       MimeMessage message = emailSender.createMimeMessage();

@@ -12,9 +12,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- * The type Base entity.
- */
+/** The type Base entity. */
 @MappedSuperclass
 @SuperBuilder
 @AllArgsConstructor

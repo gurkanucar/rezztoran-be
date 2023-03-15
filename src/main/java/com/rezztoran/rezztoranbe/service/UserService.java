@@ -5,9 +5,7 @@ import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.model.User;
 import java.util.List;
 
-/**
- * The interface User service.
- */
+/** The interface User service. */
 public interface UserService {
 
   /**
@@ -16,7 +14,7 @@ public interface UserService {
    * @param user the user
    * @return the user
    */
-User create(User user);
+  User create(User user);
 
   /**
    * Create user.
@@ -25,7 +23,7 @@ User create(User user);
    * @param role the role
    * @return the user
    */
-User create(User user, Role role);
+  User create(User user, Role role);
 
   /**
    * Create user.
@@ -33,7 +31,7 @@ User create(User user, Role role);
    * @param registerUser the register user
    * @return the user
    */
-User create(RegisterModel registerUser);
+  User create(RegisterModel registerUser);
 
   /**
    * Save user.
@@ -41,7 +39,7 @@ User create(RegisterModel registerUser);
    * @param user the user
    * @return the user
    */
-User save(User user);
+  User save(User user);
 
   /**
    * Update user.
@@ -49,7 +47,7 @@ User save(User user);
    * @param user the user
    * @return the user
    */
-User update(User user);
+  User update(User user);
 
   /**
    * Find user by id user.
@@ -57,7 +55,7 @@ User update(User user);
    * @param id the id
    * @return the user
    */
-User findUserByID(Long id);
+  User findUserByID(Long id);
 
   /**
    * Does user exist by id boolean.
@@ -65,7 +63,7 @@ User findUserByID(Long id);
    * @param id the id
    * @return the boolean
    */
-boolean doesUserExistByID(Long id);
+  boolean doesUserExistByID(Long id);
 
   /**
    * Find user by username user.
@@ -73,7 +71,7 @@ boolean doesUserExistByID(Long id);
    * @param username the username
    * @return the user
    */
-User findUserByUsername(String username);
+  User findUserByUsername(String username);
 
   /**
    * Find user by mail user.
@@ -81,19 +79,19 @@ User findUserByUsername(String username);
    * @param mail the mail
    * @return the user
    */
-User findUserByMail(String mail);
+  User findUserByMail(String mail);
 
   /**
    * Gets users.
    *
    * @return the users
    */
-List<User> getUsers();
+  List<User> getUsers();
 
   /**
    * Delete user.
    *
    * @param id the id
    */
-void deleteUser(Long id);
+  void deleteUser(Long id);
 }

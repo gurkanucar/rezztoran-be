@@ -8,19 +8,27 @@ import com.rezztoran.rezztoranbe.service.FavoriteRestaurantService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService {
 
   private final FavoriteRestaurantRepository favoriteRestaurantRepository;
   private final UserService userService;
   private final RestaurantService restaurantService;
+
+  public FavoriteRestaurantServiceImpl(
+      FavoriteRestaurantRepository favoriteRestaurantRepository,
+      UserService userService,
+      RestaurantService restaurantService) {
+    this.favoriteRestaurantRepository = favoriteRestaurantRepository;
+    this.userService = userService;
+    this.restaurantService = restaurantService;
+  }
 
   @Override
   public void addToFavorite(FavoriteRestaurantRequestModel requestModel) {
@@ -48,5 +56,11 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   public List<Restaurant> getFavoriteRestaurantsByUser(Long userId) {
     var result = favoriteRestaurantRepository.findAllByUser_Id(userId);
     return result.stream().map(FavoriteRestaurant::getRestaurant).collect(Collectors.toList());
+  }
+
+  @Override
+  public Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
+      Long userId, Long restaurantId) {
+    return favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(restaurantId, userId);
   }
 }

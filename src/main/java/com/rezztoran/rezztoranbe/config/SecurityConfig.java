@@ -18,9 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * The type Security config.
- */
+/** The type Security config. */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -35,7 +33,7 @@ public class SecurityConfig {
    *
    * @return the web security customizer
    */
-@Bean
+  @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) ->
         web.ignoring()
@@ -64,7 +62,7 @@ public class SecurityConfig {
    * @return the security filter chain
    * @throws Exception the exception
    */
-@Bean
+  @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.headers()
         .frameOptions()
@@ -100,7 +98,7 @@ public class SecurityConfig {
    * @return the authentication manager
    * @throws Exception the exception
    */
-@Bean
+  @Bean
   public AuthenticationManager authenticationManager(
       final AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
@@ -111,7 +109,7 @@ public class SecurityConfig {
    *
    * @return the web mvc configurer
    */
-@Bean
+  @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
       @Override

@@ -3,9 +3,7 @@ package com.rezztoran.rezztoranbe.service;
 import com.rezztoran.rezztoranbe.model.StoredFile;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * The interface Storage service.
- */
+/** The interface Storage service. */
 public interface StorageService {
   /**
    * Upload string.
@@ -13,7 +11,7 @@ public interface StorageService {
    * @param multipartFile the multipart file
    * @return the string
    */
-String upload(MultipartFile multipartFile);
+  String upload(MultipartFile multipartFile);
 
   /**
    * Download stored file.
@@ -21,5 +19,5 @@ String upload(MultipartFile multipartFile);
    * @param id the id
    * @return the stored file
    */
-StoredFile download(String id);
+  StoredFile download(String id);
 }

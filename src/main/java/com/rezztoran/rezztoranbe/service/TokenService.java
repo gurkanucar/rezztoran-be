@@ -11,9 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-/**
- * The type Token service.
- */
+/** The type Token service. */
 @Service
 public class TokenService {
 
@@ -32,7 +30,7 @@ public class TokenService {
    * @param auth the auth
    * @return the string
    */
-public String generateToken(Authentication auth) {
+  public String generateToken(Authentication auth) {
     String username = ((UserDetails) auth.getPrincipal()).getUsername();
     return JWT.create()
         .withSubject(username)
@@ -48,7 +46,7 @@ public String generateToken(Authentication auth) {
    * @param token the token
    * @return the decoded jwt
    */
-public DecodedJWT verifyJWT(String token) {
+  public DecodedJWT verifyJWT(String token) {
     Algorithm algorithm = Algorithm.HMAC256(KEY.getBytes(StandardCharsets.UTF_8));
     JWTVerifier verifier =
         JWT.require(algorithm).acceptExpiresAt(EXPIRES_ACCESS_TOKEN_MINUTE * 60).build();

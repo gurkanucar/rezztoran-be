@@ -8,9 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type Food dto.
- */
+/** The type Food dto. */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +32,7 @@ public class FoodDTO {
    * @param food the food
    * @return the food dto
    */
-public static FoodDTO toDTO(Food food) {
+  public static FoodDTO toDTO(Food food) {
     return FoodDTO.builder()
         .foodName(food.getFoodName())
         .foodImage(food.getFoodImage())

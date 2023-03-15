@@ -4,9 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-/**
- * The type Rezztoran be application.
- */
+/** The type Rezztoran be application. */
 @SpringBootApplication
 @EnableAsync
 public class RezztoranBeApplication {
@@ -16,7 +14,7 @@ public class RezztoranBeApplication {
    *
    * @param args the input arguments
    */
-public static void main(String[] args) {
+  public static void main(String[] args) {
     SpringApplication.run(RezztoranBeApplication.class, args);
   }
 }

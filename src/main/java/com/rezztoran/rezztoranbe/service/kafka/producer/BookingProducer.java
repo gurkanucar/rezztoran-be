@@ -2,9 +2,7 @@ package com.rezztoran.rezztoranbe.service.kafka.producer;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 
-/**
- * The interface Booking producer.
- */
+/** The interface Booking producer. */
 public interface BookingProducer {
 
   /**
@@ -12,5 +10,5 @@ public interface BookingProducer {
    *
    * @param booking the booking
    */
-void sendBookingCreatedMail(BookDTO booking);
+  void sendBookingCreatedMail(BookDTO booking);
 }

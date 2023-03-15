@@ -13,9 +13,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-/**
- * The interface Restaurant repository.
- */
+/** The interface Restaurant repository. */
 @Repository
 public interface RestaurantRepository
     extends JpaRepository<Restaurant, Long>, JpaSpecificationExecutor<Restaurant> {
@@ -30,7 +28,7 @@ public interface RestaurantRepository
    * @param city the city
    * @return the list
    */
-List<Restaurant> findAllByCity(String city);
+  List<Restaurant> findAllByCity(String city);
 
   /**
    * Find all by city and district order by created date time list.
@@ -39,7 +37,7 @@ List<Restaurant> findAllByCity(String city);
    * @param distrcit the distrcit
    * @return the list
    */
-List<Restaurant> findAllByCityAndDistrictOrderByCreatedDateTime(String city, String distrcit);
+  List<Restaurant> findAllByCityAndDistrictOrderByCreatedDateTime(String city, String distrcit);
 
   /**
    * Find restaurant by menu names list.
@@ -47,7 +45,7 @@ List<Restaurant> findAllByCityAndDistrictOrderByCreatedDateTime(String city, Str
    * @param name the name
    * @return the list
    */
-@Query(nativeQuery = true, value = "SELECT * from RESTAURANT where restaurant_name= :name")
+  @Query(nativeQuery = true, value = "SELECT * from RESTAURANT where restaurant_name= :name")
   List<Restaurant> findRestaurantByMenuNames(String name);
 
   /**
@@ -56,7 +54,7 @@ List<Restaurant> findAllByCityAndDistrictOrderByCreatedDateTime(String city, Str
    * @param name the name
    * @return the optional
    */
-Optional<Restaurant> findRestaurantByRestaurantName(String name);
+  Optional<Restaurant> findRestaurantByRestaurantName(String name);
 
   /**
    * Find restaurant by user optional.
@@ -64,5 +62,5 @@ Optional<Restaurant> findRestaurantByRestaurantName(String name);
    * @param user the user
    * @return the optional
    */
-Optional<Restaurant> findRestaurantByUser(User user);
+  Optional<Restaurant> findRestaurantByUser(User user);
 }

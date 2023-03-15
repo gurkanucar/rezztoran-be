@@ -8,9 +8,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * The type Category service.
- */
+/** The type Category service. */
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -23,7 +21,7 @@ public class CategoryService {
    *
    * @return the all categories
    */
-public List<Category> getAllCategories() {
+  public List<Category> getAllCategories() {
     return categoryRepository.findAll();
   }
 
@@ -33,7 +31,7 @@ public List<Category> getAllCategories() {
    * @param id the id
    * @return the category by id
    */
-public Category getCategoryByID(Long id) {
+  public Category getCategoryByID(Long id) {
     return categoryRepository
         .findById(id)
         .orElseThrow(() -> exceptionUtil.buildException(Ex.CATEGORY_NOT_FOUND_EXCEPTION));
@@ -45,7 +43,7 @@ public Category getCategoryByID(Long id) {
    * @param category the category
    * @return the category
    */
-public Category create(Category category) {
+  public Category create(Category category) {
     if (categoryRepository.findByCategoryName(category.getCategoryName()).isPresent()) {
       throw exceptionUtil.buildException(Ex.CATEGORY_ALREADY_EXISTS_EXCEPTION);
     }
@@ -58,7 +56,7 @@ public Category create(Category category) {
    * @param category the category
    * @return the category
    */
-public Category update(Category category) {
+  public Category update(Category category) {
     var existing = getCategoryByID(category.getId());
     if (categoryRepository.findByCategoryName(category.getCategoryName()).isPresent()) {
       throw exceptionUtil.buildException(Ex.CATEGORY_ALREADY_EXISTS_EXCEPTION);
@@ -73,7 +71,7 @@ public Category update(Category category) {
    *
    * @param id the id
    */
-public void delete(Long id) {
+  public void delete(Long id) {
     var existing = getCategoryByID(id);
     categoryRepository.delete(existing);
   }

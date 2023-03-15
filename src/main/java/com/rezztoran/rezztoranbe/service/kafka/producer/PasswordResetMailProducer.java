@@ -2,9 +2,7 @@ package com.rezztoran.rezztoranbe.service.kafka.producer;
 
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 
-/**
- * The interface Password reset mail producer.
- */
+/** The interface Password reset mail producer. */
 public interface PasswordResetMailProducer {
 
   /**
@@ -12,5 +10,5 @@ public interface PasswordResetMailProducer {
    *
    * @param passwordResetMail the password reset mail
    */
-void sendPasswordResetMail(PasswordResetMail passwordResetMail);
+  void sendPasswordResetMail(PasswordResetMail passwordResetMail);
 }

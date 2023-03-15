@@ -8,9 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-/**
- * The type Booking consumer.
- */
+/** The type Booking consumer. */
 @Service
 @Slf4j
 public class BookingConsumerImpl implements BookingConsumer {
@@ -22,7 +20,7 @@ public class BookingConsumerImpl implements BookingConsumer {
    *
    * @param mailService the mail service
    */
-public BookingConsumerImpl(MailService mailService) {
+  public BookingConsumerImpl(MailService mailService) {
     this.mailService = mailService;
   }
 

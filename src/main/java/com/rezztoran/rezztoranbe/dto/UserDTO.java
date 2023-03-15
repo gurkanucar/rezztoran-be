@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type User dto.
- */
+/** The type User dto. */
 @Data
 @Builder
 @NoArgsConstructor

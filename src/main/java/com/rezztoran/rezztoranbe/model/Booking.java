@@ -15,9 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/**
- * The type Booking.
- */
+/** The type Booking. */
 @Entity
 @Data
 @SuperBuilder

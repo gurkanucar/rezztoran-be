@@ -15,9 +15,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-/**
- * The type Kafka producer config.
- */
+/** The type Kafka producer config. */
 @Configuration
 public class KafkaProducerConfig {
 
@@ -32,7 +30,7 @@ public class KafkaProducerConfig {
    *
    * @return the producer factory
    */
-@Bean("BookingKafkaProducerFactory")
+  @Bean("BookingKafkaProducerFactory")
   public ProducerFactory<String, BookDTO> bookingProducerFactory() {
     Map<String, Object> configProps = new HashMap<>();
     configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -48,7 +46,7 @@ public class KafkaProducerConfig {
    *
    * @return the kafka template
    */
-@Bean
+  @Bean
   public KafkaTemplate<String, BookDTO> bookingKafkaTemplate() {
     return new KafkaTemplate<>(bookingProducerFactory());
   }
@@ -58,7 +56,7 @@ public class KafkaProducerConfig {
    *
    * @return the producer factory
    */
-@Bean("PasswordResetMailKafkaProducerFactory")
+  @Bean("PasswordResetMailKafkaProducerFactory")
   public ProducerFactory<String, PasswordResetMail> passwordResetMailProducerFactory() {
     Map<String, Object> configProps = new HashMap<>();
     configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -73,7 +71,7 @@ public class KafkaProducerConfig {
    *
    * @return the kafka template
    */
-@Bean
+  @Bean
   public KafkaTemplate<String, PasswordResetMail> passwordResetMailKafkaTemplate() {
     return new KafkaTemplate<>(passwordResetMailProducerFactory());
   }

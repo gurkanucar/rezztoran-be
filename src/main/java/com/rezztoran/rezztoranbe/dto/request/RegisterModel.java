@@ -5,9 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
-/**
- * The type Register model.
- */
+/** The type Register model. */
 @Data
 public class RegisterModel {
   @NotBlank private String username;

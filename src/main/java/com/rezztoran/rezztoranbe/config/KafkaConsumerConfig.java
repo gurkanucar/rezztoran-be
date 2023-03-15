@@ -14,9 +14,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-/**
- * The type Kafka consumer config.
- */
+/** The type Kafka consumer config. */
 @Configuration
 public class KafkaConsumerConfig {
 
@@ -41,7 +39,7 @@ public class KafkaConsumerConfig {
    *
    * @return the consumer factory
    */
-@Bean
+  @Bean
   public ConsumerFactory<String, BookDTO> bookConsumerFactory() {
     Map<String, Object> props = setProps(bootstrapServers, groupId);
     return new DefaultKafkaConsumerFactory<>(
@@ -53,7 +51,7 @@ public class KafkaConsumerConfig {
    *
    * @return the concurrent kafka listener container factory
    */
-@Bean
+  @Bean
   public ConcurrentKafkaListenerContainerFactory<String, BookDTO>
       bookingKafkaListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, BookDTO> factory =
@@ -68,7 +66,7 @@ public class KafkaConsumerConfig {
    *
    * @return the consumer factory
    */
-@Bean
+  @Bean
   public ConsumerFactory<String, PasswordResetMail> passwordResetConsumerFactory() {
     Map<String, Object> props = setProps(bootstrapServers, groupId);
     return new DefaultKafkaConsumerFactory<>(
@@ -80,7 +78,7 @@ public class KafkaConsumerConfig {
    *
    * @return the concurrent kafka listener container factory
    */
-@Bean
+  @Bean
   public ConcurrentKafkaListenerContainerFactory<String, PasswordResetMail>
       passwordResetKafkaListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, PasswordResetMail> factory =

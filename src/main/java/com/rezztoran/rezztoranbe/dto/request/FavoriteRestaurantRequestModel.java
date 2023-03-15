@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type Favorite restaurant request model.
- */
+/** The type Favorite restaurant request model. */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -12,9 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/**
- * The type Food.
- */
+/** The type Food. */
 @SuperBuilder
 @Entity
 @AllArgsConstructor

@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * The type Favorite restaurant controller.
- */
+/** The type Favorite restaurant controller. */
 @RestController
 @RequestMapping("/api/favorite")
 public class FavoriteRestaurantController {
@@ -26,7 +24,7 @@ public class FavoriteRestaurantController {
    *
    * @param favoriteRestaurantService the favorite restaurant service
    */
-public FavoriteRestaurantController(FavoriteRestaurantService favoriteRestaurantService) {
+  public FavoriteRestaurantController(FavoriteRestaurantService favoriteRestaurantService) {
     this.favoriteRestaurantService = favoriteRestaurantService;
   }
 
@@ -36,7 +34,7 @@ public FavoriteRestaurantController(FavoriteRestaurantService favoriteRestaurant
    * @param requestModel the request model
    * @return the response entity
    */
-@PostMapping
+  @PostMapping
   ResponseEntity<ApiResponse<Object>> addFavoriteRestaurant(
       @RequestBody FavoriteRestaurantRequestModel requestModel) {
     favoriteRestaurantService.addToFavorite(requestModel);
@@ -49,7 +47,7 @@ public FavoriteRestaurantController(FavoriteRestaurantService favoriteRestaurant
    * @param requestModel the request model
    * @return the response entity
    */
-@DeleteMapping
+  @DeleteMapping
   ResponseEntity<ApiResponse<Object>> removeFavoriteRestaurant(
       @RequestBody FavoriteRestaurantRequestModel requestModel) {
     favoriteRestaurantService.removeFromFavorite(requestModel);
@@ -62,7 +60,7 @@ public FavoriteRestaurantController(FavoriteRestaurantService favoriteRestaurant
    * @param id the id
    * @return the favorite restaurants by user
    */
-@GetMapping("/user/{id}")
+  @GetMapping("/user/{id}")
   ResponseEntity<ApiResponse<Object>> getFavoriteRestaurantsByUser(@PathVariable Long id) {
     return ApiResponse.builder()
         .data(favoriteRestaurantService.getFavoriteRestaurantsByUser(id))

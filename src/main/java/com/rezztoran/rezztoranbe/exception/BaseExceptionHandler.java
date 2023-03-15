@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 /**
  * The type Base exception handler.
  *
- * @param <T>  the type parameter
+ * @param <T> the type parameter
  */
 public abstract class BaseExceptionHandler<T> {
 
@@ -19,7 +19,7 @@ public abstract class BaseExceptionHandler<T> {
    * @param status the status
    * @return the response entity
    */
-protected final ResponseEntity<ApiResponse<Object>> buildErrorResponse(
+  protected final ResponseEntity<ApiResponse<Object>> buildErrorResponse(
       T error, HttpStatus status) {
     return ApiResponse.builder(status, ResponseConstants.FAILURE).error(error, status).build();
   }

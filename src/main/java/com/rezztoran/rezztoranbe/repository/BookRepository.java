@@ -7,9 +7,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-/**
- * The interface Book repository.
- */
+/** The interface Book repository. */
 @Repository
 public interface BookRepository extends JpaRepository<Booking, Long> {
 
@@ -20,7 +18,7 @@ public interface BookRepository extends JpaRepository<Booking, Long> {
    * @param localDate the local date
    * @return the list
    */
-List<Booking> findAllByUser_IdAndReservationDate(Long id, LocalDate localDate);
+  List<Booking> findAllByUser_IdAndReservationDate(Long id, LocalDate localDate);
 
   /**
    * Find all by user id list.
@@ -28,7 +26,7 @@ List<Booking> findAllByUser_IdAndReservationDate(Long id, LocalDate localDate);
    * @param id the id
    * @return the list
    */
-List<Booking> findAllByUser_Id(Long id);
+  List<Booking> findAllByUser_Id(Long id);
 
   /**
    * Find all by restaurant id and reservation date and booking status list.
@@ -38,7 +36,7 @@ List<Booking> findAllByUser_Id(Long id);
    * @param bookingStatus the booking status
    * @return the list
    */
-List<Booking> findAllByRestaurant_IdAndReservationDateAndBookingStatus(
+  List<Booking> findAllByRestaurant_IdAndReservationDateAndBookingStatus(
       Long id, LocalDate localDate, BookingStatus bookingStatus);
 
   /**
@@ -49,7 +47,7 @@ List<Booking> findAllByRestaurant_IdAndReservationDateAndBookingStatus(
    * @param bookingStatus the booking status
    * @return the list
    */
-List<Booking> findAllByRestaurant_IdAndReservationDateAndBookingStatusNot(
+  List<Booking> findAllByRestaurant_IdAndReservationDateAndBookingStatusNot(
       Long id, LocalDate localDate, BookingStatus bookingStatus);
 
   /**
@@ -59,5 +57,5 @@ List<Booking> findAllByRestaurant_IdAndReservationDateAndBookingStatusNot(
    * @param localDate the local date
    * @return the list
    */
-List<Booking> findAllByRestaurant_IdAndReservationDate(Long id, LocalDate localDate);
+  List<Booking> findAllByRestaurant_IdAndReservationDate(Long id, LocalDate localDate);
 }

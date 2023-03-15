@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.model.Review;
 import java.time.LocalDate;
@@ -45,4 +46,7 @@ public class RestaurantDTO {
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private List<LocalDate> busyDates;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  Boolean isFavorite;
 }

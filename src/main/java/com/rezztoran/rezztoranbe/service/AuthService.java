@@ -5,12 +5,13 @@ import com.rezztoran.rezztoranbe.dto.request.LoginModel;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.model.User;
+import java.util.Optional;
 
 public interface AuthService {
 
   TokenDTO tryLogin(LoginModel loginRequest);
 
-  User getAuthenticatedUser();
+  Optional<User> getAuthenticatedUser();
 
   boolean checkForPermission(Long id);
 

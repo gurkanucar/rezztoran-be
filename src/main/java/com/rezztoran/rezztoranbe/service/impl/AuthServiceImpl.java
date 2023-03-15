@@ -13,6 +13,7 @@ import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.AuthService;
 import com.rezztoran.rezztoranbe.service.TokenService;
 import com.rezztoran.rezztoranbe.service.kafka.producer.PasswordResetMailProducer;
+import java.util.Optional;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -52,13 +53,20 @@ public class AuthServiceImpl implements AuthService {
     }
   }
 
-  public User getAuthenticatedUser() {
-    String username = SecurityContextHolder.getContext().getAuthentication().getName();
-    return userService.findUserByUsername(username);
+  public Optional<User> getAuthenticatedUser() {
+    try {
+      String username = SecurityContextHolder.getContext().getAuthentication().getName();
+      return Optional.ofNullable(userService.findUserByUsername(username));
+    } catch (Exception e) {
+      return Optional.empty();
+    }
   }
 
   public boolean checkForPermission(Long id) {
-    return getAuthenticatedUser().getId().equals(id);
+    if (getAuthenticatedUser().isPresent()) {
+      return getAuthenticatedUser().get().getId().equals(id);
+    }
+    return false;
   }
 
   public User tryRegister(RegisterModel registerModel) {

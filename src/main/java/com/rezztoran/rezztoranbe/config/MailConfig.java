@@ -7,16 +7,30 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+/**
+ * The type Mail config.
+ */
 @Configuration
 public class MailConfig {
 
-  @Value("${mail.password}")
+  /**
+   * The Password.
+   */
+@Value("${mail.password}")
   String password;
 
-  @Value("${mail.address}")
+  /**
+   * The Mail.
+   */
+@Value("${mail.address}")
   String mail;
 
-  @Bean
+  /**
+   * Gets java mail sender.
+   *
+   * @return the java mail sender
+   */
+@Bean
   public JavaMailSender getJavaMailSender() {
     JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
     mailSender.setHost("smtp.gmail.com");

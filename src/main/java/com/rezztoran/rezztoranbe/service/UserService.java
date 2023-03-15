@@ -5,27 +5,95 @@ import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.model.User;
 import java.util.List;
 
+/**
+ * The interface User service.
+ */
 public interface UserService {
 
-  User create(User user);
+  /**
+   * Create user.
+   *
+   * @param user the user
+   * @return the user
+   */
+User create(User user);
 
-  User create(User user, Role role);
+  /**
+   * Create user.
+   *
+   * @param user the user
+   * @param role the role
+   * @return the user
+   */
+User create(User user, Role role);
 
-  User create(RegisterModel registerUser);
+  /**
+   * Create user.
+   *
+   * @param registerUser the register user
+   * @return the user
+   */
+User create(RegisterModel registerUser);
 
-  User save(User user);
+  /**
+   * Save user.
+   *
+   * @param user the user
+   * @return the user
+   */
+User save(User user);
 
-  User update(User user);
+  /**
+   * Update user.
+   *
+   * @param user the user
+   * @return the user
+   */
+User update(User user);
 
-  User findUserByID(Long id);
+  /**
+   * Find user by id user.
+   *
+   * @param id the id
+   * @return the user
+   */
+User findUserByID(Long id);
 
-  boolean doesUserExistByID(Long id);
+  /**
+   * Does user exist by id boolean.
+   *
+   * @param id the id
+   * @return the boolean
+   */
+boolean doesUserExistByID(Long id);
 
-  User findUserByUsername(String username);
+  /**
+   * Find user by username user.
+   *
+   * @param username the username
+   * @return the user
+   */
+User findUserByUsername(String username);
 
-  User findUserByMail(String mail);
+  /**
+   * Find user by mail user.
+   *
+   * @param mail the mail
+   * @return the user
+   */
+User findUserByMail(String mail);
 
-  List<User> getUsers();
+  /**
+   * Gets users.
+   *
+   * @return the users
+   */
+List<User> getUsers();
 
-  void deleteUser(Long id);
+  /**
+   * Delete user.
+   *
+   * @param id the id
+   */
+void deleteUser(Long id);
 }

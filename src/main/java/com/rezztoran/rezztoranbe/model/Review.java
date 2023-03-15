@@ -9,6 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * The type Review.
+ */
 @SuperBuilder
 @Entity
 @AllArgsConstructor

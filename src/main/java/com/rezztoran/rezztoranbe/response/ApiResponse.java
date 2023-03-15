@@ -9,6 +9,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * The type Api response.
+ *
+ * @param <T>  the type parameter
+ */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"status", "code", "message", "isPageable", "content", "error"})
@@ -32,15 +37,34 @@ public class ApiResponse<T> {
     this.error = builder.error;
   }
 
-  public static <T> Builder<T> builder(HttpStatus status, ResponseConstants responseConstants) {
+  /**
+   * Builder builder.
+   *
+   * @param <T>  the type parameter
+   * @param status the status
+   * @param responseConstants the response constants
+   * @return the builder
+   */
+public static <T> Builder<T> builder(HttpStatus status, ResponseConstants responseConstants) {
     return new Builder<>(status, responseConstants);
   }
 
-  public static <T> Builder<T> builder() {
+  /**
+   * Builder builder.
+   *
+   * @param <T>  the type parameter
+   * @return the builder
+   */
+public static <T> Builder<T> builder() {
     return new Builder<>();
   }
 
-  public static class Builder<T> {
+  /**
+   * The type Builder.
+   *
+   * @param <T>  the type parameter
+   */
+public static class Builder<T> {
 
     private HttpHeaders httpHeaders = new HttpHeaders();
     private HttpStatus status;
@@ -50,39 +74,80 @@ public class ApiResponse<T> {
     private T error;
     private String message;
 
-    public Builder(HttpStatus status, ResponseConstants responseConstants) {
+    /**
+     * Instantiates a new Builder.
+     *
+     * @param status the status
+     * @param responseConstants the response constants
+     */
+public Builder(HttpStatus status, ResponseConstants responseConstants) {
       this.status = status;
       this.code = responseConstants.getCode();
       this.message = responseConstants.getMessage();
     }
 
-    public Builder() {
+    /**
+     * Instantiates a new Builder.
+     */
+public Builder() {
       this.status = HttpStatus.OK;
       this.code = ResponseConstants.SUCCESS.getCode();
       this.message = ResponseConstants.SUCCESS.getMessage();
     }
 
-    public Builder<T> header(String name, String value) {
+    /**
+     * Header builder.
+     *
+     * @param name the name
+     * @param value the value
+     * @return the builder
+     */
+public Builder<T> header(String name, String value) {
       this.httpHeaders.add(name, value);
       return this;
     }
 
-    public Builder<T> data(T object) {
+    /**
+     * Data builder.
+     *
+     * @param object the object
+     * @return the builder
+     */
+public Builder<T> data(T object) {
       this.content = object;
       return this;
     }
 
-    public Builder<T> pageableData(T object) {
+    /**
+     * Pageable data builder.
+     *
+     * @param object the object
+     * @return the builder
+     */
+public Builder<T> pageableData(T object) {
       this.isPageable = true;
       this.content = object;
       return this;
     }
 
-    public Builder<T> error(T obj) {
+    /**
+     * Error builder.
+     *
+     * @param obj the obj
+     * @return the builder
+     */
+public Builder<T> error(T obj) {
       return error(obj, HttpStatus.BAD_REQUEST);
     }
 
-    public Builder<T> error(T obj, HttpStatus status) {
+    /**
+     * Error builder.
+     *
+     * @param obj the obj
+     * @param status the status
+     * @return the builder
+     */
+public Builder<T> error(T obj, HttpStatus status) {
       this.code = ResponseConstants.FAILURE.getCode();
       this.status = status;
       this.message = null;
@@ -91,7 +156,12 @@ public class ApiResponse<T> {
       return this;
     }
 
-    public ResponseEntity<ApiResponse<T>> build() {
+    /**
+     * Build response entity.
+     *
+     * @return the response entity
+     */
+public ResponseEntity<ApiResponse<T>> build() {
       ApiResponse<T> apiResponse = new ApiResponse<>(this);
       return ResponseEntity.status(status).headers(httpHeaders).body(apiResponse);
     }

@@ -8,16 +8,27 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Password reset mail producer.
+ */
 @Service
 @Slf4j
 public class PasswordResetMailProducerImpl implements PasswordResetMailProducer {
   @Qualifier("PasswordResetMailKafkaProducerFactory")
   private final KafkaTemplate<String, PasswordResetMail> kafkaTemplate;
 
-  @Value("${spring.kafka.topics.password-reset}")
+  /**
+   * The Topic name.
+   */
+@Value("${spring.kafka.topics.password-reset}")
   String topicName;
 
-  public PasswordResetMailProducerImpl(KafkaTemplate<String, PasswordResetMail> kafkaTemplate) {
+  /**
+   * Instantiates a new Password reset mail producer.
+   *
+   * @param kafkaTemplate the kafka template
+   */
+public PasswordResetMailProducerImpl(KafkaTemplate<String, PasswordResetMail> kafkaTemplate) {
     this.kafkaTemplate = kafkaTemplate;
   }
 

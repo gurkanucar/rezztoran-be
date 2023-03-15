@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** The type Category controller. */
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
@@ -23,11 +24,22 @@ public class CategoryController {
   private final CategoryService categoryService;
   private final ModelMapper mapper;
 
+  /**
+   * Instantiates a new Category controller.
+   *
+   * @param categoryService the category service
+   * @param mapper the mapper
+   */
   public CategoryController(CategoryService categoryService, ModelMapper mapper) {
     this.categoryService = categoryService;
     this.mapper = mapper;
   }
 
+  /**
+   * Gets all categories.
+   *
+   * @return the all categories
+   */
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> getAllCategories() {
     var categoryDTOs =
@@ -37,6 +49,12 @@ public class CategoryController {
     return ApiResponse.builder().data(categoryDTOs).build();
   }
 
+  /**
+   * Gets category by id.
+   *
+   * @param id the id
+   * @return the category by id
+   */
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> getCategoryByID(@PathVariable Long id) {
     return ApiResponse.builder()
@@ -44,6 +62,12 @@ public class CategoryController {
         .build();
   }
 
+  /**
+   * Create category response entity.
+   *
+   * @param category the category
+   * @return the response entity
+   */
   @PostMapping
   public ResponseEntity<ApiResponse<Object>> createCategory(@RequestBody Category category) {
     return ApiResponse.builder()
@@ -51,6 +75,12 @@ public class CategoryController {
         .build();
   }
 
+  /**
+   * Update category response entity.
+   *
+   * @param category the category
+   * @return the response entity
+   */
   @PutMapping
   public ResponseEntity<ApiResponse<Object>> updateCategory(@RequestBody Category category) {
     return ApiResponse.builder()
@@ -58,6 +88,12 @@ public class CategoryController {
         .build();
   }
 
+  /**
+   * Delete category response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> deleteCategory(@PathVariable Long id) {
     categoryService.delete(id);

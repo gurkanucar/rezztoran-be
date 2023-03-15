@@ -7,13 +7,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Password reset mail consumer.
+ */
 @Service
 @Slf4j
 public class PasswordResetMailConsumerImpl implements PasswordResetMailConsumer {
 
   private final MailService mailService;
 
-  public PasswordResetMailConsumerImpl(MailService mailService) {
+  /**
+   * Instantiates a new Password reset mail consumer.
+   *
+   * @param mailService the mail service
+   */
+public PasswordResetMailConsumerImpl(MailService mailService) {
     this.mailService = mailService;
   }
 

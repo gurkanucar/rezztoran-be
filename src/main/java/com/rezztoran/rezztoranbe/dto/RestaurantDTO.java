@@ -13,12 +13,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Restaurant dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantDTO {
-  @JsonInclude(JsonInclude.Include.NON_NULL)
+  /**
+   * The Is favorite.
+   */
+@JsonInclude(JsonInclude.Include.NON_NULL)
   Boolean isFavorite;
   private Long id;
   private String restaurantName;

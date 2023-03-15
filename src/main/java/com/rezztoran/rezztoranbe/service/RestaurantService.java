@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+/** The type Restaurant service. */
 @Service
 public class RestaurantService {
 
@@ -30,6 +31,16 @@ public class RestaurantService {
   private final ExceptionUtil exceptionUtil;
   private final ModelMapper mapper;
 
+  /**
+   * Instantiates a new Restaurant service.
+   *
+   * @param restaurantRepository the restaurant repository
+   * @param userService the user service
+   * @param authService the auth service
+   * @param favoriteRestaurantService the favorite restaurant service
+   * @param exceptionUtil the exception util
+   * @param mapper the mapper
+   */
   public RestaurantService(
       RestaurantRepository restaurantRepository,
       UserServiceImpl userService,
@@ -45,6 +56,13 @@ public class RestaurantService {
     this.mapper = mapper;
   }
 
+  /**
+   * Gets restaurants.
+   *
+   * @param specifications the specifications
+   * @param pageRequest the page request
+   * @return the restaurants
+   */
   public Page<RestaurantDTO> getRestaurants(Specification specifications, Pageable pageRequest) {
     var user = authService.getAuthenticatedUser();
 
@@ -69,6 +87,12 @@ public class RestaurantService {
     return restaurantPage;
   }
 
+  /**
+   * Create restaurant.
+   *
+   * @param restaurant the restaurant
+   * @return the restaurant
+   */
   public Restaurant create(Restaurant restaurant) {
     if (doesRestaurantExistByName(restaurant)) {
       throw exceptionUtil.buildException(Ex.RESTAURANT_ALREADY_EXISTS_EXCEPTION);
@@ -76,6 +100,11 @@ public class RestaurantService {
     return restaurantRepository.save(restaurant);
   }
 
+  /**
+   * Create.
+   *
+   * @param restaurants the restaurants
+   */
   public void create(List<Restaurant> restaurants) {
     restaurants.forEach(
         x -> {
@@ -85,6 +114,12 @@ public class RestaurantService {
         });
   }
 
+  /**
+   * Update restaurant.
+   *
+   * @param restaurant the restaurant
+   * @return the restaurant
+   */
   @Transactional
   public Restaurant update(Restaurant restaurant) {
     var existing = getById(restaurant.getId());
@@ -106,6 +141,12 @@ public class RestaurantService {
     return restaurantRepository.save(existing);
   }
 
+  /**
+   * Update owner restaurant.
+   *
+   * @param restaurant the restaurant
+   * @return the restaurant
+   */
   public Restaurant updateOwner(Restaurant restaurant) {
     var existing = getById(restaurant.getId());
     if (doesRestaurantExistByUser(restaurant)) {
@@ -116,22 +157,46 @@ public class RestaurantService {
     return restaurantRepository.save(existing);
   }
 
+  /**
+   * Does restaurant exist by name boolean.
+   *
+   * @param restaurant the restaurant
+   * @return the boolean
+   */
   public boolean doesRestaurantExistByName(Restaurant restaurant) {
     return restaurantRepository
         .findRestaurantByRestaurantName(restaurant.getRestaurantName())
         .isPresent();
   }
 
+  /**
+   * Does restaurant exist by user boolean.
+   *
+   * @param restaurant the restaurant
+   * @return the boolean
+   */
   public boolean doesRestaurantExistByUser(Restaurant restaurant) {
     return restaurantRepository.findRestaurantByUser(restaurant.getUser()).isPresent();
   }
 
+  /**
+   * Gets by id.
+   *
+   * @param id the id
+   * @return the by id
+   */
   public Restaurant getById(Long id) {
     return restaurantRepository
         .findById(id)
         .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
   }
 
+  /**
+   * Gets by id dto.
+   *
+   * @param id the id
+   * @return the by id dto
+   */
   public RestaurantDTO getByIdDto(Long id) {
     var user = authService.getAuthenticatedUser();
     if (user.isEmpty()) {
@@ -155,6 +220,11 @@ public class RestaurantService {
     return restaurantDto;
   }
 
+  /**
+   * Delete.
+   *
+   * @param id the id
+   */
   public void delete(Long id) {
     var restaurant = getById(id);
     restaurantRepository.delete(restaurant);

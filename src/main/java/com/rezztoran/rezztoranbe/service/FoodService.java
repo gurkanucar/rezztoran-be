@@ -7,6 +7,9 @@ import com.rezztoran.rezztoranbe.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Food service.
+ */
 @Service
 @RequiredArgsConstructor
 public class FoodService {
@@ -15,13 +18,25 @@ public class FoodService {
   private final MenuService menuService;
   private final ExceptionUtil exceptionUtil;
 
-  public Food createFood(Food food) {
+  /**
+   * Create food food.
+   *
+   * @param food the food
+   * @return the food
+   */
+public Food createFood(Food food) {
     var menu = menuService.getMenuById(food.getMenu().getId());
     food.setMenu(menu);
     return foodRepository.save(food);
   }
 
-  public Food updateFood(Food food) {
+  /**
+   * Update food food.
+   *
+   * @param food the food
+   * @return the food
+   */
+public Food updateFood(Food food) {
     var menu = menuService.getMenuById(food.getMenu().getId());
     var existingFood = getFoodByID(food.getId());
     existingFood.setMenu(menu);
@@ -34,13 +49,24 @@ public class FoodService {
     return foodRepository.save(food);
   }
 
-  public Food getFoodByID(Long id) {
+  /**
+   * Gets food by id.
+   *
+   * @param id the id
+   * @return the food by id
+   */
+public Food getFoodByID(Long id) {
     return foodRepository
         .findById(id)
         .orElseThrow(() -> exceptionUtil.buildException(Ex.FOOD_NOT_FOUND_EXCEPTION));
   }
 
-  public void deleteFoodByID(Long id) {
+  /**
+   * Delete food by id.
+   *
+   * @param id the id
+   */
+public void deleteFoodByID(Long id) {
     foodRepository.delete(getFoodByID(id));
   }
 }

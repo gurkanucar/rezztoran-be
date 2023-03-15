@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Startup config.
+ */
 @Component
 public class StartupConfig implements CommandLineRunner {
 

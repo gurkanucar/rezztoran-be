@@ -8,9 +8,17 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
+/**
+ * The type Message config.
+ */
 @Configuration
 public class MessageConfig implements WebMvcConfigurer {
-  @Bean
+  /**
+   * Locale resolver accept header locale resolver.
+   *
+   * @return the accept header locale resolver
+   */
+@Bean
   public AcceptHeaderLocaleResolver localeResolver() {
     AcceptHeaderLocaleResolver localeResolver =
         new AcceptHeaderLocaleResolver() {

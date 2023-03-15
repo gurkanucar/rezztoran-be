@@ -13,6 +13,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * The type Menu.
+ */
 @SuperBuilder
 @Entity
 @AllArgsConstructor

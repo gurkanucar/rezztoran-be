@@ -7,6 +7,9 @@ import java.time.LocalTime;
 import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
+/**
+ * The type Book request model.
+ */
 @Data
 public class BookRequestModel {
 

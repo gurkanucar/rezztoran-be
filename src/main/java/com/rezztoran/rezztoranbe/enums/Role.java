@@ -1,7 +1,19 @@
 package com.rezztoran.rezztoranbe.enums;
 
+/**
+ * The enum Role.
+ */
 public enum Role {
-  ADMIN,
-  USER,
-  RESTAURANT_ADMIN
+  /**
+   *Admin role.
+   */
+ADMIN,
+  /**
+   *User role.
+   */
+USER,
+  /**
+   *Restaurant admin role.
+   */
+RESTAURANT_ADMIN
 }

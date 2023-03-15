@@ -14,6 +14,9 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
+/**
+ * The type Kafka consumer config.
+ */
 @Configuration
 public class KafkaConsumerConfig {
 
@@ -33,14 +36,24 @@ public class KafkaConsumerConfig {
     return props;
   }
 
-  @Bean
+  /**
+   * Book consumer factory consumer factory.
+   *
+   * @return the consumer factory
+   */
+@Bean
   public ConsumerFactory<String, BookDTO> bookConsumerFactory() {
     Map<String, Object> props = setProps(bootstrapServers, groupId);
     return new DefaultKafkaConsumerFactory<>(
         props, new StringDeserializer(), new JsonDeserializer<>(BookDTO.class));
   }
 
-  @Bean
+  /**
+   * Booking kafka listener container factory concurrent kafka listener container factory.
+   *
+   * @return the concurrent kafka listener container factory
+   */
+@Bean
   public ConcurrentKafkaListenerContainerFactory<String, BookDTO>
       bookingKafkaListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, BookDTO> factory =
@@ -50,14 +63,24 @@ public class KafkaConsumerConfig {
     return factory;
   }
 
-  @Bean
+  /**
+   * Password reset consumer factory consumer factory.
+   *
+   * @return the consumer factory
+   */
+@Bean
   public ConsumerFactory<String, PasswordResetMail> passwordResetConsumerFactory() {
     Map<String, Object> props = setProps(bootstrapServers, groupId);
     return new DefaultKafkaConsumerFactory<>(
         props, new StringDeserializer(), new JsonDeserializer<>(PasswordResetMail.class));
   }
 
-  @Bean
+  /**
+   * Password reset kafka listener container factory concurrent kafka listener container factory.
+   *
+   * @return the concurrent kafka listener container factory
+   */
+@Bean
   public ConcurrentKafkaListenerContainerFactory<String, PasswordResetMail>
       passwordResetKafkaListenerContainerFactory() {
     ConcurrentKafkaListenerContainerFactory<String, PasswordResetMail> factory =

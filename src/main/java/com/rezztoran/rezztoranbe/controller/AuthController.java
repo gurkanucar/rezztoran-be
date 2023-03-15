@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** The type Auth controller. */
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -25,6 +26,12 @@ public class AuthController {
   private final AuthService authService;
   private final ModelMapper modelMapper;
 
+  /**
+   * Register response entity.
+   *
+   * @param registerModel the register model
+   * @return the response entity
+   */
   @PostMapping("/register")
   public ResponseEntity<ApiResponse<Object>> register(
       @Valid @RequestBody RegisterModel registerModel) {
@@ -32,18 +39,35 @@ public class AuthController {
     return ApiResponse.builder().data(registerResponse).build();
   }
 
+  /**
+   * Login response entity.
+   *
+   * @param loginModel the login model
+   * @return the response entity
+   */
   @PostMapping("/login")
   public ResponseEntity<ApiResponse<Object>> login(@RequestBody LoginModel loginModel) {
     var token = authService.tryLogin(loginModel);
     return ApiResponse.builder().data(token).build();
   }
 
+  /**
+   * Gets myself.
+   *
+   * @return the myself
+   */
   @GetMapping("/me")
   public ResponseEntity<ApiResponse<Object>> getMyself() {
     var user = modelMapper.map(authService.getAuthenticatedUser(), UserDTO.class);
     return ApiResponse.builder().data(user).build();
   }
 
+  /**
+   * Reset mail response entity.
+   *
+   * @param passwordResetRequest the password reset request
+   * @return the response entity
+   */
   @PostMapping("/reset-request")
   public ResponseEntity<ApiResponse<Object>> resetMail(
       @RequestBody PasswordResetRequest passwordResetRequest) {
@@ -51,6 +75,12 @@ public class AuthController {
     return ApiResponse.builder().build();
   }
 
+  /**
+   * Reset password response entity.
+   *
+   * @param passwordResetModel the password reset model
+   * @return the response entity
+   */
   @PostMapping("/reset-password")
   public ResponseEntity<ApiResponse<Object>> resetPassword(
       @RequestBody PasswordResetModel passwordResetModel) {

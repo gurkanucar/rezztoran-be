@@ -15,6 +15,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Jwt access denied handler.
+ */
 @Component
 @RequiredArgsConstructor
 public class JWTAccessDeniedHandler implements AccessDeniedHandler {

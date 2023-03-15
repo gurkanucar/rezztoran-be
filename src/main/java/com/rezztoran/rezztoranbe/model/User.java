@@ -33,7 +33,10 @@ public class User extends BaseEntity {
   @JsonIgnore private String password;
   private String name;
   private String surname;
-  @Email private String mail;
+
+  @Email
+  @Column(nullable = false, unique = true)
+  private String mail;
 
   @Enumerated(EnumType.STRING)
   private Role role;

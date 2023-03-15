@@ -12,6 +12,10 @@ services:
       SPRING_DATASOURCE_PASSWORD: 1234
       jwt-variables.KEY: rezztoran
       SPRING_PROFILES_ACTIVE: prod
+      BOOTSTRAP_SERVERS: broker:29092
+      LOCALSTACK_URL: http://localstack:4566
+    env_file:
+      - dev.env
     depends_on:
       - db
     #command: [ "java", "-jar", "rezztoran-be-0.0.1-SNAPSHOT.jar" ]
@@ -83,12 +87,14 @@ services:
       - shared-net
 
   localstack:
+    hostname: localstack
     image: localstack/localstack
     ports:
       - "4566:4566"
     environment:
       - SERVICES=s3
-      - HOSTNAME_EXTERNAL=localhost
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      #- HOSTNAME_EXTERNAL=localstack
       - LEGACY_DIRECTORIES=1
     volumes:
       - "/var/lib/localstack:/tmp/localstack"

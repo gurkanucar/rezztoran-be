@@ -21,11 +21,7 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 ## How to Run
 
 ```bash
-  docker build -t rezztoran-be .
-```
-
-```bash
-  docker-compose up -d
+  docker-compose up -d --build
 ```
 
 ## Example Images

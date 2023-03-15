@@ -62,10 +62,8 @@ public class MenuService {
    * @return the menu by id
    */
   public Menu getMenuById(Long id) {
-    var menu =
-        menuRepository
-            .findById(id)
-            .orElseThrow(() -> exceptionUtil.buildException(Ex.NOT_FOUND_EXCEPTION));
-    return menu;
+    return menuRepository
+        .findById(id)
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.NOT_FOUND_EXCEPTION));
   }
 }

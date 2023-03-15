@@ -10,35 +10,205 @@
 			"name": "auth",
 			"item": [
 				{
-					"name": "login",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"grkn\",\r\n    \"password\":\"pass\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "admin logins",
+					"item": [
+						{
+							"name": "login gurkan",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"grkn\",\r\n    \"password\":\"pass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/auth/login",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{server}}/api/auth/login",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"login"
-							]
+						{
+							"name": "login alperen",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"alperen\",\r\n    \"password\":\"pass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/auth/login",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login vadim",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"vadim\",\r\n    \"password\":\"pass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/auth/login",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "restaurant admin login",
+					"item": [
+						{
+							"name": "rAdmin1",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"rAdmin1\",\r\n    \"password\":\"pass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/auth/login",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "rAdmin2",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"radmin2\",\r\n    \"password\":\"pass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/auth/login",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "user login",
+					"item": [
+						{
+							"name": "rAdmin1",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"pass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/api/auth/login",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "register",
@@ -50,7 +220,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"gurkan\",\r\n    \"mail\":\"g@mail.com\",\r\n    \"password\":\"password\",\r\n    \"name\":\"Gurkan\",\r\n    \"surname\":\"UCAR\"\r\n}",
+							"raw": "{\r\n    \"username\":\"user1\",\r\n    \"mail\":\"\",\r\n    \"password\":\"password\",\r\n    \"name\":\"name\",\r\n    \"surname\":\"surname\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -158,6 +328,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"grkn\",\r\n    \"password\":\"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/auth/login",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -177,6 +378,115 @@
 							"path": [
 								"api",
 								"restaurant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurant list with params",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/restaurant?city=edirne&restaurantName=lalezar&district=merkez&page=0&size=10&sort=restaurantName&sortDirection=asc",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "edirne"
+								},
+								{
+									"key": "restaurantName",
+									"value": "lalezar"
+								},
+								{
+									"key": "district",
+									"value": "merkez"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "restaurantName"
+								},
+								{
+									"key": "sortDirection",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurant list without token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/restaurant",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "edirne",
+									"disabled": true
+								},
+								{
+									"key": "restaurantName",
+									"value": "lalezar",
+									"disabled": true
+								},
+								{
+									"key": "district",
+									"value": "merkez",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "restaurantName",
+									"disabled": true
+								},
+								{
+									"key": "sortDirection",
+									"value": "asc",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -254,7 +564,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n  \"restaurantName\": \"Lalezar\",\r\n  \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n  \"restaurantImageList\":[\"img1\",\"img2\"],\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"phone\":\"\",\r\n  \"latitude\": 41.66228570277216,\r\n  \"longitude\": 26.546912915340750,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n},\r\n  {\r\n  \"restaurantName\": \"Ciğerci Niyazi Usta\",\r\n  \"restaurantImage\": \"https://cigerciniyaziusta.com.tr/wp-content/uploads/2021/07/MG_5793-1024x683.jpg\",\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Kale Içi Mevki Ali Paşa Orta Kapı Cad. No:9 Edirne Merkez, Edirne Türkiye\",\r\n  \"phone\":\"02842133222\",\r\n  \"latitude\": 41.675581854050854,\r\n  \"longitude\": 26.551856953637284,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n},\r\n  {\r\n  \"restaurantName\": \"Köfteci Osman\",\r\n  \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\",\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Sarıcapaşa, Kıyık Cd. No:8, 22000 Edirne Merkez/Edirne\",\r\n    \"phone\":\"02842127725\",\r\n  \"latitude\": 41.676875049736786, \r\n  \"longitude\": 26.558356007385267,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n},\r\n  {\r\n  \"restaurantName\": \"Ayçiceği Restaurant\",\r\n  \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n  \"city\": \"Edirne\",\r\n  \"district\": \"Merkez\",\r\n  \"detailedAddress\": \"Abdurrahman, Talat Paşa Cd. No:1, 22100 Edirne Merkez/Edirne\",\r\n    \"phone\":\"(0284) 225 66 52\",\r\n  \"latitude\": 41.66892551241609, \r\n  \"longitude\": 26.569701638636992,\r\n  \"starCount\": 0,\r\n  \"user\": {\r\n    \"id\": 1\r\n    }\r\n}\r\n]",
+							"raw": "[\r\n    {\r\n        \"restaurantName\": \"Lalezar\",\r\n        \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n        \"restaurantImageList\": [\r\n            \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n            \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\"\r\n        ],\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n        \"phone\": \"\",\r\n        \"latitude\": 41.66228570277216,\r\n        \"longitude\": 26.546912915340750,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Ciğerci Niyazi Usta\",\r\n        \"restaurantImage\": \"https://cigerciniyaziusta.com.tr/wp-content/uploads/2021/07/MG_5793-1024x683.jpg\",\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Kale Içi Mevki Ali Paşa Orta Kapı Cad. No:9 Edirne Merkez, Edirne Türkiye\",\r\n        \"phone\": \"02842133222\",\r\n        \"latitude\": 41.675581854050854,\r\n        \"longitude\": 26.551856953637284,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Köfteci Osman\",\r\n        \"restaurantImageList\": [\r\n            \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\"\r\n        ],\r\n        \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\",\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Sarıcapaşa, Kıyık Cd. No:8, 22000 Edirne Merkez/Edirne\",\r\n        \"phone\": \"02842127725\",\r\n        \"latitude\": 41.676875049736786,\r\n        \"longitude\": 26.558356007385267,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Ayçiceği Restaurant\",\r\n        \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n        \"restaurantImageList\": [\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\"\r\n        ],\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Abdurrahman, Talat Paşa Cd. No:1, 22100 Edirne Merkez/Edirne\",\r\n        \"phone\": \"(0284) 225 66 52\",\r\n        \"latitude\": 41.66892551241609,\r\n        \"longitude\": 26.569701638636992,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -282,7 +592,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 11,\r\n    \"restaurantName\": \"Lalezar\",\r\n    \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"phone\": \"\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.546912915340750,\r\n    \"starCount\": 0,\r\n    \"user\": {\r\n        \"id\": 1\r\n    },\r\n    \"restaurantAttributes\": {\r\n        \"isitma\": \"somine\",\r\n        \"konum\": \"deniz kenari\",\r\n        \"alkol\": \"var\"\r\n    },\r\n    \"bookingAvailable\": true,\r\n    \"openingTime\": \"10:00\",\r\n    \"closingTime\": \"18:00\",\r\n    \"intervalMinutes\": 30,\r\n    \"busyDates\": [\r\n        \"2023-08-13\",\r\n        \"2023-03-07\"\r\n    ]\r\n}",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"restaurantName\": \"Lalezar\",\r\n    \"restaurantImageList\": [\r\n        \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n        \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\"\r\n    ],\r\n    \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n    \"city\": \"Edirne\",\r\n    \"district\": \"Merkez\",\r\n    \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n    \"latitude\": 41.66228570277216,\r\n    \"longitude\": 26.54691291534075,\r\n    \"starCount\": null,\r\n    \"user\": {\r\n        \"id\": 3,\r\n        \"username\": \"mehmet\",\r\n        \"name\": \"mehmet\",\r\n        \"surname\": \"yilmaz\",\r\n        \"mail\": \"mehmet@mail\",\r\n        \"profileImageUrl\": null,\r\n        \"resetPassword\": false,\r\n        \"role\": \"RESTAURANT_ADMIN\"\r\n    },\r\n    \"phone\": \"\",\r\n    \"menu\": null,\r\n    \"reviews\": [],\r\n    \"restaurantAttributes\": {\r\n        \"alkol\": \"var\",\r\n        \"konum\": \"deniz kenari\",\r\n        \"isitma\": \"somine\"\r\n    },\r\n    \"bookingAvailable\": true,\r\n    \"openingTime\": \"14:00\",\r\n    \"closingTime\": \"18:00\",\r\n    \"intervalMinutes\": 30,\r\n    \"busyDates\": [\r\n        \"2023-08-12\",\r\n        \"2023-03-04\"\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -362,14 +672,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant/11/book/slots?localDate=2023-03-09",
+							"raw": "{{server}}/api/restaurant/1/book/slots?localDate=2023-03-09",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"restaurant",
-								"11",
+								"1",
 								"book",
 								"slots"
 							],
@@ -601,14 +911,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/user/2",
+							"raw": "{{server}}/api/user/1",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"user",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -767,37 +1077,6 @@
 			]
 		},
 		{
-			"name": "reservation",
-			"item": [
-				{
-					"name": "get by restaurant id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{server}}/api/restaurant-booking/restaurant/1?localDate=2023-03-06",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"api",
-								"restaurant-booking",
-								"restaurant",
-								"1"
-							],
-							"query": [
-								{
-									"key": "localDate",
-									"value": "2023-03-06"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "book",
 			"item": [
 				{
@@ -807,7 +1086,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 11,\r\n    \"reservationDate\": \"2023-03-09\",\r\n    \"reservationTime\": \"11:30\",\r\n    \"note\":\"somineli yer ayarla\"\r\n}",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1,\r\n    \"reservationDate\": \"2023-03-09\",\r\n    \"reservationTime\": \"11:30\",\r\n    \"note\":\"cam kenari olsun lutfen.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -902,6 +1181,85 @@
 			]
 		},
 		{
+			"name": "favorite restaurant",
+			"item": [
+				{
+					"name": "add to favorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/favorite",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get favorites by user id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/favorite/user/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"favorite",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete favorite",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/favorite",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"favorite"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "file upload",
 			"item": [
 				{
@@ -939,7 +1297,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/file/download/Qrpu3NgxvrZlgsKUObtizQEag5MGcRD3hLAVA8P3lAluHnpC4n.jfif",
+							"raw": "{{server}}/api/file/download/ce5FbI8ZoQcwWkIyV1iPkydMLGaKjrj6xGoM3sqPhledkfikGU.jfif",
 							"host": [
 								"{{server}}"
 							],
@@ -947,7 +1305,7 @@
 								"api",
 								"file",
 								"download",
-								"Qrpu3NgxvrZlgsKUObtizQEag5MGcRD3hLAVA8P3lAluHnpC4n.jfif"
+								"ce5FbI8ZoQcwWkIyV1iPkydMLGaKjrj6xGoM3sqPhledkfikGU.jfif"
 							]
 						}
 					},
@@ -961,7 +1319,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJncmtuIiwiaXNzIjoicmV6enRvcmFuIiwiZXhwIjoxNjc3ODI1MjI2fQ.7zNzNaH5dVj10xbFrxQHLFPTrwhua_XulFrPBBlB4iU",
+				"value": "",
 				"type": "string"
 			}
 		]
@@ -989,20 +1347,8 @@
 	"variable": [
 		{
 			"key": "server",
-			"value": "",
-			"type": "string",
-			"disabled": true
-		},
-		{
-			"key": "server",
 			"value": "http://localhost:8082",
 			"type": "string"
-		},
-		{
-			"key": "server",
-			"value": "http://server.gurkanucar.com:8080",
-			"type": "string",
-			"disabled": true
 		}
 	]
 }

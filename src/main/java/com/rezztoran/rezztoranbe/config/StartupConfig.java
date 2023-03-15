@@ -22,14 +22,21 @@ public class StartupConfig implements CommandLineRunner {
                 .password("pass")
                 .mail("gurkanucar@yaani.com")
                 .name("grkn")
-                .surname("ucar")
+                .surname("u.")
                 .build(),
             User.builder()
                 .username("alperen")
                 .password("pass")
                 .mail("sefalperen21@gmail.com")
                 .name("alperen")
-                .surname("kapusuz")
+                .surname("k.")
+                .build(),
+            User.builder()
+                .username("vadim")
+                .password("pass")
+                .mail("vadimkiniabaev@gmail.com")
+                .name("vadim")
+                .surname("k.")
                 .build());
 
     var restaurantAdmins =
@@ -48,7 +55,15 @@ public class StartupConfig implements CommandLineRunner {
                 .name("restaurant admini 2")
                 .surname("soyad")
                 .build());
-
+    var users =
+        List.of(
+            User.builder()
+                .username("user")
+                .password("pass")
+                .mail("test12345@kaudat.com")
+                .name("user")
+                .surname("soyad")
+                .build());
     admins.forEach(
         x -> {
           try {
@@ -61,6 +76,13 @@ public class StartupConfig implements CommandLineRunner {
         x -> {
           try {
             userService.create(x, Role.RESTAURANT_ADMIN);
+          } catch (Exception e) {
+          }
+        });
+    users.forEach(
+        x -> {
+          try {
+            userService.create(x, Role.USER);
           } catch (Exception e) {
           }
         });

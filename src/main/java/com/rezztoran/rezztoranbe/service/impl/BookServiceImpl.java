@@ -14,7 +14,7 @@ import com.rezztoran.rezztoranbe.repository.BookRepository;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
-import com.rezztoran.rezztoranbe.service.kafka.producer.BookingProducer;
+import com.rezztoran.rezztoranbe.kafka.producer.BookingProducer;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

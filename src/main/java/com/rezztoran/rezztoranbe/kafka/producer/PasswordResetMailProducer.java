@@ -1,4 +1,4 @@
-package com.rezztoran.rezztoranbe.service.kafka.producer;
+package com.rezztoran.rezztoranbe.kafka.producer;
 
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 

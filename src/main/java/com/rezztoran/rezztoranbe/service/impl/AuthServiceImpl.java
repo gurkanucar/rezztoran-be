@@ -12,7 +12,7 @@ import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.AuthService;
 import com.rezztoran.rezztoranbe.service.TokenService;
-import com.rezztoran.rezztoranbe.service.kafka.producer.PasswordResetMailProducer;
+import com.rezztoran.rezztoranbe.kafka.producer.PasswordResetMailProducer;
 import java.util.Optional;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;

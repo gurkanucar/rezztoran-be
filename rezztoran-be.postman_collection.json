@@ -178,7 +178,7 @@
 					"name": "user login",
 					"item": [
 						{
-							"name": "rAdmin1",
+							"name": "user",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -392,7 +392,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant?city=edirne&restaurantName=lalezar&district=merkez&page=0&size=10&sort=restaurantName&sortDirection=asc",
+							"raw": "{{server}}/api/restaurant?city=edirne&page=0&size=10&sort=restaurantName&sortDirection=desc",
 							"host": [
 								"{{server}}"
 							],
@@ -407,11 +407,13 @@
 								},
 								{
 									"key": "restaurantName",
-									"value": "lalezar"
+									"value": "lalezar",
+									"disabled": true
 								},
 								{
 									"key": "district",
-									"value": "merkez"
+									"value": "merkez",
+									"disabled": true
 								},
 								{
 									"key": "page",
@@ -427,7 +429,7 @@
 								},
 								{
 									"key": "sortDirection",
-									"value": "asc"
+									"value": "desc"
 								}
 							]
 						}
@@ -646,20 +648,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant/1/book?localDate=2023-03-04",
+							"raw": "{{server}}/api/restaurant/11/book?localDate=2023-03-09",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"restaurant",
-								"1",
+								"11",
 								"book"
 							],
 							"query": [
 								{
 									"key": "localDate",
-									"value": "2023-03-04"
+									"value": "2023-03-09"
 								}
 							]
 						}
@@ -672,14 +674,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant/1/book/slots?localDate=2023-03-09",
+							"raw": "{{server}}/api/restaurant/11/book/slots?localDate=2023-03-09",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"restaurant",
-								"1",
+								"11",
 								"book",
 								"slots"
 							],
@@ -1086,7 +1088,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1,\r\n    \"reservationDate\": \"2023-03-09\",\r\n    \"reservationTime\": \"11:30\",\r\n    \"note\":\"cam kenari olsun lutfen.\"\r\n}",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1,\r\n    \"reservationDate\": \"2023-03-09\",\r\n    \"reservationTime\": \"16:00\",\r\n    \"note\":\"beklenti buyuk bakalim nasil restaurant\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1139,7 +1141,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/book/user/1?localDate=2023-03-07",
+							"raw": "{{server}}/api/book/user/1?localDate=2023-03-09",
 							"host": [
 								"{{server}}"
 							],
@@ -1152,7 +1154,7 @@
 							"query": [
 								{
 									"key": "localDate",
-									"value": "2023-03-07"
+									"value": "2023-03-09"
 								}
 							]
 						}
@@ -1173,6 +1175,124 @@
 								"api",
 								"book",
 								"19"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reviews",
+			"item": [
+				{
+					"name": "create review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1,\r\n    \"star\": 5,\r\n    \"content\": \"superdi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/review",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update review",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 4,\r\n    \"restaurantId\": 2,\r\n    \"userId\": 4,\r\n    \"content\": \"ortalama gibi\",\r\n    \"star\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/api/review",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get review by restaurant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/review/restaurant/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"review",
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get review by user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/review/user/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"review",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete review by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/review/1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"review",
+								"1"
 							]
 						}
 					},
@@ -1273,7 +1393,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/Gurkan/Desktop/1672473725537.jfif"
+									"src": "/C:/Users/Gurkan/Desktop/61d9804648267400042905272.png"
 								}
 							]
 						},
@@ -1297,7 +1417,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/file/download/ce5FbI8ZoQcwWkIyV1iPkydMLGaKjrj6xGoM3sqPhledkfikGU.jfif",
+							"raw": "{{server}}/api/file/download/uha6gV3RDop7ChD5DhwPPRnicJ8v5OQf5jbSDyiDL94QCqmCe3.png",
 							"host": [
 								"{{server}}"
 							],
@@ -1305,7 +1425,7 @@
 								"api",
 								"file",
 								"download",
-								"ce5FbI8ZoQcwWkIyV1iPkydMLGaKjrj6xGoM3sqPhledkfikGU.jfif"
+								"uha6gV3RDop7ChD5DhwPPRnicJ8v5OQf5jbSDyiDL94QCqmCe3.png"
 							]
 						}
 					},

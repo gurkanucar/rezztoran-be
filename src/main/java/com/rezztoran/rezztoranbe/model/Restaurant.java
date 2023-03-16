@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,6 +53,7 @@ public class Restaurant extends BaseEntity {
   @OneToOne(mappedBy = "restaurant")
   private Menu menu;
 
+  @JsonIgnore
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL)
   private List<Review> reviews;
 

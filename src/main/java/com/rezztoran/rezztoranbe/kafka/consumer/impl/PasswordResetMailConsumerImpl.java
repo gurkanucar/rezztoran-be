@@ -1,8 +1,8 @@
 package com.rezztoran.rezztoranbe.kafka.consumer.impl;
 
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
-import com.rezztoran.rezztoranbe.service.MailService;
 import com.rezztoran.rezztoranbe.kafka.consumer.PasswordResetMailConsumer;
+import com.rezztoran.rezztoranbe.service.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

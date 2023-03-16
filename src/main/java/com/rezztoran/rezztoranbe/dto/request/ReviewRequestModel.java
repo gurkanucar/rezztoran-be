@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** The type Review request model. */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

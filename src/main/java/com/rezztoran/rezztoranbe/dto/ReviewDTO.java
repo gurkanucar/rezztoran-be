@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** The type Review dto. */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -11,11 +11,28 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+  /**
+   * Find all by user id list.
+   *
+   * @param userId the user id
+   * @return the list
+   */
   List<Review> findAllByUser_Id(Long userId);
 
+  /**
+   * Find all by restaurant id list.
+   *
+   * @param restaurantId the restaurant id
+   * @return the list
+   */
   List<Review> findAllByRestaurant_Id(Long restaurantId);
 
-
+  /**
+   * Find all by restaurant ids list.
+   *
+   * @param restaurantIds the restaurant ids
+   * @return the list
+   */
   @Query("SELECT e FROM Review e WHERE e.restaurant.id IN :restaurantIds")
   List<Review> findAllByRestaurantIds(@Param("restaurantIds") List<Long> restaurantIds);
 }

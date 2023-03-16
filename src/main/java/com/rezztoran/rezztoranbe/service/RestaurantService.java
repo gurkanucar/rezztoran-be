@@ -41,7 +41,7 @@ public class RestaurantService {
    * @param favoriteRestaurantService the favorite restaurant service
    * @param exceptionUtil the exception util
    * @param mapper the mapper
-   * @param reviewService
+   * @param reviewService the review service
    */
   public RestaurantService(
       RestaurantRepository restaurantRepository,

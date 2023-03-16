@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/** The type Review service. */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,6 +26,18 @@ public class ReviewServiceImpl implements ReviewService {
   private final UserService userService;
   private final RestaurantService restaurantService;
   private final ReviewRepository reviewRepository;
+
+  private static ReviewDTO getReviewDTO(Review x) {
+    return ReviewDTO.builder()
+        .id(x.getId())
+        .restaurantId(x.getRestaurant().getId())
+        .restaurantName(x.getRestaurant().getRestaurantName())
+        .userId(x.getId())
+        .username(x.getUser().getUsername())
+        .content(x.getContent())
+        .star(x.getStar())
+        .build();
+  }
 
   @Override
   public ReviewDTO createReview(ReviewRequestModel request) {
@@ -56,6 +69,12 @@ public class ReviewServiceImpl implements ReviewService {
     return getReviewDTO(reviewRepository.save(existing));
   }
 
+  /**
+   * Gets review by id.
+   *
+   * @param id the id
+   * @return the review by id
+   */
   public Review getReviewById(Long id) {
     return reviewRepository
         .findById(id)
@@ -82,24 +101,18 @@ public class ReviewServiceImpl implements ReviewService {
         .collect(Collectors.toList());
   }
 
-  private static ReviewDTO getReviewDTO(Review x) {
-    return ReviewDTO.builder()
-        .id(x.getId())
-        .restaurantId(x.getRestaurant().getId())
-        .restaurantName(x.getRestaurant().getRestaurantName())
-        .userId(x.getId())
-        .username(x.getUser().getUsername())
-        .content(x.getContent())
-        .star(x.getStar())
-        .build();
-  }
-
   @Override
   public Double calculateStarCountByRestaurant(Long id) {
     var restaurantData = reviewRepository.findAllByRestaurant_Id(id);
     return restaurantData.stream().mapToInt(Review::getStar).average().orElse(0);
   }
 
+  /**
+   * Calculate star count double.
+   *
+   * @param reviews the reviews
+   * @return the double
+   */
   public Double calculateStarCount(List<Review> reviews) {
     return reviews.stream().mapToInt(Review::getStar).average().orElse(0);
   }

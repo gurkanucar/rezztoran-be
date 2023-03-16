@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,18 @@ public class AuthServiceImpl implements AuthService {
     } catch (Exception e) {
       throw exceptionUtil.buildException(Ex.WRONG_CREDENTIALS_EXCEPTION);
     }
+  }
+
+  public Optional<UserDetails> getAuthenticatedUserDetails() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated()) {
+      return Optional.empty();
+    }
+    Object principal = authentication.getPrincipal();
+    if (principal instanceof UserDetails) {
+      return Optional.of((UserDetails) principal);
+    }
+    return Optional.empty();
   }
 
   public Optional<User> getAuthenticatedUser() {

@@ -54,7 +54,7 @@ public class Restaurant extends BaseEntity {
   private Menu menu;
 
   @JsonIgnore
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)
   private List<Review> reviews;
 
   @ElementCollection

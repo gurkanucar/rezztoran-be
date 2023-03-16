@@ -2,6 +2,7 @@ package com.rezztoran.rezztoranbe.service.impl;
 
 import static java.util.stream.Collectors.groupingBy;
 
+import com.rezztoran.rezztoranbe.aop.AuthorizeCheck;
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.dto.request.ReviewRequestModel;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
@@ -44,10 +45,10 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
+  @AuthorizeCheck(
+      field = "userId",
+      exceptRoles = {"ADMIN", "RESTAURANT_ADMIN"})
   public ReviewDTO createReview(ReviewRequestModel request) {
-
-    var authUserId = authService.getAuthenticatedUser().get().getId();
-
     var user = userService.findUserByID(request.getUserId());
     var restaurant = restaurantService.getById(request.getRestaurantId());
 
@@ -95,7 +96,11 @@ public class ReviewServiceImpl implements ReviewService {
 
   @Override
   public void deleteReviewById(Long id) {
+    var authUserId = authService.getAuthenticatedUser().get().getId();
     var existing = getReviewById(id);
+    if (!authUserId.equals(existing.getUser().getId())) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
     reviewRepository.delete(existing);
   }
 

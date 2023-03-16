@@ -6,6 +6,7 @@ import com.rezztoran.rezztoranbe.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -40,12 +41,6 @@ public class SecurityConfig {
             .antMatchers(
                 "/h2-console/**",
                 "/api/auth/**",
-                "/api/restaurant/**",
-                "/api/menu/**",
-                "/api/food/**",
-                "/api/category/**",
-                "/api/review/**",
-                "/api/file/download/**",
                 "/api/user/reset-request",
                 "/api/user/reset-password",
                 "/swagger-resources/**",
@@ -74,6 +69,15 @@ public class SecurityConfig {
         .and()
         .authorizeRequests(
             auth -> {
+              auth.antMatchers(
+                      HttpMethod.GET,
+                      "/api/restaurant/**",
+                      "/api/menu/**",
+                      "/api/food/**",
+                      "/api/category/**",
+                      "/api/review/**",
+                      "/api/file/download/**")
+                  .permitAll();
               auth.anyRequest().authenticated();
             })
         .formLogin()

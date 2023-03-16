@@ -44,7 +44,7 @@ public class SecurityConfig {
                 "/api/menu/**",
                 "/api/food/**",
                 "/api/category/**",
-                "/api/review",
+                "/api/review/**",
                 "/api/file/download/**",
                 "/api/user/reset-request",
                 "/api/user/reset-password",

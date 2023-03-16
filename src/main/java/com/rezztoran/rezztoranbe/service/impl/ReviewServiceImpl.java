@@ -29,6 +29,7 @@ public class ReviewServiceImpl implements ReviewService {
   private final RestaurantService restaurantService;
   private final ReviewRepository reviewRepository;
   private final ExceptionUtil exceptionUtil;
+  private final AuthServiceImpl authService;
 
   private static ReviewDTO getReviewDTO(Review x) {
     return ReviewDTO.builder()
@@ -44,6 +45,9 @@ public class ReviewServiceImpl implements ReviewService {
 
   @Override
   public ReviewDTO createReview(ReviewRequestModel request) {
+
+    var authUserId = authService.getAuthenticatedUser().get().getId();
+
     var user = userService.findUserByID(request.getUserId());
     var restaurant = restaurantService.getById(request.getRestaurantId());
 

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class RestaurantDTO {
   /** The Is favorite. */
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  Boolean isFavorite;
+  private Boolean isFavorite;
 
   private Long id;
   private String restaurantName;
@@ -33,12 +33,24 @@ public class RestaurantDTO {
   private String detailedAddress;
   private Double latitude;
   private Double longitude;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Double starCount;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private UserDTO user;
+
   private String phone;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Menu menu;
+
   @JsonIgnore private List<Review> reviews;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Map<String, String> restaurantAttributes;
+
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean bookingAvailable;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
@@ -47,8 +59,10 @@ public class RestaurantDTO {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
   private LocalTime closingTime;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Integer intervalMinutes;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private List<LocalDate> busyDates;
 }

@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.model.Booking;
 import java.time.LocalDate;
@@ -37,11 +38,11 @@ public interface BookService {
   /**
    * Gets books.
    *
-   * @param bookingDate the booking date
+   * @param bookingDate  the booking date
    * @param restaurantId the restaurant id
    * @return the books
    */
-  List<Booking> getBooks(LocalDate bookingDate, Long restaurantId);
+  List<BookDTO> getBooks(LocalDate bookingDate, Long restaurantId);
 
   /**
    * Gets available time slots map.
@@ -65,14 +66,14 @@ public interface BookService {
    * @param id the id
    * @return the books by user
    */
-  List<Booking> getBooksByUser(Long id);
+  List<BookDTO> getBooksByUser(Long id);
 
   /**
    * Gets books by user and date.
    *
-   * @param id the id
+   * @param id   the id
    * @param date the date
    * @return the books by user and date
    */
-  List<Booking> getBooksByUserAndDate(Long id, LocalDate date);
+  List<BookDTO> getBooksByUserAndDate(Long id, LocalDate date);
 }

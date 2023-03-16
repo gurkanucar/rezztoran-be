@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -97,8 +98,50 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Booking> getBooks(LocalDate bookingDate, Long restaurantId) {
-    return bookRepository.findAllByRestaurant_IdAndReservationDate(restaurantId, bookingDate);
+  public List<BookDTO> getBooks(LocalDate bookingDate, Long restaurantId) {
+    return bookRepository
+        .findAllByRestaurant_IdAndReservationDate(restaurantId, bookingDate)
+        .stream()
+        .map(x -> convertToBookDTO(x, true, false))
+        .collect(Collectors.toList());
+  }
+
+  private static BookDTO convertToBookDTO(
+      Booking x, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
+    return BookDTO.builder()
+        .id(x.getId())
+        .bookingStatus(x.getBookingStatus())
+        .reservationDate(x.getReservationDate())
+        .reservationTime(x.getReservationTime())
+        .restaurant(
+            !restaurantLeaveEmpty
+                ? RestaurantDTO.builder()
+                    .id(x.getRestaurant().getId())
+                    .restaurantName(x.getRestaurant().getRestaurantName())
+                    .restaurantImage(x.getRestaurant().getRestaurantImage())
+                    .restaurantImageList(x.getRestaurant().getRestaurantImageList())
+                    .city(x.getRestaurant().getCity())
+                    .district(x.getRestaurant().getDistrict())
+                    .detailedAddress(x.getRestaurant().getDetailedAddress())
+                    .latitude(x.getRestaurant().getLatitude())
+                    .longitude(x.getRestaurant().getLongitude())
+                    .openingTime(x.getRestaurant().getOpeningTime())
+                    .closingTime(x.getRestaurant().getClosingTime())
+                    .phone(x.getRestaurant().getPhone())
+                    .build()
+                : null)
+        .user(
+            !userLeaveEmpty
+                ? UserDTO.builder()
+                    .id(x.getUser().getId())
+                    .username(x.getUser().getUsername())
+                    .name(x.getUser().getName())
+                    .surname(x.getUser().getSurname())
+                    .mail(x.getUser().getMail())
+                    .build()
+                : null)
+        .note(x.getNote())
+        .build();
   }
 
   @Override
@@ -148,13 +191,17 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Booking> getBooksByUser(Long id) {
-    return bookRepository.findAllByUser_Id(id);
+  public List<BookDTO> getBooksByUser(Long id) {
+    return bookRepository.findAllByUser_Id(id).stream()
+        .map(x -> convertToBookDTO(x, false, true))
+        .collect(Collectors.toList());
   }
 
   @Override
-  public List<Booking> getBooksByUserAndDate(Long id, LocalDate date) {
-    return bookRepository.findAllByUser_IdAndReservationDate(id, date);
+  public List<BookDTO> getBooksByUserAndDate(Long id, LocalDate date) {
+    return bookRepository.findAllByUser_IdAndReservationDate(id, date).stream()
+        .map(x -> convertToBookDTO(x, false, true))
+        .collect(Collectors.toList());
   }
 
   /**

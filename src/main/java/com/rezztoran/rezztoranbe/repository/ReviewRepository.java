@@ -35,4 +35,13 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
    */
   @Query("SELECT e FROM Review e WHERE e.restaurant.id IN :restaurantIds")
   List<Review> findAllByRestaurantIds(@Param("restaurantIds") List<Long> restaurantIds);
+
+  /**
+   * Exists by user id and restaurant id boolean.
+   *
+   * @param userId the user id
+   * @param restaurantId the restaurant id
+   * @return the boolean
+   */
+  Boolean existsByUser_IdAndRestaurant_Id(Long userId, Long restaurantId);
 }

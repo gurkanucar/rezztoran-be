@@ -63,7 +63,12 @@ public class BusinessException extends RuntimeException {
         "messages.error.category_not_found_exception", HttpStatus.NOT_FOUND),
     /** Category already exists exception ex. */
     CATEGORY_ALREADY_EXISTS_EXCEPTION(
-        "messages.error.category_already_exists_exception", HttpStatus.NOT_FOUND);
+        "messages.error.category_already_exists_exception", HttpStatus.NOT_FOUND),
+    /** Review not found exception ex. */
+    REVIEW_NOT_FOUND_EXCEPTION("messages.error.review_not_found_exception", HttpStatus.NOT_FOUND),
+    /** Review already exists exception ex. */
+    REVIEW_ALREADY_EXISTS_EXCEPTION(
+        "messages.error.review_already_exists_exception", HttpStatus.BAD_REQUEST);
 
     private final String message;
     private final HttpStatus status;

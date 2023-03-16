@@ -4,6 +4,8 @@ import static java.util.stream.Collectors.groupingBy;
 
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.dto.request.ReviewRequestModel;
+import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
+import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Review;
 import com.rezztoran.rezztoranbe.repository.ReviewRepository;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
@@ -26,6 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
   private final UserService userService;
   private final RestaurantService restaurantService;
   private final ReviewRepository reviewRepository;
+  private final ExceptionUtil exceptionUtil;
 
   private static ReviewDTO getReviewDTO(Review x) {
     return ReviewDTO.builder()
@@ -43,6 +46,11 @@ public class ReviewServiceImpl implements ReviewService {
   public ReviewDTO createReview(ReviewRequestModel request) {
     var user = userService.findUserByID(request.getUserId());
     var restaurant = restaurantService.getById(request.getRestaurantId());
+
+    if (Boolean.TRUE.equals(
+        reviewRepository.existsByUser_IdAndRestaurant_Id(user.getId(), restaurant.getId()))) {
+      throw exceptionUtil.buildException(Ex.REVIEW_ALREADY_EXISTS_EXCEPTION);
+    }
 
     var savedRecord =
         reviewRepository.save(
@@ -78,7 +86,7 @@ public class ReviewServiceImpl implements ReviewService {
   public Review getReviewById(Long id) {
     return reviewRepository
         .findById(id)
-        .orElseThrow(() -> new RuntimeException("review not found!"));
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.REVIEW_NOT_FOUND_EXCEPTION));
   }
 
   @Override

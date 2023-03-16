@@ -30,6 +30,7 @@ public class RestaurantService {
   private final FavoriteRestaurantService favoriteRestaurantService;
   private final ExceptionUtil exceptionUtil;
   private final ModelMapper mapper;
+  private final ReviewService reviewService;
 
   /**
    * Instantiates a new Restaurant service.
@@ -40,6 +41,7 @@ public class RestaurantService {
    * @param favoriteRestaurantService the favorite restaurant service
    * @param exceptionUtil the exception util
    * @param mapper the mapper
+   * @param reviewService the review service
    */
   public RestaurantService(
       RestaurantRepository restaurantRepository,
@@ -47,13 +49,15 @@ public class RestaurantService {
       AuthServiceImpl authService,
       @Lazy FavoriteRestaurantService favoriteRestaurantService,
       ExceptionUtil exceptionUtil,
-      ModelMapper mapper) {
+      ModelMapper mapper,
+      @Lazy ReviewService reviewService) {
     this.restaurantRepository = restaurantRepository;
     this.userService = userService;
     this.authService = authService;
     this.favoriteRestaurantService = favoriteRestaurantService;
     this.exceptionUtil = exceptionUtil;
     this.mapper = mapper;
+    this.reviewService = reviewService;
   }
 
   /**
@@ -67,15 +71,31 @@ public class RestaurantService {
     var user = authService.getAuthenticatedUser();
 
     Pageable pageable = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize());
+
+    // map to DTO
     Page<RestaurantDTO> restaurantPage =
         restaurantRepository
             .findAll(specifications, pageable)
             .map(x -> mapper.map(x, RestaurantDTO.class));
-    restaurantPage.getContent().forEach(x -> x.setMenu(null));
 
+    var ids =
+        restaurantPage.getContent().stream().map(RestaurantDTO::getId).collect(Collectors.toList());
+
+    var starCounts = reviewService.calculateStarCountByRestaurant(ids);
+
+    restaurantPage
+        .getContent()
+        .forEach(
+            x -> {
+              x.setMenu(null);
+              x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId()));
+            });
+    // if user is empty return without isFavorite field
     if (user.isEmpty()) {
       return restaurantPage;
     }
+
+    // get favorite restaurants of user
     Set<Long> favoriteRestaurantIds =
         favoriteRestaurantService.getFavoriteRestaurantsByUser(user.get().getId()).stream()
             .map(BaseEntity::getId)
@@ -198,6 +218,7 @@ public class RestaurantService {
    * @return the by id dto
    */
   public RestaurantDTO getByIdDto(Long id) {
+    var score = reviewService.calculateStarCountByRestaurant(id);
     var user = authService.getAuthenticatedUser();
     if (user.isEmpty()) {
       var restaurant =
@@ -215,6 +236,7 @@ public class RestaurantService {
             .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
     var restaurantDto = mapper.map(restaurant, RestaurantDTO.class);
 
+    restaurantDto.setStarCount(score);
     restaurantDto.setIsFavorite(favoriteRestaurant.isPresent());
 
     return restaurantDto;

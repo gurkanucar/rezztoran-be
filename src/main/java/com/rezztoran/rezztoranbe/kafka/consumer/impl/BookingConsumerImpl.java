@@ -1,9 +1,9 @@
-package com.rezztoran.rezztoranbe.service.kafka.consumer.impl;
+package com.rezztoran.rezztoranbe.kafka.consumer.impl;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.MailModel;
+import com.rezztoran.rezztoranbe.kafka.consumer.BookingConsumer;
 import com.rezztoran.rezztoranbe.service.MailService;
-import com.rezztoran.rezztoranbe.service.kafka.consumer.BookingConsumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

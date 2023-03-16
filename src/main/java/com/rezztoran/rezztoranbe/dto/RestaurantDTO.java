@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.model.Review;
@@ -36,7 +37,7 @@ public class RestaurantDTO {
   private UserDTO user;
   private String phone;
   private Menu menu;
-  private List<Review> reviews;
+  @JsonIgnore private List<Review> reviews;
   private Map<String, String> restaurantAttributes;
   private Boolean bookingAvailable;
 

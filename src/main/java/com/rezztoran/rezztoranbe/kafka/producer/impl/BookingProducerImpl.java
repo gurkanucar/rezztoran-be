@@ -1,7 +1,7 @@
-package com.rezztoran.rezztoranbe.service.kafka.producer.impl;
+package com.rezztoran.rezztoranbe.kafka.producer.impl;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
-import com.rezztoran.rezztoranbe.service.kafka.producer.BookingProducer;
+import com.rezztoran.rezztoranbe.kafka.producer.BookingProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

@@ -44,4 +44,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
    * @return the boolean
    */
   Boolean existsByUser_IdAndRestaurant_Id(Long userId, Long restaurantId);
+
 }

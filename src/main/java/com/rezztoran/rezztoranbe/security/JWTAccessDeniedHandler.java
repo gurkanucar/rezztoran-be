@@ -39,7 +39,7 @@ public class JWTAccessDeniedHandler implements AccessDeniedHandler {
                 ApiResponse.builder()
                     .error(
                         messageSource.getMessage(
-                            Ex.ACCESS_DENIED_EXCEPTION.getMessage(),
+                            Ex.FORBIDDEN_EXCEPTION.getMessage(),
                             new String[] {
                               localeResolver.localeResolver().resolveLocale(request).getLanguage()
                             },

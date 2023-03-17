@@ -39,12 +39,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 ApiResponse.builder()
                     .error(
                         messageSource.getMessage(
-                            Ex.FORBIDDEN_EXCEPTION.getMessage(),
+                            Ex.ACCESS_DENIED_EXCEPTION.getMessage(),
                             new String[] {
                               localeResolver.localeResolver().resolveLocale(request).getLanguage()
                             },
                             localeResolver.localeResolver().resolveLocale(request)),
-                        HttpStatus.FORBIDDEN)
+                        HttpStatus.UNAUTHORIZED)
                     .build()
                     .getBody()));
   }

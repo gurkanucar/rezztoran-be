@@ -6,6 +6,7 @@ import com.rezztoran.rezztoranbe.dto.request.PasswordResetModel;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.model.User;
 import java.util.Optional;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /** The interface Auth service. */
 public interface AuthService {
@@ -24,6 +25,13 @@ public interface AuthService {
    * @return the authenticated user
    */
   Optional<User> getAuthenticatedUser();
+
+  /**
+   * Gets authenticated user details.
+   *
+   * @return the authenticated user details
+   */
+  Optional<UserDetails> getAuthenticatedUserDetails();
 
   /**
    * Check for permission boolean.

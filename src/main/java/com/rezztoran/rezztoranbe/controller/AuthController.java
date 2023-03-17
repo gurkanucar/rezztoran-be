@@ -58,7 +58,7 @@ public class AuthController {
    */
   @GetMapping("/me")
   public ResponseEntity<ApiResponse<Object>> getMyself() {
-    var user = modelMapper.map(authService.getAuthenticatedUser(), UserDTO.class);
+    var user = modelMapper.map(authService.getAuthenticatedUser().get(), UserDTO.class);
     return ApiResponse.builder().data(user).build();
   }
 

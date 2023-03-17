@@ -89,6 +89,7 @@ services:
       - shared-net
 
   localstack:
+    restart: always
     hostname: localstack
     image: localstack/localstack
     ports:

@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.request.FavoriteRestaurantRequestModel;
 import com.rezztoran.rezztoranbe.model.FavoriteRestaurant;
 import com.rezztoran.rezztoranbe.model.Restaurant;
@@ -30,6 +31,14 @@ public interface FavoriteRestaurantService {
    * @return the favorite restaurants by user
    */
   List<Restaurant> getFavoriteRestaurantsByUser(Long userId);
+
+  /**
+   * Gets favorite restaurants dto by user.
+   *
+   * @param userId the user id
+   * @return the favorite restaurants by user
+   */
+  List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId);
 
   /**
    * Gets favorite restaurant by user and restaurant id.

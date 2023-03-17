@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,8 +22,10 @@ public class BookDTO {
   private LocalDate reservationDate;
   private LocalTime reservationTime;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private RestaurantDTO restaurant;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private UserDTO user;
 
   private String note;

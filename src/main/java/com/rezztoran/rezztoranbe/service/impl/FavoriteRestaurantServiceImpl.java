@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.service.impl;
 
+import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.request.FavoriteRestaurantRequestModel;
 import com.rezztoran.rezztoranbe.model.FavoriteRestaurant;
 import com.rezztoran.rezztoranbe.model.Restaurant;
@@ -67,8 +68,33 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   }
 
   @Override
+  public List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId) {
+    var result = favoriteRestaurantRepository.findAllByUser_Id(userId);
+    return result.stream()
+        .map(FavoriteRestaurantServiceImpl::convertToRestaurantDTO)
+        .collect(Collectors.toList());
+  }
+
+  @Override
   public Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
       Long userId, Long restaurantId) {
     return favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(restaurantId, userId);
+  }
+
+  private static RestaurantDTO convertToRestaurantDTO(FavoriteRestaurant x) {
+    return RestaurantDTO.builder()
+        .id(x.getRestaurant().getId())
+        .restaurantName(x.getRestaurant().getRestaurantName())
+        .restaurantImage(x.getRestaurant().getRestaurantImage())
+        .restaurantImageList(x.getRestaurant().getRestaurantImageList())
+        .city(x.getRestaurant().getCity())
+        .district(x.getRestaurant().getDistrict())
+        .detailedAddress(x.getRestaurant().getDetailedAddress())
+        .latitude(x.getRestaurant().getLatitude())
+        .longitude(x.getRestaurant().getLongitude())
+        .openingTime(x.getRestaurant().getOpeningTime())
+        .closingTime(x.getRestaurant().getClosingTime())
+        .phone(x.getRestaurant().getPhone())
+        .build();
   }
 }

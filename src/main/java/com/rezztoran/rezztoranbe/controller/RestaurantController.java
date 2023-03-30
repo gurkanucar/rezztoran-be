@@ -61,7 +61,7 @@ public class RestaurantController {
         RestaurantSpecifications.searchAndSortByFields(
             city, restaurantName, district, sortBy, sortDirection);
     var response = restaurantService.getRestaurants(specification, pageable);
-    return ApiResponse.builder().pageableData(response).build();
+    return ApiResponse.builder().data(response.getContent()).build();
   }
 
   /**

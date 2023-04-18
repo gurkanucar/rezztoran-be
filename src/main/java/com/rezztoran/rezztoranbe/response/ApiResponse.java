@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.rezztoran.rezztoranbe.enums.ResponseConstants;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -124,10 +125,9 @@ public class ApiResponse<T> {
      */
     public Builder<T> pageableData(T object) {
       this.isPageable = true;
-      this.content = object;
+      this.content = (T) PageableResponse.fromPage((Page) object);
       return this;
     }
-
     /**
      * Error builder.
      *

@@ -10,9 +10,11 @@ import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.kafka.producer.PasswordResetMailProducer;
+import com.rezztoran.rezztoranbe.model.PasswordResetInfo;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.AuthService;
 import com.rezztoran.rezztoranbe.service.TokenService;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
@@ -96,9 +98,17 @@ public class AuthServiceImpl implements AuthService {
 
   public void resetPasswordRequestCodeGenerate(String email) {
     var user = userService.findUserByMail(email);
-    user.setResetPassword(true);
+
     var code = generateRandomCode();
-    user.setResetPasswordCode(code);
+    // 2 minutes for password reset request expiration
+    LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(2);
+
+    PasswordResetInfo passwordResetInfo = new PasswordResetInfo();
+    passwordResetInfo.setResetPassword(true);
+    passwordResetInfo.setResetPasswordCode(code);
+    passwordResetInfo.setResetPasswordExpiration(expirationTime);
+
+    user.setPasswordResetInfo(passwordResetInfo);
     userService.save(user);
 
     var passwordResetMail =
@@ -118,14 +128,21 @@ public class AuthServiceImpl implements AuthService {
 
   public void resetPassword(PasswordResetModel passwordResetModel) {
     var user = userService.findUserByMail(passwordResetModel.getMail());
-    if (!user.isResetPassword()) {
-      throw new RuntimeException("no password reset request!");
+    PasswordResetInfo passwordResetInfo = user.getPasswordResetInfo();
+
+    if (!passwordResetInfo.isResetPassword()) {
+      throw exceptionUtil.buildException(Ex.PASSWORD_RESET_REQUEST_NOT_FOUND_EXCEPTION);
     }
-    if (!user.getResetPasswordCode().equals(passwordResetModel.getCode())) {
-      throw new RuntimeException("password reset code is wrong!");
+
+    if (passwordResetInfo.getResetPasswordExpiration().isBefore(LocalDateTime.now())) {
+      throw exceptionUtil.buildException(Ex.PASSWORD_RESET_REQUEST_CODE_EXPIRED_EXCEPTION);
     }
-    user.setResetPassword(false);
-    user.setResetPasswordCode(null);
+
+    if (!passwordResetInfo.getResetPasswordCode().equals(passwordResetModel.getCode())) {
+      throw exceptionUtil.buildException(Ex.PASSWORD_RESET_REQUEST_CODE_WRONG_EXCEPTION);
+    }
+
+    passwordResetInfo.setResetPassword(false);
     user.setPassword(passwordEncoder.encode(passwordResetModel.getPassword()));
     userService.save(user);
   }

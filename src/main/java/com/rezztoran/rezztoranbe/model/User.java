@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -45,6 +47,8 @@ public class User extends BaseEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
   private List<Review> reviews;
 
-  private boolean resetPassword;
-  private Integer resetPasswordCode;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "password_reset_info_id", referencedColumnName = "id")
+  private PasswordResetInfo passwordResetInfo;
+
 }

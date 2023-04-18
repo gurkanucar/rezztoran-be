@@ -290,7 +290,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{server}}/api/auth/reset-password",
+							"raw": "{{server}}/api/auth/reset-password?lang=tr",
 							"host": [
 								"{{server}}"
 							],
@@ -298,6 +298,12 @@
 								"api",
 								"auth",
 								"reset-password"
+							],
+							"query": [
+								{
+									"key": "lang",
+									"value": "tr"
+								}
 							]
 						}
 					},
@@ -378,6 +384,26 @@
 							"path": [
 								"api",
 								"restaurant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurant list randomly",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/api/restaurant/random/2",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"api",
+								"restaurant",
+								"random",
+								"2"
 							]
 						}
 					},
@@ -566,7 +592,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"restaurantName\": \"Lalezar\",\r\n        \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n        \"restaurantImageList\": [\r\n            \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n            \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\"\r\n        ],\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n        \"phone\": \"\",\r\n        \"latitude\": 41.66228570277216,\r\n        \"longitude\": 26.546912915340750,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Ciğerci Niyazi Usta\",\r\n        \"restaurantImage\": \"https://cigerciniyaziusta.com.tr/wp-content/uploads/2021/07/MG_5793-1024x683.jpg\",\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Kale Içi Mevki Ali Paşa Orta Kapı Cad. No:9 Edirne Merkez, Edirne Türkiye\",\r\n        \"phone\": \"02842133222\",\r\n        \"latitude\": 41.675581854050854,\r\n        \"longitude\": 26.551856953637284,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Köfteci Osman\",\r\n        \"restaurantImageList\": [\r\n            \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\"\r\n        ],\r\n        \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\",\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Sarıcapaşa, Kıyık Cd. No:8, 22000 Edirne Merkez/Edirne\",\r\n        \"phone\": \"02842127725\",\r\n        \"latitude\": 41.676875049736786,\r\n        \"longitude\": 26.558356007385267,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Ayçiceği Restaurant\",\r\n        \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n        \"restaurantImageList\": [\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\"\r\n        ],\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Abdurrahman, Talat Paşa Cd. No:1, 22100 Edirne Merkez/Edirne\",\r\n        \"phone\": \"(0284) 225 66 52\",\r\n        \"latitude\": 41.66892551241609,\r\n        \"longitude\": 26.569701638636992,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"restaurantName\": \"Lalezar\",\r\n        \"restaurantImage\": \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n        \"restaurantImageList\": [\r\n            \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\",\r\n            \"https://lh3.googleusercontent.com/p/AF1QipOdkX8DpTJSnFxbVaamaS6qRLBO4IoCwzuu_Ky5=s680-w680-h510\"\r\n        ],\r\n        \"bookingAvailable\": true,\r\n        \"openingTime\": \"08:00\",\r\n        \"closingTime\": \"19:00\",\r\n        \"intervalMinutes\": 30,\r\n        \"busyDates\": [\r\n            \"2023-04-25\",\r\n            \"2023-05-12\"\r\n        ],\r\n        \"restaurantAttributes\": {\r\n            \"isitma\": \"somine\",\r\n            \"konum\": \"deniz kenari\",\r\n            \"alkol\": \"var\"\r\n        },\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Karaağaç Mah, Lozan Cd. No:6, 22030 Merkez/Edirne\",\r\n        \"phone\": \"\",\r\n        \"latitude\": 41.66228570277216,\r\n        \"longitude\": 26.546912915340750,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Ciğerci Niyazi Usta\",\r\n        \"restaurantImage\": \"https://cigerciniyaziusta.com.tr/wp-content/uploads/2021/07/MG_5793-1024x683.jpg\",\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Kale Içi Mevki Ali Paşa Orta Kapı Cad. No:9 Edirne Merkez, Edirne Türkiye\",\r\n        \"phone\": \"02842133222\",\r\n        \"latitude\": 41.675581854050854,\r\n        \"longitude\": 26.551856953637284,\r\n        \"starCount\": 0,\r\n        \"restaurantAttributes\": {\r\n            \"tip\": \"aile, toplanti\",\r\n            \"konum\": \"kopru yani\",\r\n            \"alkol\": \"yok\"\r\n        },\r\n        \"restaurantImageList\": [\r\n            \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\"\r\n        ],\r\n        \"bookingAvailable\": true,\r\n        \"openingTime\": \"09:00\",\r\n        \"closingTime\": \"21:00\",\r\n        \"intervalMinutes\": 30,\r\n        \"busyDates\": [\r\n            \"2023-05-09\",\r\n            \"2023-05-10\"\r\n        ],\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Köfteci Osman\",\r\n        \"restaurantImageList\": [\r\n            \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\"\r\n        ],\r\n        \"bookingAvailable\": true,\r\n        \"openingTime\": \"10:00\",\r\n        \"closingTime\": \"15:00\",\r\n        \"intervalMinutes\": 30,\r\n        \"busyDates\": [\r\n            \"2023-04-13\",\r\n            \"2023-04-12\"\r\n        ],\r\n        \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-s/19/70/a7/14/1.jpg\",\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Sarıcapaşa, Kıyık Cd. No:8, 22000 Edirne Merkez/Edirne\",\r\n        \"phone\": \"02842127725\",\r\n        \"latitude\": 41.676875049736786,\r\n        \"longitude\": 26.558356007385267,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        },\r\n        \"restaurantAttributes\": {\r\n            \"konum\": \"merkez\",\r\n            \"parti\": \"var\"\r\n        }\r\n    },\r\n    {\r\n        \"restaurantName\": \"Ayçiceği Restaurant\",\r\n        \"restaurantImage\": \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n        \"restaurantImageList\": [\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\",\r\n            \"https://media-cdn.tripadvisor.com/media/photo-m/1280/18/11/59/2e/aycicegi-restoran.jpg\"\r\n        ],\r\n        \"bookingAvailable\": true,\r\n        \"openingTime\": \"10:00\",\r\n        \"closingTime\": \"18:00\",\r\n        \"intervalMinutes\": 30,\r\n        \"busyDates\": [\r\n            \"2023-08-13\",\r\n            \"2023-03-07\"\r\n        ],\r\n        \"city\": \"Edirne\",\r\n        \"district\": \"Merkez\",\r\n        \"detailedAddress\": \"Abdurrahman, Talat Paşa Cd. No:1, 22100 Edirne Merkez/Edirne\",\r\n        \"phone\": \"(0284) 225 66 52\",\r\n        \"latitude\": 41.66892551241609,\r\n        \"longitude\": 26.569701638636992,\r\n        \"starCount\": 0,\r\n        \"user\": {\r\n            \"id\": 1\r\n        }\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -648,20 +674,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant/11/book?localDate=2023-03-09",
+							"raw": "{{server}}/api/restaurant/1/book?localDate=2023-05-09",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"restaurant",
-								"11",
+								"1",
 								"book"
 							],
 							"query": [
 								{
 									"key": "localDate",
-									"value": "2023-03-09"
+									"value": "2023-05-09"
 								}
 							]
 						}
@@ -674,14 +700,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/restaurant/11/book/slots?localDate=2023-03-09",
+							"raw": "{{server}}/api/restaurant/1/book/slots?localDate=2023-03-09",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"restaurant",
-								"11",
+								"1",
 								"book",
 								"slots"
 							],
@@ -1136,7 +1162,7 @@
 					"response": []
 				},
 				{
-					"name": "restaurant get bookings slots Copy",
+					"name": "get bookings by user",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1192,7 +1218,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1,\r\n    \"star\": 5,\r\n    \"content\": \"superdi\"\r\n}",
+							"raw": "{\r\n    \"userId\": 41,\r\n    \"id\": 3,\r\n    \"requestUser\": {\r\n        \"userId\": 1\r\n    },\r\n    \"restaurantId\": 1,\r\n    \"star\": 5,\r\n    \"content\": \"superdi\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1285,14 +1311,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/review/1",
+							"raw": "{{server}}/api/review/13",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"review",
-								"1"
+								"13"
 							]
 						}
 					},

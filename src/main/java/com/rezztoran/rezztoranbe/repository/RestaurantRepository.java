@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /** The interface Restaurant repository. */
@@ -19,6 +20,9 @@ public interface RestaurantRepository
     extends JpaRepository<Restaurant, Long>, JpaSpecificationExecutor<Restaurant> {
 
   Page<Restaurant> findAll(@NonNull Pageable pageable);
+
+  @Query(value = "SELECT * FROM restaurant ORDER BY RAND() LIMIT :elementCount", nativeQuery = true)
+  List<Restaurant> findAllRandomly(@Param("elementCount") int count);
 
   Page<Restaurant> findAll(Specification<Restaurant> spec, Pageable pageable);
 

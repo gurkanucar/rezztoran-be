@@ -107,6 +107,12 @@ public class RestaurantService {
     return restaurantPage;
   }
 
+  public List<RestaurantDTO> getRestaurantsRandomly(int count) {
+    return restaurantRepository.findAllRandomly(count).stream()
+        .map(x -> mapper.map(x, RestaurantDTO.class))
+        .collect(Collectors.toList());
+  }
+
   /**
    * Create restaurant.
    *

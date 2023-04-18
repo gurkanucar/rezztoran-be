@@ -65,6 +65,18 @@ public class RestaurantController {
   }
 
   /**
+   * Get restaurants randomly.
+   *
+   * @param count the id
+   * @return the by id
+   */
+  @GetMapping("/random/{count}")
+  public ResponseEntity<ApiResponse<Object>> getRestaurantsRandomly(@PathVariable Integer count) {
+    var response = restaurantService.getRestaurantsRandomly(count);
+    return ApiResponse.builder().data(response).build();
+  }
+
+  /**
    * Gets by id.
    *
    * @param id the id

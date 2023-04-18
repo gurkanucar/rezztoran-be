@@ -17,7 +17,18 @@ import org.springframework.http.ResponseEntity;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"status", "code", "message", "isPageable", "content", "error"})
+@JsonPropertyOrder({
+  "status",
+  "code",
+  "message",
+  "isPageable",
+  "page",
+  "pageSize",
+  "totalElements",
+  "totalPages",
+  "error",
+  "content",
+})
 public class ApiResponse<T> {
 
   @JsonIgnore private HttpHeaders httpHeaders;
@@ -27,6 +38,10 @@ public class ApiResponse<T> {
   private Boolean isPageable;
   private T error;
   private T content;
+  private Integer page;
+  private Integer pageSize;
+  private Long totalElements;
+  private Integer totalPages;
 
   private ApiResponse(Builder<T> builder) {
     this.status = builder.status;
@@ -36,6 +51,10 @@ public class ApiResponse<T> {
     this.content = builder.content;
     this.message = builder.message;
     this.error = builder.error;
+    this.page = builder.page;
+    this.pageSize = builder.pageSize;
+    this.totalElements = builder.totalElements;
+    this.totalPages = builder.totalPages;
   }
 
   /**
@@ -74,6 +93,10 @@ public class ApiResponse<T> {
     private T content;
     private T error;
     private String message;
+    private Integer page;
+    private Integer pageSize;
+    private Long totalElements;
+    private Integer totalPages;
 
     /**
      * Instantiates a new Builder.
@@ -125,7 +148,12 @@ public class ApiResponse<T> {
      */
     public Builder<T> pageableData(T object) {
       this.isPageable = true;
-      this.content = (T) PageableResponse.fromPage((Page) object);
+      Page<T> pageObj = (Page<T>) object;
+      this.content = (T) pageObj.getContent();
+      this.page = pageObj.getNumber();
+      this.pageSize = pageObj.getSize();
+      this.totalElements = pageObj.getTotalElements();
+      this.totalPages = pageObj.getTotalPages();
       return this;
     }
     /**

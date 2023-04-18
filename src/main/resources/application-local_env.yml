@@ -13,7 +13,7 @@ spring:
       on-profile: local_env
   datasource:
     password: 1234
-    url: jdbc:mysql://localhost:3306/rezztoran?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3307/rezztoran?createDatabaseIfNotExist=true
     username: root
   jpa:
     hibernate:

@@ -38,7 +38,7 @@ public interface BookService {
   /**
    * Gets books.
    *
-   * @param bookingDate  the booking date
+   * @param bookingDate the booking date
    * @param restaurantId the restaurant id
    * @return the books
    */
@@ -71,7 +71,7 @@ public interface BookService {
   /**
    * Gets books by user and date.
    *
-   * @param id   the id
+   * @param id the id
    * @param date the date
    * @return the books by user and date
    */

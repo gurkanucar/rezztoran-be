@@ -39,6 +39,23 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
     this.restaurantService = restaurantService;
   }
 
+  private static RestaurantDTO convertToRestaurantDTO(FavoriteRestaurant x) {
+    return RestaurantDTO.builder()
+        .id(x.getRestaurant().getId())
+        .restaurantName(x.getRestaurant().getRestaurantName())
+        .restaurantImage(x.getRestaurant().getRestaurantImage())
+        .restaurantImageList(x.getRestaurant().getRestaurantImageList())
+        .city(x.getRestaurant().getCity())
+        .district(x.getRestaurant().getDistrict())
+        .detailedAddress(x.getRestaurant().getDetailedAddress())
+        .latitude(x.getRestaurant().getLatitude())
+        .longitude(x.getRestaurant().getLongitude())
+        .openingTime(x.getRestaurant().getOpeningTime())
+        .closingTime(x.getRestaurant().getClosingTime())
+        .phone(x.getRestaurant().getPhone())
+        .build();
+  }
+
   @Override
   public void addToFavorite(FavoriteRestaurantRequestModel requestModel) {
     var existing =
@@ -79,22 +96,5 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   public Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
       Long userId, Long restaurantId) {
     return favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(restaurantId, userId);
-  }
-
-  private static RestaurantDTO convertToRestaurantDTO(FavoriteRestaurant x) {
-    return RestaurantDTO.builder()
-        .id(x.getRestaurant().getId())
-        .restaurantName(x.getRestaurant().getRestaurantName())
-        .restaurantImage(x.getRestaurant().getRestaurantImage())
-        .restaurantImageList(x.getRestaurant().getRestaurantImageList())
-        .city(x.getRestaurant().getCity())
-        .district(x.getRestaurant().getDistrict())
-        .detailedAddress(x.getRestaurant().getDetailedAddress())
-        .latitude(x.getRestaurant().getLatitude())
-        .longitude(x.getRestaurant().getLongitude())
-        .openingTime(x.getRestaurant().getOpeningTime())
-        .closingTime(x.getRestaurant().getClosingTime())
-        .phone(x.getRestaurant().getPhone())
-        .build();
   }
 }

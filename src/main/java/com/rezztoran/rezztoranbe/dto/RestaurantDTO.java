@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantDTO {
-  /** The Is favorite. */
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean isFavorite;
 

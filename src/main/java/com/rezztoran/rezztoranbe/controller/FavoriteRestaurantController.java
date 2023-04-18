@@ -58,7 +58,7 @@ public class FavoriteRestaurantController {
    * Gets favorite restaurants by user.
    *
    * @param id the id
-   * @return the favorite restaurants dto by user
+   * @return the favorite restaurants by user
    */
   @GetMapping("/user/{id}")
   ResponseEntity<ApiResponse<Object>> getFavoriteRestaurantsByUser(@PathVariable Long id) {

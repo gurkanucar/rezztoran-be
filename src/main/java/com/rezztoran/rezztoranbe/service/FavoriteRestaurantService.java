@@ -36,7 +36,7 @@ public interface FavoriteRestaurantService {
    * Gets favorite restaurants dto by user.
    *
    * @param userId the user id
-   * @return the favorite restaurants by user
+   * @return the favorite restaurants dto by user
    */
   List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId);
 

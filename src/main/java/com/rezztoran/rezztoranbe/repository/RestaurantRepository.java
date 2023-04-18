@@ -21,6 +21,12 @@ public interface RestaurantRepository
 
   Page<Restaurant> findAll(@NonNull Pageable pageable);
 
+  /**
+   * Find all randomly list.
+   *
+   * @param count the count
+   * @return the list
+   */
   @Query(value = "SELECT * FROM restaurant ORDER BY RAND() LIMIT :elementCount", nativeQuery = true)
   List<Restaurant> findAllRandomly(@Param("elementCount") int count);
 

@@ -50,5 +50,4 @@ public class User extends BaseEntity {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "password_reset_info_id", referencedColumnName = "id")
   private PasswordResetInfo passwordResetInfo;
-
 }

@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
   "status",
+  "error",
   "code",
   "message",
   "isPageable",
@@ -26,7 +27,9 @@ import org.springframework.http.ResponseEntity;
   "pageSize",
   "totalElements",
   "totalPages",
-  "error",
+  "last",
+  "first",
+  "empty",
   "content",
 })
 public class ApiResponse<T> {
@@ -42,6 +45,9 @@ public class ApiResponse<T> {
   private Integer pageSize;
   private Long totalElements;
   private Integer totalPages;
+  private Boolean last;
+  private Boolean first;
+  private Boolean empty;
 
   private ApiResponse(Builder<T> builder) {
     this.status = builder.status;
@@ -55,6 +61,9 @@ public class ApiResponse<T> {
     this.pageSize = builder.pageSize;
     this.totalElements = builder.totalElements;
     this.totalPages = builder.totalPages;
+    this.last = builder.last;
+    this.first = builder.first;
+    this.empty = builder.empty;
   }
 
   /**
@@ -97,6 +106,9 @@ public class ApiResponse<T> {
     private Integer pageSize;
     private Long totalElements;
     private Integer totalPages;
+    private Boolean last;
+    private Boolean first;
+    private Boolean empty;
 
     /**
      * Instantiates a new Builder.
@@ -154,6 +166,9 @@ public class ApiResponse<T> {
       this.pageSize = pageObj.getSize();
       this.totalElements = pageObj.getTotalElements();
       this.totalPages = pageObj.getTotalPages();
+      this.last = pageObj.isLast();
+      this.first = pageObj.isFirst();
+      this.empty = pageObj.isEmpty();
       return this;
     }
     /**

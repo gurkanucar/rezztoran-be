@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.controller;
 
+import com.rezztoran.rezztoranbe.dto.MenuDTO;
 import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.service.MenuService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class MenuController {
    * @return the menu by id
    */
   @GetMapping("/{id}")
-  public ResponseEntity<Menu> getMenuByID(@PathVariable Long id) {
-    return ResponseEntity.ok(menuService.getMenuById(id));
+  public ResponseEntity<MenuDTO> getMenuByID(@PathVariable Long id) {
+    return ResponseEntity.ok(menuService.getMenuDtoById(id));
   }
 
   /**
@@ -39,7 +40,7 @@ public class MenuController {
    * @return the response entity
    */
   @PostMapping
-  public ResponseEntity<Menu> create(@RequestBody Menu menu) {
+  public ResponseEntity<MenuDTO> create(@RequestBody Menu menu) {
     return ResponseEntity.ok(menuService.create(menu));
   }
 
@@ -50,7 +51,7 @@ public class MenuController {
    * @return the response entity
    */
   @PutMapping
-  public ResponseEntity<Menu> update(@RequestBody Menu menu) {
+  public ResponseEntity<MenuDTO> update(@RequestBody Menu menu) {
     return ResponseEntity.ok(menuService.update(menu));
   }
 

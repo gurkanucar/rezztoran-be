@@ -9,4 +9,5 @@ import lombok.Data;
 public class MenuDTO {
   private RestaurantDTO restaurant;
   private List<Food> foods;
+  private byte[] qrCode;
 }

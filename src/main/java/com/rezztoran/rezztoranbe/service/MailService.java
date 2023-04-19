@@ -5,6 +5,7 @@ import com.rezztoran.rezztoranbe.dto.request.MailModel;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import javax.mail.internet.MimeMessage;
@@ -42,49 +43,54 @@ public class MailService {
   }
 
   /**
-   * Send reset password email.
+   * Send template email.
    *
-   * @param passwordResetMail the password reset mail
+   * @param mailModel the mail model
+   * @param templateName the template name
+   * @param model the model
    */
-  public void sendResetPasswordEmail(PasswordResetMail passwordResetMail) {
+  public void sendTemplateEmail(
+      MailModel mailModel, String templateName, Map<String, Object> model) {
     try {
-
       MimeMessage message = emailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(message, true);
+      MimeMessageHelper helper =
+          new MimeMessageHelper(
+              message,
+              MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+              StandardCharsets.UTF_8.name());
 
-      helper.setTo(passwordResetMail.getMailModel().getTo());
-      helper.setSubject("Reset Password Email Template");
+      helper.setTo(mailModel.getTo());
+      helper.setSubject(mailModel.getSubject());
 
       // Load the email template
       Configuration configuration = freeMarkerConfigurer.getConfiguration();
-      Template emailTemplate = configuration.getTemplate("PasswordResetMail.html");
-
-      // Prepare the model data
-      Map<String, Object> model = new HashMap<>();
-      model.put("username", passwordResetMail.getUsername());
-      model.put("code", passwordResetMail.getMailModel().getText());
+      Template emailTemplate = configuration.getTemplate(templateName);
 
       // Generate the email content using the template and the model
       String emailContent = FreeMarkerTemplateUtils.processTemplateIntoString(emailTemplate, model);
       helper.setText(emailContent, true);
 
+      // Add inline image (if any)
       ClassPathResource imageResource = new ClassPathResource("static/rezztoran_logo.png");
       helper.addInline("image", imageResource);
 
-      // Add inline image (if any)
-      //    ClassPathResource imageResource = new ClassPathResource("path/to/image.png");
-      //    helper.addInline("image.png", imageResource);
-
-      // Add attachment (if any)
-      //    ClassPathResource attachmentResource = new ClassPathResource("path/to/attachment.pdf");
-      //    helper.addAttachment("attachment.pdf", attachmentResource);
-
-      // Set the sender email address and send the email
-      // helper.setFrom(mailProperties.getUsername());
       emailSender.send(message);
     } catch (Exception e) {
       log.error("error: ", e);
     }
+  }
+
+  /**
+   * Send reset password email.
+   *
+   * @param passwordResetMail the password reset mail
+   */
+  public void sendResetPasswordEmail(PasswordResetMail passwordResetMail) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("username", passwordResetMail.getUsername());
+    model.put("code", passwordResetMail.getMailModel().getText());
+
+    sendTemplateEmail(passwordResetMail.getMailModel(), "PasswordResetMail.html", model);
   }
 
   /**
@@ -94,45 +100,15 @@ public class MailService {
    * @param booking the booking
    */
   public void sendBookCreatedMail(MailModel mailModel, BookDTO booking) {
-    try {
+    Map<String, Object> model = new HashMap<>();
+    model.put("username", booking.getUser().getUsername());
+    model.put(
+        "booking_date",
+        String.format("%s - %s", booking.getReservationDate(), booking.getReservationTime()));
+    model.put("restaurant", booking.getRestaurant().getRestaurantName());
+    model.put("note", booking.getNote());
+    model.put("reservation_details_url", "http://localhost:8082/swagger-ui.html");
 
-      MimeMessage message = emailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-      helper.setTo(mailModel.getTo());
-      helper.setSubject("Book created");
-
-      // Load the email template
-      Configuration configuration = freeMarkerConfigurer.getConfiguration();
-      Template emailTemplate = configuration.getTemplate("BookCreatedMail.html");
-
-      // Prepare the model data
-      Map<String, Object> model = new HashMap<>();
-      model.put("username", booking.getUser().getUsername());
-      model.put(
-          "booking_date",
-          String.format("%s - %s", booking.getReservationDate(), booking.getReservationTime()));
-      model.put("restaurant", booking.getRestaurant().getRestaurantName());
-      model.put("note", booking.getNote());
-      model.put("reservation_details_url", "http://localhost:8082/swagger-ui.html");
-
-      // Generate the email content using the template and the model
-      String emailContent = FreeMarkerTemplateUtils.processTemplateIntoString(emailTemplate, model);
-      helper.setText(emailContent, true);
-
-      // Add inline image (if any)
-      ClassPathResource imageResource = new ClassPathResource("static/rezztoran_logo.png");
-      helper.addInline("image", imageResource);
-
-      // Add attachment (if any)
-      //    ClassPathResource attachmentResource = new ClassPathResource("path/to/attachment.pdf");
-      //    helper.addAttachment("attachment.pdf", attachmentResource);
-
-      // Set the sender email address and send the email
-      // helper.setFrom(mailProperties.getUsername());
-      emailSender.send(message);
-    } catch (Exception e) {
-      log.error("error: ", e);
-    }
+    sendTemplateEmail(mailModel, "BookCreatedMail.html", model);
   }
 }

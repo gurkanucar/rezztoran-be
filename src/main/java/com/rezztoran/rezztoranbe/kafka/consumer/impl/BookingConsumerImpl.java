@@ -31,7 +31,7 @@ public class BookingConsumerImpl implements BookingConsumer {
   @Override
   public void consumeBookingCreated(BookDTO booking) {
     mailService.sendBookCreatedMail(
-        MailModel.builder().subject("Password Reset").to(booking.getUser().getMail()).build(),
+        MailModel.builder().subject("Book Created").to(booking.getUser().getMail()).build(),
         booking);
   }
 }

@@ -4,8 +4,9 @@ import com.rezztoran.rezztoranbe.dto.CategoryDTO;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.CategoryService;
-import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +42,9 @@ public class CategoryController {
    * @return the all categories
    */
   @GetMapping
-  public ResponseEntity<ApiResponse<Object>> getAllCategories() {
-    var categoryDTOs =
-        categoryService.getAllCategories().stream()
-            .map(x -> mapper.map(x, CategoryDTO.class))
-            .collect(Collectors.toList());
-    return ApiResponse.builder().data(categoryDTOs).build();
+  public ResponseEntity<ApiResponse<Object>> getAllCategories(
+      @PageableDefault(size = 20) Pageable pageable) {
+    return ApiResponse.builder().pageableData(categoryService.getAllCategories(pageable)).build();
   }
 
   /**

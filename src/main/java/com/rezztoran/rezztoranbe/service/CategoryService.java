@@ -1,11 +1,15 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.CategoryDTO;
+import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.repository.CategoryRepository;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /** The type Category service. */
@@ -15,14 +19,17 @@ public class CategoryService {
 
   private final CategoryRepository categoryRepository;
   private final ExceptionUtil exceptionUtil;
+  private final ModelMapper mapper;
 
   /**
    * Gets all categories.
    *
    * @return the all categories
    */
-  public List<Category> getAllCategories() {
-    return categoryRepository.findAll();
+  public Page<CategoryDTO> getAllCategories(Pageable pageable) {
+    return categoryRepository
+        .findAll( pageable)
+        .map(x -> mapper.map(x, CategoryDTO.class));
   }
 
   /**

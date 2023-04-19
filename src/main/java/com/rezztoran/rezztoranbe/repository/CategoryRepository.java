@@ -2,6 +2,8 @@ package com.rezztoran.rezztoranbe.repository;
 
 import com.rezztoran.rezztoranbe.model.Category;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +18,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
    * @return the optional
    */
   Optional<Category> findByCategoryName(String name);
+
+  Page<Category> findAll(Pageable pageable);
 }

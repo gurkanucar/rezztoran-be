@@ -25,7 +25,7 @@ public interface BookService {
    * @param bookRequestModel the book request model
    * @return the booking
    */
-  Booking createBook(BookRequestModel bookRequestModel);
+  BookDTO createBook(BookRequestModel bookRequestModel);
 
   /**
    * Update book booking.
@@ -33,7 +33,7 @@ public interface BookService {
    * @param bookRequestModel the book request model
    * @return the booking
    */
-  Booking updateBook(BookRequestModel bookRequestModel);
+  BookDTO updateBook(BookRequestModel bookRequestModel);
 
   /**
    * Gets books.

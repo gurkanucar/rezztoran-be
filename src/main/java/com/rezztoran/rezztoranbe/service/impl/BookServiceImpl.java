@@ -84,7 +84,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public Booking createBook(BookRequestModel bookRequestModel) {
+  public BookDTO createBook(BookRequestModel bookRequestModel) {
     var user = userService.findUserByID(bookRequestModel.getUserId());
     var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
     if (!isAvailable(bookRequestModel, restaurant)) {
@@ -103,7 +103,7 @@ public class BookServiceImpl implements BookService {
     var result = bookRepository.save(book);
 
     sendBookCreatedEvent(user, restaurant, result);
-    return result;
+    return convertToBookDTO(book, true, true);
   }
 
   private boolean isAvailable(BookRequestModel bookRequestModel, Restaurant restaurant) {
@@ -116,7 +116,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public Booking updateBook(BookRequestModel bookRequestModel) {
+  public BookDTO updateBook(BookRequestModel bookRequestModel) {
     var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
     Booking existing =
         bookRepository
@@ -132,7 +132,8 @@ public class BookServiceImpl implements BookService {
     existing.setReservationTime(bookRequestModel.getReservationTime());
     existing.setNote(bookRequestModel.getNote());
 
-    return bookRepository.save(existing);
+    var result = bookRepository.save(existing);
+    return convertToBookDTO(result, true, true);
   }
 
   @Override

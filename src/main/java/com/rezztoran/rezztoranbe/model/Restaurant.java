@@ -65,10 +65,6 @@ public class Restaurant extends BaseEntity {
       joinColumns = @JoinColumn(name = "restaurant_id"))
   private Map<String, String> restaurantAttributes = new HashMap<>();
 
-  //  @JsonIgnore
-  //  @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-  //  private List<RestaurantTable> restaurantTables;
-
   private Boolean bookingAvailable;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")

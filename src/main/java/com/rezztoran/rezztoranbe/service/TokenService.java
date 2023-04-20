@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.rezztoran.rezztoranbe.model.User;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,12 @@ public class TokenService {
   @Value("${jwt-variables.EXPIRES_ACCESS_TOKEN_MINUTE}")
   private Integer EXPIRES_ACCESS_TOKEN_MINUTE;
 
+  private final UserService userService;
+
+  public TokenService(UserService userService) {
+    this.userService = userService;
+  }
+
   /**
    * Generate token string.
    *
@@ -31,12 +38,16 @@ public class TokenService {
    * @return the string
    */
   public String generateToken(Authentication auth) {
-    String username = ((UserDetails) auth.getPrincipal()).getUsername();
+    UserDetails userDetails = (UserDetails) auth.getPrincipal();
+    User user = userService.findUserByUsername(userDetails.getUsername());
     return JWT.create()
-        .withSubject(username)
+        .withSubject(userDetails.getUsername())
         .withExpiresAt(
             new Date(System.currentTimeMillis() + (EXPIRES_ACCESS_TOKEN_MINUTE * 60 * 1000)))
         .withIssuer(ISSUER)
+        .withClaim(
+            "passwordChangeVersion",
+            user.getPasswordChangeVersion()) // Add password change version to payload
         .sign(Algorithm.HMAC256(KEY.getBytes()));
   }
 

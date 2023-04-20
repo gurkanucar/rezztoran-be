@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 /** The type Auth service. */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
   private final AuthenticationManager authenticationManager;
@@ -110,7 +112,6 @@ public class AuthServiceImpl implements AuthService {
 
     user.setPasswordResetInfo(passwordResetInfo);
     userService.save(user);
-
     var passwordResetMail =
         PasswordResetMail.builder()
             .code(code)
@@ -124,13 +125,14 @@ public class AuthServiceImpl implements AuthService {
             .mail(email)
             .build();
     passwordResetMailProducer.sendPasswordResetMail(passwordResetMail);
+    log.info("code: {}", code);
   }
 
   public void resetPassword(PasswordResetModel passwordResetModel) {
     var user = userService.findUserByMail(passwordResetModel.getMail());
     PasswordResetInfo passwordResetInfo = user.getPasswordResetInfo();
 
-    if (!passwordResetInfo.isResetPassword()) {
+    if (passwordResetInfo == null || !passwordResetInfo.isResetPassword()) {
       throw exceptionUtil.buildException(Ex.PASSWORD_RESET_REQUEST_NOT_FOUND_EXCEPTION);
     }
 
@@ -143,6 +145,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     passwordResetInfo.setResetPassword(false);
+    user.setPasswordChangeVersion(user.getPasswordChangeVersion() + 1);
     user.setPassword(passwordEncoder.encode(passwordResetModel.getPassword()));
     userService.save(user);
   }

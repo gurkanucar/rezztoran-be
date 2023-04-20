@@ -19,6 +19,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 /** The type User. */
 @SuperBuilder
@@ -50,4 +53,9 @@ public class User extends BaseEntity {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "password_reset_info_id", referencedColumnName = "id")
   private PasswordResetInfo passwordResetInfo;
+
+  @Column(nullable = false)
+  @ColumnDefault("0")
+  @Generated(GenerationTime.INSERT)
+  private Integer passwordChangeVersion;
 }

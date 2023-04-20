@@ -3,7 +3,9 @@ package com.rezztoran.rezztoranbe.repository;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.User;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -73,4 +75,11 @@ public interface RestaurantRepository
    * @return the optional
    */
   Optional<Restaurant> findRestaurantByUser(User user);
+
+  List<Restaurant> findAll();
+
+  default Map<Object, Object> findAllMap() {
+    return findAll().stream()
+        .collect(Collectors.toMap(Restaurant::getRestaurantName, Restaurant::getCity));
+  }
 }

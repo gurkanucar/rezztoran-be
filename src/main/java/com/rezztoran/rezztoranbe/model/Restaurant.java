@@ -15,6 +15,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -80,4 +82,11 @@ public class Restaurant extends BaseEntity {
   @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private List<LocalDate> busyDates;
+
+  @ManyToMany
+  @JoinTable(
+      name = "restaurant_coupon",
+      joinColumns = {@JoinColumn(name = "restaurant_id")},
+      inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
+  private List<Coupon> coupons;
 }

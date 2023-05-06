@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +36,7 @@ class CategoryServiceTest {
   void testGetAllCategories() {
     List<Category> categories = List.of(new Category(), new Category());
     when(categoryRepository.findAll()).thenReturn(categories);
-    assertEquals(categories, categoryService.getAllCategories());
+    assertEquals(categories, categoryService.getAllCategories(Pageable.ofSize(10)));
   }
 
   @Test

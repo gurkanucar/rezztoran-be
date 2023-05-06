@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.rezztoran.rezztoranbe.dto.MenuDTO;
 import com.rezztoran.rezztoranbe.exception.BusinessException;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
@@ -42,11 +43,10 @@ class MenuServiceTest {
     when(menuRepository.save(menu)).thenReturn(menu);
 
     // When
-    Menu createdMenu = menuService.create(menu);
+    MenuDTO createdMenu = menuService.create(menu);
 
     // Then
     assertEquals(menu, createdMenu);
-    assertNotNull(createdMenu.getMenuCode());
     verify(menuRepository).save(menu);
   }
 
@@ -56,7 +56,6 @@ class MenuServiceTest {
     Long id = 1L;
     Menu existingMenu = new Menu();
     existingMenu.setId(id);
-    existingMenu.setMenuCode("existing-menu-code");
     Restaurant existingRestaurant = new Restaurant();
     existingRestaurant.setId(1L);
     existingMenu.setRestaurant(existingRestaurant);
@@ -72,7 +71,7 @@ class MenuServiceTest {
     when(menuRepository.save(existingMenu)).thenReturn(existingMenu);
 
     // When
-    Menu result = menuService.update(updatedMenu);
+    MenuDTO result = menuService.update(updatedMenu);
 
     // Then
     assertEquals(existingMenu, result);

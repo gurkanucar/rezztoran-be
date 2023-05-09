@@ -6,6 +6,7 @@ import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
 import java.time.LocalDate;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,7 @@ public class BookingController {
    */
   @PostMapping
   public ResponseEntity<ApiResponse<Object>> createBooking(
-      @RequestBody BookRequestModel bookRequestModel) {
+    @Valid @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.createBook(bookRequestModel)).build();
   }
 

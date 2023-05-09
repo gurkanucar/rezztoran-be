@@ -29,4 +29,6 @@ public class BookDTO {
   private UserDTO user;
 
   private String note;
+
+  private Integer personCount;
 }

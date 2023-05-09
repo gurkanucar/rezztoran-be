@@ -17,7 +17,7 @@ public interface BookService {
    * @param id the id
    * @return the book by id
    */
-  Booking getBookById(Long id);
+  BookDTO getBookById(Long id);
 
   /**
    * Create book booking.

@@ -39,4 +39,6 @@ public class Booking extends BaseEntity {
   private User user;
 
   private String note;
+
+  private Integer personCount;
 }

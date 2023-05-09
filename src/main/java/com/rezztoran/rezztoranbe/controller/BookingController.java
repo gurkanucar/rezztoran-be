@@ -68,7 +68,7 @@ public class BookingController {
    */
   @PutMapping
   public ResponseEntity<ApiResponse<Object>> updateBooking(
-      @RequestBody BookRequestModel bookRequestModel) {
+      @Valid    @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.updateBook(bookRequestModel)).build();
   }
 

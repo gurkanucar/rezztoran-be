@@ -46,7 +46,7 @@ public class AuthController {
    * @return the response entity
    */
   @PostMapping("/login")
-  public ResponseEntity<ApiResponse<Object>> login(@RequestBody LoginModel loginModel) {
+  public ResponseEntity<ApiResponse<Object>> login(@Valid @RequestBody LoginModel loginModel) {
     var token = authService.tryLogin(loginModel);
     return ApiResponse.builder().data(token).build();
   }
@@ -70,7 +70,7 @@ public class AuthController {
    */
   @PostMapping("/reset-request")
   public ResponseEntity<ApiResponse<Object>> resetMail(
-      @RequestBody PasswordResetRequest passwordResetRequest) {
+      @Valid @RequestBody PasswordResetRequest passwordResetRequest) {
     authService.resetPasswordRequestCodeGenerate(passwordResetRequest.getMail());
     return ApiResponse.builder().build();
   }
@@ -83,7 +83,7 @@ public class AuthController {
    */
   @PostMapping("/reset-password")
   public ResponseEntity<ApiResponse<Object>> resetPassword(
-      @RequestBody PasswordResetModel passwordResetModel) {
+      @Valid @RequestBody PasswordResetModel passwordResetModel) {
     authService.resetPassword(passwordResetModel);
     return ApiResponse.builder().build();
   }

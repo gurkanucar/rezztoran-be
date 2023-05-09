@@ -3,7 +3,9 @@ package com.rezztoran.rezztoranbe.service.spesifications;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -34,33 +36,26 @@ public class RestaurantSpecifications {
       String city, String restaurantName, String district, String sortBy, String sortDirection) {
     return (root, query, builder) -> {
       if (sortBy != null) {
-
         boolean descending = sortDirection.equalsIgnoreCase("desc");
-        List<Order> orders = new ArrayList<>();
-        if (descending) {
-          orders.add(builder.desc(root.get(sortBy)));
-        } else {
-          orders.add(builder.asc(root.get(sortBy)));
-        }
-        query.orderBy(orders);
+        Expression<?> sortByExpression = root.get(sortBy);
+        Order order = descending ? builder.desc(sortByExpression) : builder.asc(sortByExpression);
+        query.orderBy(order);
       }
 
       Predicate predicate = builder.conjunction();
 
       if (city != null) {
-        predicate =
-            builder.and(
-                predicate,
-                builder.like(builder.lower(root.get("city")), "%" + city.toLowerCase() + "%"));
+        predicate = builder.and(
+            predicate,
+            builder.like(builder.lower(root.get("city")), "%" + city.toLowerCase() + "%"));
       }
 
       if (restaurantName != null) {
-        predicate =
-            builder.and(
-                predicate,
-                builder.like(
-                    builder.lower(root.get("restaurantName")),
-                    "%" + restaurantName.toLowerCase() + "%"));
+        predicate = builder.and(
+            predicate,
+            builder.like(
+                builder.lower(root.get("restaurantName")),
+                "%" + restaurantName.toLowerCase() + "%"));
       }
 
       if (district != null) {
@@ -70,6 +65,9 @@ public class RestaurantSpecifications {
       return predicate;
     };
   }
+
+
+
 
   //    public static Specification<Restaurant> searchByFields(
   //        String city, String restaurantName, String district) {

@@ -107,6 +107,7 @@ public class MailService {
         String.format("%s - %s", booking.getReservationDate(), booking.getReservationTime()));
     model.put("restaurant", booking.getRestaurant().getRestaurantName());
     model.put("note", booking.getNote());
+    model.put("person_count", booking.getPersonCount());
     model.put("reservation_details_url", "http://localhost:8082/swagger-ui.html");
 
     sendTemplateEmail(mailModel, "BookCreatedMail.html", model);

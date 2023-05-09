@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "password_reset_info")
 public class PasswordResetInfo extends BaseEntity {
 
-  @Column(name = "reset_password", nullable = false, columnDefinition = "boolean default false")
+  @Column(name = "reset_password")
   private boolean resetPassword;
 
   @Column(name = "reset_password_code")

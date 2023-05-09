@@ -4,6 +4,7 @@ import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
+import com.rezztoran.rezztoranbe.model.PasswordResetInfo;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.UserRepository;
 import com.rezztoran.rezztoranbe.service.UserService;
@@ -28,12 +29,18 @@ public class UserServiceImpl implements UserService {
     }
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRole(Role.USER);
+
+    setPasswordResetInfo(user);
+
     return userRepository.save(user);
   }
 
   public User create(User user, Role role) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRole(role);
+
+    setPasswordResetInfo(user);
+
     return userRepository.save(user);
   }
 
@@ -45,6 +52,9 @@ public class UserServiceImpl implements UserService {
     user.setName(registerUser.getName());
     user.setRole(registerUser.getRole() == null ? Role.USER : registerUser.getRole());
     user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
+
+    setPasswordResetInfo(user);
+
     return userRepository.save(user);
   }
 
@@ -98,5 +108,14 @@ public class UserServiceImpl implements UserService {
     } else {
       throw exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION);
     }
+  }
+
+  private static void setPasswordResetInfo(User user) {
+    PasswordResetInfo passwordResetInfo = new PasswordResetInfo();
+    passwordResetInfo.setResetPassword(false);
+    passwordResetInfo.setResetPasswordCode(null);
+    passwordResetInfo.setResetPasswordExpiration(null);
+
+    user.setPasswordResetInfo(passwordResetInfo);
   }
 }

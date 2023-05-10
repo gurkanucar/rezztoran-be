@@ -2,10 +2,12 @@ package com.rezztoran.rezztoranbe.service.spesifications;
 
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.Review;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
@@ -15,7 +17,11 @@ import org.springframework.data.jpa.domain.Specification;
 public class RestaurantSpecifications {
 
   public static Specification<Restaurant> searchByCityDistrictOrName(
-      String searchTerm, String city, String restaurantName, String district) {
+      String searchTerm,
+      String city,
+      String restaurantName,
+      String district,
+      LocalDate availabilityDate) {
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
 
@@ -43,6 +49,11 @@ public class RestaurantSpecifications {
                   criteriaBuilder.lower(root.get("restaurantName")),
                   "%" + restaurantName.toLowerCase() + "%"));
         }
+      }
+
+      if (availabilityDate != null) {
+        Path<List<LocalDate>> datesPath = root.get("busyDates");
+        predicates.add(criteriaBuilder.not(criteriaBuilder.isMember(availabilityDate, datesPath)));
       }
 
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

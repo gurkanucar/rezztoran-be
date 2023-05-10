@@ -9,6 +9,7 @@ import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import com.rezztoran.rezztoranbe.service.impl.AuthServiceImpl;
 import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import com.rezztoran.rezztoranbe.service.spesifications.RestaurantSpecifications;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -69,12 +70,13 @@ public class RestaurantService {
       String city,
       String restaurantName,
       String district,
+      LocalDate localDate,
       Pageable pageable) {
 
     Specification<Restaurant> spec =
         Specification.where(
                 RestaurantSpecifications.searchByCityDistrictOrName(
-                    searchTerm, city, restaurantName, district))
+                    searchTerm, city, restaurantName, district, localDate))
             .and(RestaurantSpecifications.sortBySelectedFields(sortField, sortDirection));
 
     Page<RestaurantDTO> restaurantPage =

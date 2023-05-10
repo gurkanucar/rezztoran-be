@@ -51,6 +51,7 @@ public class RestaurantController {
    */
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> search(
+      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate,
       @RequestParam(required = false) String searchTerm,
       @RequestParam(required = false) String city,
       @RequestParam(required = false) String restaurantName,
@@ -61,7 +62,7 @@ public class RestaurantController {
     Sort.Direction direction = Sort.Direction.fromString(sortDirection.toUpperCase());
     var response =
         restaurantService.getRestaurants(
-            searchTerm, sortField, direction, city, restaurantName, district, pageable);
+            searchTerm, sortField, direction, city, restaurantName, district,localDate, pageable);
     return ApiResponse.builder().pageableData(response).build();
   }
 
@@ -161,7 +162,7 @@ public class RestaurantController {
   @GetMapping("/{id}/book")
   public ResponseEntity<ApiResponse<Object>> getBooksByRestaurantIdAndDate(
       @PathVariable Long id,
-      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
+        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
     var response = bookService.getBooks(localDate, id);
     return ApiResponse.builder().data(response).build();
   }

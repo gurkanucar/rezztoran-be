@@ -5,7 +5,6 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
-import com.rezztoran.rezztoranbe.service.spesifications.RestaurantSpecifications;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -41,26 +40,28 @@ public class RestaurantController {
   /**
    * Search response entity.
    *
+   * @param searchTerm the search term
    * @param city the city
    * @param restaurantName the restaurant name
    * @param district the district
+   * @param sortField the sort field
    * @param sortDirection the sort direction
-   * @param sortBy the sort by
    * @param pageable the pageable
    * @return the response entity
    */
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> search(
+      @RequestParam(required = false) String searchTerm,
       @RequestParam(required = false) String city,
       @RequestParam(required = false) String restaurantName,
       @RequestParam(required = false) String district,
-      @RequestParam(required = false, defaultValue = "desc") String sortDirection,
-      @RequestParam(defaultValue = "restaurantName") String sortBy,
+      @RequestParam(defaultValue = "restaurantName") String sortField,
+      @RequestParam(defaultValue = "ASC") String sortDirection,
       @PageableDefault(size = 20) Pageable pageable) {
-    Specification<Restaurant> specification =
-        RestaurantSpecifications.searchAndSortByFields(
-            city, restaurantName, district, sortBy, sortDirection);
-    var response = restaurantService.getRestaurants(specification, pageable);
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection.toUpperCase());
+    var response =
+        restaurantService.getRestaurants(
+            searchTerm, sortField, direction, city, restaurantName, district, pageable);
     return ApiResponse.builder().pageableData(response).build();
   }
 

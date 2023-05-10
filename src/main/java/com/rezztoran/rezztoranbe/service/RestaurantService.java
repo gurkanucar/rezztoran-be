@@ -8,6 +8,7 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import com.rezztoran.rezztoranbe.service.impl.AuthServiceImpl;
 import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
+import com.rezztoran.rezztoranbe.service.spesifications.RestaurantSpecifications;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,8 +16,8 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -32,17 +33,6 @@ public class RestaurantService {
   private final ModelMapper mapper;
   private final ReviewService reviewService;
 
-  /**
-   * Instantiates a new Restaurant service.
-   *
-   * @param restaurantRepository the restaurant repository
-   * @param userService the user service
-   * @param authService the auth service
-   * @param favoriteRestaurantService the favorite restaurant service
-   * @param exceptionUtil the exception util
-   * @param mapper the mapper
-   * @param reviewService the review service
-   */
   public RestaurantService(
       RestaurantRepository restaurantRepository,
       UserServiceImpl userService,
@@ -63,20 +53,32 @@ public class RestaurantService {
   /**
    * Gets restaurants.
    *
-   * @param specifications the specifications
-   * @param pageRequest the page request
+   * @param searchTerm the search term
+   * @param sortField the sort field
+   * @param sortDirection the sort direction
+   * @param city the city
+   * @param restaurantName the restaurant name
+   * @param district the district
+   * @param pageable the pageable
    * @return the restaurants
    */
-  public Page<RestaurantDTO> getRestaurants(Specification specifications, Pageable pageRequest) {
-    var user = authService.getAuthenticatedUser();
+  public Page<RestaurantDTO> getRestaurants(
+      String searchTerm,
+      String sortField,
+      Sort.Direction sortDirection,
+      String city,
+      String restaurantName,
+      String district,
+      Pageable pageable) {
 
-    Pageable pageable = PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize());
+    Specification<Restaurant> spec =
+        Specification.where(
+                RestaurantSpecifications.searchByCityDistrictOrName(
+                    searchTerm, city, restaurantName, district))
+            .and(RestaurantSpecifications.sortBySelectedFields(sortField, sortDirection));
 
-    // map to DTO
     Page<RestaurantDTO> restaurantPage =
-        restaurantRepository
-            .findAll(specifications, pageable)
-            .map(x -> mapper.map(x, RestaurantDTO.class));
+        restaurantRepository.findAll(spec, pageable).map(x -> mapper.map(x, RestaurantDTO.class));
 
     var ids =
         restaurantPage.getContent().stream().map(RestaurantDTO::getId).collect(Collectors.toList());
@@ -91,10 +93,10 @@ public class RestaurantService {
               x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId()));
             });
     // if user is empty return without isFavorite field
+    var user = authService.getAuthenticatedUser();
     if (user.isEmpty()) {
       return restaurantPage;
     }
-
     // get favorite restaurants of user
     Set<Long> favoriteRestaurantIds =
         favoriteRestaurantService.getFavoriteRestaurantsByUser(user.get().getId()).stream()
@@ -104,6 +106,7 @@ public class RestaurantService {
     restaurantPage
         .getContent()
         .forEach(x -> x.setIsFavorite(favoriteRestaurantIds.contains(x.getId())));
+
     return restaurantPage;
   }
 

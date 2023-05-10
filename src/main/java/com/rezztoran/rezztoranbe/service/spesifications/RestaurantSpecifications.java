@@ -1,86 +1,81 @@
 package com.rezztoran.rezztoranbe.service.spesifications;
 
 import com.rezztoran.rezztoranbe.model.Restaurant;
+import com.rezztoran.rezztoranbe.model.Review;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 /** The type Restaurant specifications. */
 public class RestaurantSpecifications {
-  /**
-   * Search specification.
-   *
-   * @param value the value
-   * @return the specification
-   */
-  public static Specification<Restaurant> search(String value) {
-    return (root, query, criteriaBuilder) ->
-        criteriaBuilder.like(root.get("title"), "%" + value + "%");
-  }
 
-  /**
-   * Search and sort by fields specification.
-   *
-   * @param city the city
-   * @param restaurantName the restaurant name
-   * @param district the district
-   * @param sortBy the sort by
-   * @param sortDirection the sort direction
-   * @return the specification
-   */
-  public static Specification<Restaurant> searchAndSortByFields(
-      String city, String restaurantName, String district, String sortBy, String sortDirection) {
-    return (root, query, builder) -> {
-      if (sortBy != null) {
-        boolean descending = sortDirection.equalsIgnoreCase("desc");
-        Expression<?> sortByExpression = root.get(sortBy);
-        Order order = descending ? builder.desc(sortByExpression) : builder.asc(sortByExpression);
-        query.orderBy(order);
+  public static Specification<Restaurant> searchByCityDistrictOrName(
+      String searchTerm, String city, String restaurantName, String district) {
+    return (root, query, criteriaBuilder) -> {
+      List<Predicate> predicates = new ArrayList<>();
+
+      if (StringUtils.isNotBlank(searchTerm)) {
+        String likeTerm = "%" + searchTerm.toLowerCase() + "%";
+        predicates.add(
+            criteriaBuilder.or(
+                criteriaBuilder.like(criteriaBuilder.lower(root.get("city")), likeTerm),
+                criteriaBuilder.like(criteriaBuilder.lower(root.get("district")), likeTerm),
+                criteriaBuilder.like(criteriaBuilder.lower(root.get("restaurantName")), likeTerm)));
+      } else {
+        if (StringUtils.isNotBlank(city)) {
+          predicates.add(
+              criteriaBuilder.like(
+                  criteriaBuilder.lower(root.get("city")), "%" + city.toLowerCase() + "%"));
+        }
+        if (StringUtils.isNotBlank(district)) {
+          predicates.add(
+              criteriaBuilder.like(
+                  criteriaBuilder.lower(root.get("district")), "%" + district.toLowerCase() + "%"));
+        }
+        if (StringUtils.isNotBlank(restaurantName)) {
+          predicates.add(
+              criteriaBuilder.like(
+                  criteriaBuilder.lower(root.get("restaurantName")),
+                  "%" + restaurantName.toLowerCase() + "%"));
+        }
       }
 
-      Predicate predicate = builder.conjunction();
-
-      if (city != null) {
-        predicate = builder.and(
-            predicate,
-            builder.like(builder.lower(root.get("city")), "%" + city.toLowerCase() + "%"));
-      }
-
-      if (restaurantName != null) {
-        predicate = builder.and(
-            predicate,
-            builder.like(
-                builder.lower(root.get("restaurantName")),
-                "%" + restaurantName.toLowerCase() + "%"));
-      }
-
-      if (district != null) {
-        predicate = builder.and(predicate, builder.equal(root.get("district"), district));
-      }
-
-      return predicate;
+      return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     };
   }
 
+  public static Specification<Restaurant> sortBySelectedFields(
+      String sortField, Sort.Direction sortDirection) {
+    return (root, query, criteriaBuilder) -> {
+      Join<Restaurant, Review> reviewJoin = root.join("reviews", JoinType.LEFT);
+      query.groupBy(root.get("id"));
 
+      if (sortField.equals("restaurantName")) {
+        if (sortDirection.isAscending()) {
+          query.orderBy(criteriaBuilder.asc(root.get("restaurantName")));
+        } else {
+          query.orderBy(criteriaBuilder.desc(root.get("restaurantName")));
+        }
+      } else if (sortField.equals("reviewsCount")) {
+        if (sortDirection.isAscending()) {
+          query.orderBy(criteriaBuilder.asc(criteriaBuilder.count(reviewJoin)));
+        } else {
+          query.orderBy(criteriaBuilder.desc(criteriaBuilder.count(reviewJoin)));
+        }
+      } else if (sortField.equals("averageReviewStar")) {
+        if (sortDirection.isAscending()) {
+          query.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(reviewJoin.get("star"))));
+        } else {
+          query.orderBy(criteriaBuilder.desc(criteriaBuilder.avg(reviewJoin.get("star"))));
+        }
+      }
 
-
-  //    public static Specification<Restaurant> searchByFields(
-  //        String city, String restaurantName, String district) {
-  //      return (root, query, builder) -> {
-  //        List<Order> orders = new ArrayList<>();
-  //        orders.add(builder.desc(root.get("starCount")));
-  //        query.orderBy(orders);
-  //        return builder.and(
-  //            builder.like(builder.lower(root.get("city")), "%" + city.toLowerCase() + "%"),
-  //            builder.like(
-  //                builder.lower(root.get("restaurantName")),
-  //                "%" + restaurantName.toLowerCase() + "%"),
-  //            builder.equal(root.get("district"), district));
-  //      };
-  //    }
+      return query.getRestriction();
+    };
+  }
 }

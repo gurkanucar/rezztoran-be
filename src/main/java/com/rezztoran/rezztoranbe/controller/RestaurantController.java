@@ -6,7 +6,10 @@ import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +65,7 @@ public class RestaurantController {
     Sort.Direction direction = Sort.Direction.fromString(sortDirection.toUpperCase());
     var response =
         restaurantService.getRestaurants(
-            searchTerm, sortField, direction, city, restaurantName, district,localDate, pageable);
+            searchTerm, sortField, direction, city, restaurantName, district, localDate, pageable);
     return ApiResponse.builder().pageableData(response).build();
   }
 
@@ -162,7 +165,7 @@ public class RestaurantController {
   @GetMapping("/{id}/book")
   public ResponseEntity<ApiResponse<Object>> getBooksByRestaurantIdAndDate(
       @PathVariable Long id,
-        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
+      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
     var response = bookService.getBooks(localDate, id);
     return ApiResponse.builder().data(response).build();
   }
@@ -175,9 +178,11 @@ public class RestaurantController {
    * @return the tables by restaurant id and date
    */
   @GetMapping("/{id}/book/slots")
-  public ResponseEntity<ApiResponse<Object>> getTablesByRestaurantIdAndDate(
+  public ResponseEntity<ApiResponse<Object>> getAvailableTimeSlots(
       @PathVariable Long id,
       @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    return ApiResponse.builder().data(bookService.getAvailableTimeSlotsMap(localDate, id)).build();
+    var timeSlotsMap = bookService.getAvailableTimeSlotsMap(localDate, id);
+    List<Map.Entry<LocalTime, Boolean>> timeSlotsList = new ArrayList<>(timeSlotsMap.entrySet());
+    return ApiResponse.builder().data(timeSlotsList).build();
   }
 }

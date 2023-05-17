@@ -34,6 +34,19 @@ public class FavoriteRestaurantController {
    * @param requestModel the request model
    * @return the response entity
    */
+  @PostMapping("/toggle")
+  ResponseEntity<ApiResponse<Object>> toggleFavoriteRestaurant(
+      @RequestBody FavoriteRestaurantRequestModel requestModel) {
+    favoriteRestaurantService.toggle(requestModel);
+    return ApiResponse.builder().build();
+  }
+
+  /**
+   * Add favorite restaurant response entity.
+   *
+   * @param requestModel the request model
+   * @return the response entity
+   */
   @PostMapping
   ResponseEntity<ApiResponse<Object>> addFavoriteRestaurant(
       @RequestBody FavoriteRestaurantRequestModel requestModel) {

@@ -97,4 +97,19 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
       Long userId, Long restaurantId) {
     return favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(restaurantId, userId);
   }
+
+  @Override
+  public void toggle(FavoriteRestaurantRequestModel requestModel) {
+    var existing =
+        favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(
+            requestModel.getRestaurantId(), requestModel.getUserId());
+    var user = userService.findUserByID(requestModel.getUserId());
+    var restaurant = restaurantService.getById(requestModel.getRestaurantId());
+    if (existing.isEmpty()) {
+      favoriteRestaurantRepository.save(
+          FavoriteRestaurant.builder().user(user).restaurant(restaurant).build());
+    } else {
+      favoriteRestaurantRepository.deleteById(existing.get().getId());
+    }
+  }
 }

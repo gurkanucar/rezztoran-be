@@ -50,5 +50,7 @@ public interface FavoriteRestaurantService {
   Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
       Long userId, Long restaurantId);
 
+  void toggle(FavoriteRestaurantRequestModel requestModel);
+
   //  List<Restaurant> getMostFavoriteRestaurants();
 }

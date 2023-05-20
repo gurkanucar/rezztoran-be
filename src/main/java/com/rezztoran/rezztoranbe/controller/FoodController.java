@@ -4,6 +4,7 @@ import com.rezztoran.rezztoranbe.dto.FoodDTO;
 import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.FoodService;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,6 +33,20 @@ public class FoodController {
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> getFoodByID(@PathVariable Long id) {
     return ApiResponse.builder().data(FoodDTO.toDTO(foodService.getFoodByID(id))).build();
+  }
+
+  @GetMapping("/restaurant/{id}")
+  public ResponseEntity<ApiResponse<Object>> getFoodByRestaurantID(@PathVariable Long id) {
+    var data =
+        foodService.getFoodByRestaurantID(id).stream()
+            .map(
+                x -> {
+                  x.setRestaurant(null);
+                  return FoodDTO.toDTO(x);
+                })
+            .collect(Collectors.toList());
+
+    return ApiResponse.builder().data(data).build();
   }
 
   /**

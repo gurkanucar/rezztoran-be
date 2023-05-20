@@ -4,6 +4,7 @@ import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.repository.FoodRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 public class FoodService {
 
   private final FoodRepository foodRepository;
-  private final MenuService menuService;
+  private final RestaurantService restaurantService;
+  private final CategoryService categoryService;
   private final ExceptionUtil exceptionUtil;
 
   /**
@@ -23,9 +25,19 @@ public class FoodService {
    * @return the food
    */
   public Food createFood(Food food) {
-    var menu = menuService.getMenuById(food.getMenu().getId());
-    food.setMenu(menu);
-    return foodRepository.save(food);
+    var restaurant = restaurantService.getById(food.getRestaurant().getId());
+    var category = categoryService.getCategoryByID(food.getCategory().getId());
+    foodRepository
+        .findByFoodName(food.getFoodName())
+        .ifPresentOrElse(
+            (item) -> {
+              throw exceptionUtil.buildException(Ex.ALREADY_EXISTS_EXCEPTION);
+            },
+            () -> {});
+    var savedFood = foodRepository.save(food);
+    savedFood.setRestaurant(restaurant);
+    savedFood.setCategory(category);
+    return savedFood;
   }
 
   /**
@@ -35,11 +47,13 @@ public class FoodService {
    * @return the food
    */
   public Food updateFood(Food food) {
-    var menu = menuService.getMenuById(food.getMenu().getId());
     var existingFood = getFoodByID(food.getId());
-    existingFood.setMenu(menu);
-    existingFood.setCategories(food.getCategories());
-    existingFood.setMainCategory(food.getMainCategory());
+
+    var restaurant = restaurantService.getById(food.getRestaurant().getId());
+    var category = categoryService.getCategoryByID(food.getCategory().getId());
+
+    existingFood.setRestaurant(restaurant);
+    existingFood.setCategory(category);
     existingFood.setPrice(food.getPrice());
     existingFood.setCal(food.getCal());
     existingFood.setFoodName(food.getFoodName());
@@ -66,5 +80,9 @@ public class FoodService {
    */
   public void deleteFoodByID(Long id) {
     foodRepository.delete(getFoodByID(id));
+  }
+
+  public List<Food> getFoodByRestaurantID(Long id) {
+    return foodRepository.findAllByRestaurant_Id(id);
   }
 }

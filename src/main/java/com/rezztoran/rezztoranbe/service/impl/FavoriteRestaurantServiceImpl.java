@@ -105,7 +105,6 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
 
     dtoResult.forEach(
         x -> {
-          x.setMenu(null);
           x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId()));
         });
 

@@ -99,7 +99,6 @@ public class RestaurantController {
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> getById(@PathVariable Long id) {
     var response = restaurantService.getByIdDto(id);
-    Optional.ofNullable(response.getMenu()).ifPresent(x -> x.setRestaurant(null));
     return ApiResponse.builder().data(response).build();
   }
 

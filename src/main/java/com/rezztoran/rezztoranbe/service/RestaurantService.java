@@ -92,7 +92,6 @@ public class RestaurantService {
         .getContent()
         .forEach(
             x -> {
-              x.setMenu(null);
               x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId()));
             });
     // if user is empty return without isFavorite field
@@ -168,7 +167,6 @@ public class RestaurantService {
     existing.setRestaurantImage(restaurant.getRestaurantImage());
     existing.setRestaurantImageList(restaurant.getRestaurantImageList());
     existing.setDetailedAddress(restaurant.getDetailedAddress());
-    existing.setMenu(restaurant.getMenu());
     existing.setPhone(restaurant.getPhone());
     existing.setBookingAvailable(restaurant.getBookingAvailable());
     existing.setOpeningTime(restaurant.getOpeningTime());

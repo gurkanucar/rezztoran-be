@@ -2,13 +2,11 @@ package com.rezztoran.rezztoranbe.service.spesifications;
 
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.model.Food;
-import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.Review;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
@@ -83,14 +81,10 @@ public class RestaurantSpecifications {
       //      }
 
       if (foodCategories != null && !foodCategories.isEmpty()) {
-        Join<Restaurant, Menu> menuJoin = root.join("menu", JoinType.INNER);
-        Join<Menu, Food> foodJoin = menuJoin.join("foods", JoinType.INNER);
-        Join<Food, Category> categoryJoin = foodJoin.join("mainCategory", JoinType.INNER);
+        Join<Restaurant, Food> foodJoin = root.join("foods", JoinType.INNER);
+        Join<Food, Category> categoryJoin = foodJoin.join("category", JoinType.INNER);
 
-        Predicate categoryPredicate =
-            categoryJoin
-                .get("id")
-                .in(foodCategories.stream().map(Long::valueOf).collect(Collectors.toList()));
+        Predicate categoryPredicate = categoryJoin.get("id").in(foodCategories);
         predicates.add(categoryPredicate);
       }
 

@@ -91,4 +91,6 @@ public interface RestaurantService {
    * @param id the id
    */
   void delete(Long id);
+
+  byte[]  generateQrCodeForRestaurant(Long id);
 }

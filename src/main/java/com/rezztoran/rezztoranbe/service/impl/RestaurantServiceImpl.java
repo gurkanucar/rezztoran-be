@@ -7,6 +7,7 @@ import com.rezztoran.rezztoranbe.model.BaseEntity;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import com.rezztoran.rezztoranbe.service.FavoriteRestaurantService;
+import com.rezztoran.rezztoranbe.service.QRCodeService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.ReviewService;
 import com.rezztoran.rezztoranbe.spesifications.RestaurantSpecifications;
@@ -16,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,10 @@ public class RestaurantServiceImpl implements RestaurantService {
   private final ExceptionUtil exceptionUtil;
   private final ModelMapper mapper;
   private final ReviewService reviewService;
+  private final QRCodeService qrCodeService;
+
+  @Value("${app-context}")
+  private String appContext;
 
   /**
    * Instantiates a new Restaurant service.
@@ -45,6 +51,7 @@ public class RestaurantServiceImpl implements RestaurantService {
    * @param exceptionUtil the exception util
    * @param mapper the mapper
    * @param reviewService the review service
+   * @param qrCodeService
    */
   public RestaurantServiceImpl(
       RestaurantRepository restaurantRepository,
@@ -53,7 +60,8 @@ public class RestaurantServiceImpl implements RestaurantService {
       @Lazy FavoriteRestaurantService favoriteRestaurantService,
       ExceptionUtil exceptionUtil,
       ModelMapper mapper,
-      @Lazy ReviewService reviewService) {
+      @Lazy ReviewService reviewService,
+      QRCodeService qrCodeService) {
     this.restaurantRepository = restaurantRepository;
     this.userService = userService;
     this.authService = authService;
@@ -61,6 +69,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     this.exceptionUtil = exceptionUtil;
     this.mapper = mapper;
     this.reviewService = reviewService;
+    this.qrCodeService = qrCodeService;
   }
 
   /**
@@ -290,5 +299,20 @@ public class RestaurantServiceImpl implements RestaurantService {
   public void delete(Long id) {
     var restaurant = getById(id);
     restaurantRepository.delete(restaurant);
+  }
+
+  @Override
+  public byte[] generateQrCodeForRestaurant(Long id) {
+    var restaurant = getById(id);
+    String qrCodeText = appContext + "/api/food/restaurant/" + restaurant.getId();
+    byte[] qrCode;
+    try {
+      qrCode = qrCodeService.generateQRCodeWithLogo(qrCodeText, 200, 200, true);
+    } catch (Exception e) {
+      throw exceptionUtil.buildException(Ex.DEFAULT_EXCEPTION);
+    }
+    restaurant.setQrCode(qrCode);
+    restaurantRepository.save(restaurant);
+    return qrCode;
   }
 }

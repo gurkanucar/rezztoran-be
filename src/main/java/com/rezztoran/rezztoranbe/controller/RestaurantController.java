@@ -194,4 +194,16 @@ public class RestaurantController {
     List<Map.Entry<LocalTime, Boolean>> timeSlotsList = new ArrayList<>(timeSlotsMap.entrySet());
     return ApiResponse.builder().data(timeSlotsList).build();
   }
+
+  /**
+   * Gets restaurants randomly.
+   *
+   * @param count the count
+   * @return the restaurants randomly
+   */
+  @GetMapping("/qr-code/{id}")
+  public ResponseEntity<ApiResponse<Object>> generateQRCode(@PathVariable Long id) {
+   var response= restaurantService.generateQrCodeForRestaurant(id);
+    return ApiResponse.builder().data(response).build();
+  }
 }

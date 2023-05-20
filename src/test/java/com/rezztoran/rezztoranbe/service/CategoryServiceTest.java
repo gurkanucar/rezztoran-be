@@ -13,6 +13,7 @@ import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.repository.CategoryRepository;
+import com.rezztoran.rezztoranbe.service.impl.CategoryServiceImpl;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class CategoryServiceTest {
 
   @Mock private ExceptionUtil exceptionUtil;
 
-  @InjectMocks private CategoryService categoryService;
+  @InjectMocks private CategoryServiceImpl categoryService;
 
   @Test
   void testGetAllCategories() {

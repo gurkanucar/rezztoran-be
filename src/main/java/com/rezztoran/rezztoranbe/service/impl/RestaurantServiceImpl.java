@@ -6,6 +6,7 @@ import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.BaseEntity;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
+import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.FavoriteRestaurantService;
 import com.rezztoran.rezztoranbe.service.QRCodeService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
@@ -37,6 +38,7 @@ public class RestaurantServiceImpl implements RestaurantService {
   private final ModelMapper mapper;
   private final ReviewService reviewService;
   private final QRCodeService qrCodeService;
+  private final BookService bookService;
 
   @Value("${app-context}")
   private String appContext;
@@ -52,6 +54,7 @@ public class RestaurantServiceImpl implements RestaurantService {
    * @param mapper the mapper
    * @param reviewService the review service
    * @param qrCodeService the qr code service
+   * @param bookService
    */
   public RestaurantServiceImpl(
       RestaurantRepository restaurantRepository,
@@ -61,7 +64,8 @@ public class RestaurantServiceImpl implements RestaurantService {
       ExceptionUtil exceptionUtil,
       ModelMapper mapper,
       @Lazy ReviewService reviewService,
-      QRCodeService qrCodeService) {
+      QRCodeService qrCodeService,
+      @Lazy BookService bookService) {
     this.restaurantRepository = restaurantRepository;
     this.userService = userService;
     this.authService = authService;
@@ -70,6 +74,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     this.mapper = mapper;
     this.reviewService = reviewService;
     this.qrCodeService = qrCodeService;
+    this.bookService = bookService;
   }
 
   @Override
@@ -226,6 +231,7 @@ public class RestaurantServiceImpl implements RestaurantService {
   @Override
   public void delete(Long id) {
     var restaurant = getById(id);
+    bookService.cancelAllBookingsByRestaurant(id);
     restaurant.setDeleted(true);
     restaurantRepository.save(restaurant);
   }

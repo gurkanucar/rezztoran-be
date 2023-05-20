@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.controller;
 
+import com.rezztoran.rezztoranbe.aop.AuthorizeCheck;
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,6 +83,19 @@ public class BookingController {
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> deleteBooking(@PathVariable Long id) {
     bookService.deleteBook(id);
+    return ApiResponse.builder().build();
+  }
+
+  /**
+   * Delete booking response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'RESTAURANT_ADMIN')")
+  @DeleteMapping("/restaurant/{id}")
+  public ResponseEntity<ApiResponse<Object>> deleteBookingByRestaurant(@PathVariable Long id) {
+    bookService.deleteBookByRestaurant(id);
     return ApiResponse.builder().build();
   }
 }

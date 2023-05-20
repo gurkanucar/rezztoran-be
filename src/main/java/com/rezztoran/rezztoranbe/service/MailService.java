@@ -46,4 +46,12 @@ public interface MailService {
    * @param booking the booking
    */
   void sendBookReminderMail(MailModel mailModel, BookDTO booking);
+
+  /**
+   * Send book cancelled mail.
+   *
+   * @param mailModel the mail model
+   * @param booking the booking
+   */
+  void sendBookCancelledByRestaurantMail(MailModel mailModel, BookDTO booking);
 }

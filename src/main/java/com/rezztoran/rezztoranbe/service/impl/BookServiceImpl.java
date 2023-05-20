@@ -12,6 +12,7 @@ import com.rezztoran.rezztoranbe.model.Booking;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.BookRepository;
+import com.rezztoran.rezztoranbe.service.AuthService;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
@@ -38,9 +39,10 @@ public class BookServiceImpl implements BookService {
   private final UserService userService;
   private final ExceptionUtil exceptionUtil;
   private final BookingProducer bookingProducer;
+  private final AuthService authService;
 
   @Override
-  public BookDTO getBookById(Long id) {
+  public BookDTO getBookDTOById(Long id) {
     var book =
         bookRepository
             .findById(id)
@@ -159,15 +161,32 @@ public class BookServiceImpl implements BookService {
     return availableSlots;
   }
 
-  // TODO check access
   @Override
   public void deleteBook(Long id) {
-    Booking existing =
-        bookRepository
-            .findById(id)
-            .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+    var user = authService.getAuthenticatedUser();
+    var existing = getBookingById(id);
+    if (!user.get().getId().equals(existing.getUser().getId())) {
+      throw exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION);
+    }
     existing.setBookingStatus(BookingStatus.CANCELLED);
     bookRepository.save(existing);
+  }
+
+  @Override
+  public void deleteBookByRestaurant(Long id) {
+    var existing = getBookingById(id);
+    if (existing.getBookingStatus().equals(BookingStatus.CANCELLED)) {
+      return;
+    }
+    existing.setBookingStatus(BookingStatus.CANCELLED);
+    sendBookCancelledByRestaurantEvent(existing);
+    bookRepository.save(existing);
+  }
+
+  @Override
+  public void cancelAllBookingsByRestaurant(Long id) {
+    var books = bookRepository.findAllByRestaurant_Id(id);
+    books.forEach(x -> deleteBookByRestaurant(x.getId()));
   }
 
   @Override
@@ -252,6 +271,16 @@ public class BookServiceImpl implements BookService {
     return bookRepository
         .findById(id)
         .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+  }
+
+  private void sendBookCancelledByRestaurantEvent(Booking booking) {
+    var existing = getBookingById(booking.getId());
+
+    var restaurant = restaurantService.getById(existing.getRestaurant().getId());
+    var user = userService.findUserByID(existing.getUser().getId());
+
+    BookDTO bookDto = getBookDTO(user, restaurant, existing);
+    bookingProducer.sendBookCancelledByRestaurantMail(bookDto);
   }
 
   @Override

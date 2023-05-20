@@ -23,6 +23,10 @@ public class BookingProducerImpl implements BookingProducer {
   @Value("${spring.kafka.topics.book-reminder}")
   String topicNameReminder;
 
+  /** The Topic name reminder. */
+  @Value("${spring.kafka.topics.book-cancelled-restaurant}")
+  String topicNameCancelledByRestaurant;
+
   /**
    * Instantiates a new Booking producer.
    *
@@ -40,5 +44,10 @@ public class BookingProducerImpl implements BookingProducer {
   @Override
   public void sendBookingReminderMail(BookDTO booking) {
     kafkaTemplate.send(topicNameReminder, booking);
+  }
+
+  @Override
+  public void sendBookCancelledByRestaurantMail(BookDTO booking) {
+    kafkaTemplate.send(topicNameCancelledByRestaurant, booking);
   }
 }

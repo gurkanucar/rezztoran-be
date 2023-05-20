@@ -17,7 +17,7 @@ public interface BookService {
    * @param id the id
    * @return the book by id
    */
-  BookDTO getBookById(Long id);
+  BookDTO getBookDTOById(Long id);
 
   /**
    * Create book book dto.
@@ -68,6 +68,19 @@ public interface BookService {
    */
   void deleteBook(Long id);
 
+  /**
+   * Delete book.
+   *
+   * @param id the id
+   */
+  void deleteBookByRestaurant(Long id);
+
+  /**
+   * cancel all books.
+   *
+   * @param id the id
+   */
+  void cancelAllBookingsByRestaurant(Long id);
   /**
    * Gets books by user.
    *

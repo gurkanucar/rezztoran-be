@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,6 +26,9 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 @RequiredArgsConstructor
 @Slf4j
 public class MailServiceImpl implements MailService {
+
+  @Value("${app-context}")
+  private String appContext;
 
   private final JavaMailSender emailSender;
 
@@ -76,28 +80,28 @@ public class MailServiceImpl implements MailService {
     Map<String, Object> model = new HashMap<>();
     model.put("username", passwordResetMail.getUsername());
     model.put("code", passwordResetMail.getMailModel().getText());
-
     sendTemplateEmail(passwordResetMail.getMailModel(), "PasswordResetMail.html", model);
   }
 
   @Override
   public void sendBookCreatedMail(MailModel mailModel, BookDTO booking) {
-    Map<String, Object> model = new HashMap<>();
-    model.put("username", booking.getUser().getUsername());
-    model.put(
-        "booking_date",
-        String.format("%s - %s", booking.getReservationDate(), booking.getReservationTime()));
-    model.put("restaurant", booking.getRestaurant().getRestaurantName());
-    model.put("note", booking.getNote());
-    model.put("person_count", booking.getPersonCount());
-    model.put("phone", booking.getPhone());
-    model.put("reservation_details_url", "http://localhost:8082/swagger-ui.html");
-
+    Map<String, Object> model = fillMailModel(booking);
     sendTemplateEmail(mailModel, "BookCreatedMail.html", model);
   }
 
   @Override
   public void sendBookReminderMail(MailModel mailModel, BookDTO booking) {
+    Map<String, Object> model = fillMailModel(booking);
+    sendTemplateEmail(mailModel, "BookReminderMail.html", model);
+  }
+
+  @Override
+  public void sendBookCancelledByRestaurantMail(MailModel mailModel, BookDTO booking) {
+    Map<String, Object> model = fillMailModel(booking);
+    sendTemplateEmail(mailModel, "BookCancelledByRestaurantMail.html", model);
+  }
+
+  private Map<String, Object> fillMailModel(BookDTO booking) {
     Map<String, Object> model = new HashMap<>();
     model.put("username", booking.getUser().getUsername());
     model.put(
@@ -107,8 +111,7 @@ public class MailServiceImpl implements MailService {
     model.put("note", booking.getNote());
     model.put("person_count", booking.getPersonCount());
     model.put("phone", booking.getPhone());
-    model.put("reservation_details_url", "http://localhost:8082/swagger-ui.html");
-
-    sendTemplateEmail(mailModel, "BookReminderMail.html", model);
+    model.put("reservation_details_url", appContext + "/swagger-ui.html");
+    return model;
   }
 }

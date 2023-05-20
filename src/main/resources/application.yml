@@ -37,6 +37,7 @@ spring:
     topics:
       book-created: book-created
       book-reminder: book-reminder
+      book-cancelled-restaurant: book-cancelled-restaurant
       password-reset: password-reset
 
 spring.servlet.multipart:

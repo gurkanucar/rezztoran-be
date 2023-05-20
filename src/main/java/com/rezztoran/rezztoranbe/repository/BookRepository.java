@@ -46,6 +46,16 @@ public interface BookRepository extends JpaRepository<Booking, Long> {
    */
   List<Booking> findAllByUser_Id(Long id);
 
+
+  /**
+   * Find all by restaurant id list.
+   *
+   * @param id the id
+   * @return the list
+   */
+  List<Booking> findAllByRestaurant_Id(Long id);
+
+
   /**
    * Find all by restaurant id and reservation date and booking status list.
    *

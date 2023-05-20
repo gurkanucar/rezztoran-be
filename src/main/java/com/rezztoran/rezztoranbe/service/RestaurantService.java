@@ -70,13 +70,14 @@ public class RestaurantService {
       String city,
       String restaurantName,
       String district,
+      List<String> categories,
       LocalDate localDate,
       Pageable pageable) {
 
     Specification<Restaurant> spec =
         Specification.where(
                 RestaurantSpecifications.searchByCityDistrictOrName(
-                    searchTerm, city, restaurantName, district, localDate))
+                    searchTerm, city, restaurantName, district, localDate,categories))
             .and(RestaurantSpecifications.sortBySelectedFields(sortField, sortDirection));
 
     Page<RestaurantDTO> restaurantPage =

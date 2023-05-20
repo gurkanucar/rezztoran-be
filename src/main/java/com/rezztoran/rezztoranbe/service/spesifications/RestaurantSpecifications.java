@@ -1,10 +1,14 @@
 package com.rezztoran.rezztoranbe.service.spesifications;
 
+import com.rezztoran.rezztoranbe.model.Category;
+import com.rezztoran.rezztoranbe.model.Food;
+import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.Review;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
@@ -21,7 +25,9 @@ public class RestaurantSpecifications {
       String city,
       String restaurantName,
       String district,
-      LocalDate availabilityDate) {
+      LocalDate availabilityDate,
+      List<String> foodCategories) {
+
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
 
@@ -54,6 +60,38 @@ public class RestaurantSpecifications {
       if (availabilityDate != null) {
         Path<List<LocalDate>> datesPath = root.get("busyDates");
         predicates.add(criteriaBuilder.not(criteriaBuilder.isMember(availabilityDate, datesPath)));
+      }
+
+      // SEARCH BY FOOD CATEGORY NAME
+      //      if (foodCategories != null && !foodCategories.isEmpty()) {
+      //        Join<Restaurant, Menu> menuJoin = root.join("menu", JoinType.INNER);
+      //        Join<Menu, Food> foodJoin = menuJoin.join("foods", JoinType.INNER);
+      //        Join<Food, Category> categoryJoin = foodJoin.join("mainCategory", JoinType.INNER);
+      //
+      //        List<Predicate> categoryPredicates = new ArrayList<>();
+      //        for (String category : foodCategories) {
+      //          Predicate categoryPredicate =
+      //              criteriaBuilder.like(
+      //                  criteriaBuilder.lower(categoryJoin.get("categoryName")),
+      //                  "%" + category.toLowerCase() + "%");
+      //          categoryPredicates.add(categoryPredicate);
+      //        }
+      //
+      //        Predicate finalCategoryPredicate =
+      //            criteriaBuilder.or(categoryPredicates.toArray(new Predicate[0]));
+      //        predicates.add(finalCategoryPredicate);
+      //      }
+
+      if (foodCategories != null && !foodCategories.isEmpty()) {
+        Join<Restaurant, Menu> menuJoin = root.join("menu", JoinType.INNER);
+        Join<Menu, Food> foodJoin = menuJoin.join("foods", JoinType.INNER);
+        Join<Food, Category> categoryJoin = foodJoin.join("mainCategory", JoinType.INNER);
+
+        Predicate categoryPredicate =
+            categoryJoin
+                .get("id")
+                .in(foodCategories.stream().map(Long::valueOf).collect(Collectors.toList()));
+        predicates.add(categoryPredicate);
       }
 
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

@@ -59,13 +59,22 @@ public class RestaurantController {
       @RequestParam(required = false) String city,
       @RequestParam(required = false) String restaurantName,
       @RequestParam(required = false) String district,
+      @RequestParam(required = false) List<String> categories,
       @RequestParam(defaultValue = "restaurantName") String sortField,
       @RequestParam(defaultValue = "ASC") String sortDirection,
       @PageableDefault(size = 20) Pageable pageable) {
     Sort.Direction direction = Sort.Direction.fromString(sortDirection.toUpperCase());
     var response =
         restaurantService.getRestaurants(
-            searchTerm, sortField, direction, city, restaurantName, district, localDate, pageable);
+            searchTerm,
+            sortField,
+            direction,
+            city,
+            restaurantName,
+            district,
+            categories,
+            localDate,
+            pageable);
     return ApiResponse.builder().pageableData(response).build();
   }
 

@@ -27,18 +27,27 @@ public class FoodService {
   public Food createFood(Food food) {
     var restaurant = restaurantService.getById(food.getRestaurant().getId());
     var category = categoryService.getCategoryByID(food.getCategory().getId());
-    foodRepository
-        .findByFoodName(food.getFoodName())
-        .ifPresentOrElse(
-            (item) -> {
-              throw exceptionUtil.buildException(Ex.ALREADY_EXISTS_EXCEPTION);
-            },
-            () -> {});
+//    foodRepository
+//        .findByFoodName(food.getFoodName())
+//        .ifPresentOrElse(
+//            (item) -> {
+//              if (item.getCategory().getId().equals(category.getId()) && item.get) {
+//                throw exceptionUtil.buildException(Ex.ALREADY_EXISTS_EXCEPTION);
+//              }
+//            },
+//            () -> {});
     var savedFood = foodRepository.save(food);
     savedFood.setRestaurant(restaurant);
     savedFood.setCategory(category);
     return savedFood;
   }
+
+  public void createFoodList(List<Food> foods){
+    foods.forEach(this::createFood);
+  }
+
+
+
 
   /**
    * Update food food.

@@ -4,6 +4,7 @@ import com.rezztoran.rezztoranbe.dto.FoodDTO;
 import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.FoodService;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +65,18 @@ public class FoodController {
   @PostMapping
   public ResponseEntity<ApiResponse<Object>> createFood(@RequestBody Food food) {
     return ApiResponse.builder().data(FoodDTO.toDTO(foodService.createFood(food))).build();
+  }
+
+  /**
+   * Create food response entity.
+   *
+   * @param foods the food
+   * @return the response entity
+   */
+  @PostMapping("/insert-list")
+  public ResponseEntity<ApiResponse<Object>> createFoodList(@RequestBody List<Food> foods) {
+    foodService.createFoodList(foods);
+    return ApiResponse.builder().build();
   }
 
   /**

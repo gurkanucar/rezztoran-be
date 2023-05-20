@@ -1,0 +1,5 @@
+SELECT * FROM booking
+WHERE reservation_date <= CURRENT_DATE()
+AND reservation_time >= CURRENT_TIME() - INTERVAL '1' HOUR
+AND booking.reminder_mail_sent = FALSE;
+

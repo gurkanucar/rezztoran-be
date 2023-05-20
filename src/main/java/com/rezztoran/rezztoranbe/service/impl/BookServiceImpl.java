@@ -16,6 +16,7 @@ import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,7 @@ public class BookServiceImpl implements BookService {
         .id(booking.getId())
         .personCount(booking.getPersonCount())
         .bookingStatus(booking.getBookingStatus())
+        .phone(booking.getPhone())
         .reservationDate(booking.getReservationDate())
         .reservationTime(booking.getReservationTime())
         .restaurant(
@@ -99,6 +101,7 @@ public class BookServiceImpl implements BookService {
             .bookingStatus(BookingStatus.PENDING)
             .reservationDate(bookRequestModel.getReservationDate())
             .reservationTime(bookRequestModel.getReservationTime())
+            .phone(bookRequestModel.getPhone())
             .user(user)
             .restaurant(restaurant)
             .note(bookRequestModel.getNote())
@@ -132,6 +135,7 @@ public class BookServiceImpl implements BookService {
     }
 
     existing.setBookingStatus(bookRequestModel.getBookingStatus());
+    existing.setPhone(bookRequestModel.getPhone());
     existing.setReservationDate(bookRequestModel.getReservationDate());
     existing.setReservationTime(bookRequestModel.getReservationTime());
     existing.setNote(bookRequestModel.getNote());
@@ -139,6 +143,16 @@ public class BookServiceImpl implements BookService {
 
     var result = bookRepository.save(existing);
     return convertToBookDTO(result, true, true);
+  }
+
+  @Override
+  public void setBookReminderMailStatus(Long id, boolean status) {
+    var book =
+        bookRepository
+            .findById(id)
+            .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+    book.setReminderMailSent(status);
+    bookRepository.save(book);
   }
 
   @Override
@@ -210,6 +224,14 @@ public class BookServiceImpl implements BookService {
         .collect(Collectors.toList());
   }
 
+  @Override
+  public List<Booking> findBookingsWithReminderCondition() {
+    LocalDateTime now = LocalDateTime.now();
+    LocalDate today = now.toLocalDate();
+    LocalTime threeHoursAgo = now.minusHours(3).toLocalTime();
+    return bookRepository.getTodayBookings(today, threeHoursAgo);
+  }
+
   /**
    * Is before or equals boolean.
    *
@@ -262,6 +284,28 @@ public class BookServiceImpl implements BookService {
   }
 
   private void sendBookCreatedEvent(User user, Restaurant restaurant, Booking booking) {
+    BookDTO bookDto = getBookDTO(user, restaurant, booking);
+    bookingProducer.sendBookingCreatedMail(bookDto);
+  }
+
+  private Booking getBookingById(Long id) {
+    return bookRepository
+        .findById(id)
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+  }
+
+  @Override
+  public void sendBookReminderEvent(Booking booking) {
+    var existing = getBookingById(booking.getId());
+
+    var restaurant = restaurantService.getById(existing.getRestaurant().getId());
+    var user = userService.findUserByID(existing.getUser().getId());
+
+    BookDTO bookDto = getBookDTO(user, restaurant, existing);
+    bookingProducer.sendBookingReminderMail(bookDto);
+  }
+
+  private static BookDTO getBookDTO(User user, Restaurant restaurant, Booking booking) {
     var restaurantDto =
         RestaurantDTO.builder()
             .id(restaurant.getId())
@@ -280,18 +324,16 @@ public class BookServiceImpl implements BookService {
             .surname(user.getSurname())
             .build();
 
-    var bookDto =
-        BookDTO.builder()
-            .id(booking.getId())
-            .personCount(booking.getPersonCount())
-            .bookingStatus(booking.getBookingStatus())
-            .reservationDate(booking.getReservationDate())
-            .reservationTime(booking.getReservationTime())
-            .user(userDto)
-            .restaurant(restaurantDto)
-            .note(booking.getNote())
-            .build();
-
-    bookingProducer.sendBookingCreatedMail(bookDto);
+    return BookDTO.builder()
+        .id(booking.getId())
+        .personCount(booking.getPersonCount())
+        .bookingStatus(booking.getBookingStatus())
+        .reservationDate(booking.getReservationDate())
+        .reservationTime(booking.getReservationTime())
+        .phone(booking.getPhone())
+        .user(userDto)
+        .restaurant(restaurantDto)
+        .note(booking.getNote())
+        .build();
   }
 }

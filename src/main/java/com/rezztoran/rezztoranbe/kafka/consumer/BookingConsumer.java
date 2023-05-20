@@ -10,4 +10,5 @@ public interface BookingConsumer {
    * @param booking the booking
    */
   void consumeBookingCreated(BookDTO booking);
+  void consumeBookingReminder(BookDTO booking);
 }

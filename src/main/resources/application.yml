@@ -36,6 +36,7 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     topics:
       book-created: book-created
+      book-reminder: book-reminder
       password-reset: password-reset
 
 spring.servlet.multipart:

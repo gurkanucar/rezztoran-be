@@ -3,13 +3,22 @@ package com.rezztoran.rezztoranbe.repository;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
 import com.rezztoran.rezztoranbe.model.Booking;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /** The interface Book repository. */
 @Repository
 public interface BookRepository extends JpaRepository<Booking, Long> {
+
+  @Query(value = "SELECT * FROM booking " +
+      "WHERE reservation_date <= :today " +
+      "AND reservation_time >= :hours " +
+      "AND reminder_mail_sent = false", nativeQuery = true)
+  List<Booking> getTodayBookings(LocalDate today, LocalTime hours);
 
   /**
    * Find all by user id and reservation date list.

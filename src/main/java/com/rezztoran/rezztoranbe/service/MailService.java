@@ -31,4 +31,6 @@ public interface MailService {
    * @param booking the booking
    */
   void sendBookCreatedMail(MailModel mailModel, BookDTO booking);
+
+  void sendBookReminderMail(MailModel mailModel, BookDTO booking);
 }

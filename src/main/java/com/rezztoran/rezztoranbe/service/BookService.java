@@ -2,6 +2,9 @@ package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
+import com.rezztoran.rezztoranbe.model.Booking;
+import com.rezztoran.rezztoranbe.model.Restaurant;
+import com.rezztoran.rezztoranbe.model.User;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -33,6 +36,8 @@ public interface BookService {
    * @return the book dto
    */
   BookDTO updateBook(BookRequestModel bookRequestModel);
+
+  void setBookReminderMailStatus(Long id, boolean status);
 
   /**
    * Gets books.
@@ -75,4 +80,8 @@ public interface BookService {
    * @return the books by user and date
    */
   List<BookDTO> getBooksByUserAndDate(Long id, LocalDate date);
+
+  List<Booking> findBookingsWithReminderCondition();
+
+  void sendBookReminderEvent(Booking booking);
 }

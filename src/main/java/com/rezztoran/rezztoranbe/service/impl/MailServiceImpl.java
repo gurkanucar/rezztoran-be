@@ -113,8 +113,25 @@ public class MailServiceImpl implements MailService {
     model.put("restaurant", booking.getRestaurant().getRestaurantName());
     model.put("note", booking.getNote());
     model.put("person_count", booking.getPersonCount());
+    model.put("phone", booking.getPhone());
     model.put("reservation_details_url", "http://localhost:8082/swagger-ui.html");
 
     sendTemplateEmail(mailModel, "BookCreatedMail.html", model);
+  }
+
+  @Override
+  public void sendBookReminderMail(MailModel mailModel, BookDTO booking) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("username", booking.getUser().getUsername());
+    model.put(
+        "booking_date",
+        String.format("%s - %s", booking.getReservationDate(), booking.getReservationTime()));
+    model.put("restaurant", booking.getRestaurant().getRestaurantName());
+    model.put("note", booking.getNote());
+    model.put("person_count", booking.getPersonCount());
+    model.put("phone", booking.getPhone());
+    model.put("reservation_details_url", "http://localhost:8082/swagger-ui.html");
+
+    sendTemplateEmail(mailModel, "BookReminderMail.html", model);
   }
 }

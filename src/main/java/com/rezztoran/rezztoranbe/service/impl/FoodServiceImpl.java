@@ -28,6 +28,15 @@ public class FoodServiceImpl implements FoodService {
   public Food createFood(Food food) {
     var restaurant = restaurantService.getById(food.getRestaurant().getId());
     var category = categoryService.getCategoryByID(food.getCategory().getId());
+
+    var existing =
+        foodRepository.findByFoodNameAndRestaurant_IdAndCategory_Id(
+            food.getFoodName(), restaurant.getId(), category.getId());
+
+    if (existing.isPresent()) {
+      throw exceptionUtil.buildException(Ex.ALREADY_EXISTS_EXCEPTION);
+    }
+
     var savedFood = foodRepository.save(food);
     savedFood.setRestaurant(restaurant);
     savedFood.setCategory(category);

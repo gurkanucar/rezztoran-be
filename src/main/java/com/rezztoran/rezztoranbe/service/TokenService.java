@@ -17,10 +17,13 @@ import org.springframework.stereotype.Service;
 public class TokenService {
 
   private final UserService userService;
+
   @Value("${jwt-variables.KEY}")
   private String KEY;
+
   @Value("${jwt-variables.ISSUER}")
   private String ISSUER;
+
   @Value("${jwt-variables.EXPIRES_ACCESS_TOKEN_MINUTE}")
   private Integer EXPIRES_ACCESS_TOKEN_MINUTE;
 

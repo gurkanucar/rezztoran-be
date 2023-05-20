@@ -196,14 +196,14 @@ public class RestaurantController {
   }
 
   /**
-   * Gets restaurants randomly.
+   * Generate qr code response entity.
    *
-   * @param count the count
-   * @return the restaurants randomly
+   * @param id the id
+   * @return the response entity
    */
   @GetMapping("/qr-code/{id}")
   public ResponseEntity<ApiResponse<Object>> generateQRCode(@PathVariable Long id) {
-   var response= restaurantService.generateQrCodeForRestaurant(id);
+    var response = restaurantService.generateQrCodeForRestaurant(id);
     return ApiResponse.builder().data(response).build();
   }
 }

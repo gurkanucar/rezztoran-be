@@ -76,9 +76,9 @@ public class CategoryController {
   }
 
   /**
-   * Create category response entity.
+   * Create category list response entity.
    *
-   * @param categories the category
+   * @param categories the categories
    * @return the response entity
    */
   @PostMapping("/insert-list")

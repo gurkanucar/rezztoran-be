@@ -1,9 +1,7 @@
 package com.rezztoran.rezztoranbe.repository;
 
 import com.rezztoran.rezztoranbe.model.Food;
-import java.util.List;
 import java.util.Optional;
-import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,12 +20,11 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
   Optional<Food> findByFoodName(String foodName);
 
   /**
-   * Find all by restaurant id list.
+   * Find all by restaurant id page.
    *
    * @param restaurantId the restaurant id
-   * @return the list
+   * @param pageable the pageable
+   * @return the page
    */
-
-
   Page<Food> findAllByRestaurant_Id(Long restaurantId, Pageable pageable);
 }

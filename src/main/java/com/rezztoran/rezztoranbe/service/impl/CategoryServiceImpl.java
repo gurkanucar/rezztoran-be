@@ -22,23 +22,11 @@ public class CategoryServiceImpl implements CategoryService {
   private final ExceptionUtil exceptionUtil;
   private final ModelMapper mapper;
 
-  /**
-   * Gets all categories.
-   *
-   * @param pageable the pageable
-   * @return the all categories
-   */
   @Override
   public Page<CategoryDTO> getAllCategories(Pageable pageable) {
     return categoryRepository.findAll(pageable).map(x -> mapper.map(x, CategoryDTO.class));
   }
 
-  /**
-   * Gets category by id.
-   *
-   * @param id the id
-   * @return the category by id
-   */
   @Override
   public Category getCategoryByID(Long id) {
     return categoryRepository
@@ -46,12 +34,6 @@ public class CategoryServiceImpl implements CategoryService {
         .orElseThrow(() -> exceptionUtil.buildException(Ex.CATEGORY_NOT_FOUND_EXCEPTION));
   }
 
-  /**
-   * Create category.
-   *
-   * @param category the category
-   * @return the category
-   */
   @Override
   public Category create(Category category) {
     if (categoryRepository.findByCategoryName(category.getCategoryName()).isPresent()) {
@@ -60,12 +42,6 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryRepository.save(category);
   }
 
-  /**
-   * Create category.
-   *
-   * @param categories the category list
-   * @return the categories
-   */
   @Override
   public List<Category> createCategoryList(List<Category> categories) {
     categories.forEach(
@@ -77,12 +53,6 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryRepository.findAll();
   }
 
-  /**
-   * Update category.
-   *
-   * @param category the category
-   * @return the category
-   */
   @Override
   public Category update(Category category) {
     var existing = getCategoryByID(category.getId());
@@ -95,11 +65,6 @@ public class CategoryServiceImpl implements CategoryService {
     return categoryRepository.save(category);
   }
 
-  /**
-   * Delete.
-   *
-   * @param id the id
-   */
   @Override
   public void delete(Long id) {
     var existing = getCategoryByID(id);

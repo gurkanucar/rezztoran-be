@@ -41,6 +41,7 @@ public class FoodController {
    * Gets food by restaurant id.
    *
    * @param id the id
+   * @param pageable the pageable
    * @return the food by restaurant id
    */
   @GetMapping("/restaurant/{id}")
@@ -63,9 +64,9 @@ public class FoodController {
   }
 
   /**
-   * Create food response entity.
+   * Create food list response entity.
    *
-   * @param foods the food
+   * @param foods the foods
    * @return the response entity
    */
   @PostMapping("/insert-list")

@@ -56,5 +56,4 @@ public interface FavoriteRestaurantService {
    * @param requestModel the request model
    */
   void toggle(FavoriteRestaurantRequestModel requestModel);
-
 }

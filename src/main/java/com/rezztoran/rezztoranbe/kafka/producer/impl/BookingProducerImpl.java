@@ -15,10 +15,11 @@ public class BookingProducerImpl implements BookingProducer {
   @Qualifier("BookingKafkaProducerFactory")
   private final KafkaTemplate<String, BookDTO> kafkaTemplate;
 
-  /** The Topic name. */
+  /** The Topic name created. */
   @Value("${spring.kafka.topics.book-created}")
   String topicNameCreated;
 
+  /** The Topic name reminder. */
   @Value("${spring.kafka.topics.book-reminder}")
   String topicNameReminder;
 

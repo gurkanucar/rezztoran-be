@@ -30,11 +30,6 @@ public class MailServiceImpl implements MailService {
 
   private final FreeMarkerConfigurer freeMarkerConfigurer;
 
-  /**
-   * Send simple message.
-   *
-   * @param mailModel the mail model
-   */
   @Override
   public void sendSimpleMessage(MailModel mailModel) {
     SimpleMailMessage message = new SimpleMailMessage();
@@ -44,13 +39,6 @@ public class MailServiceImpl implements MailService {
     emailSender.send(message);
   }
 
-  /**
-   * Send template email.
-   *
-   * @param mailModel the mail model
-   * @param templateName the template name
-   * @param model the model
-   */
   @Override
   public void sendTemplateEmail(
       MailModel mailModel, String templateName, Map<String, Object> model) {
@@ -83,11 +71,6 @@ public class MailServiceImpl implements MailService {
     }
   }
 
-  /**
-   * Send reset password email.
-   *
-   * @param passwordResetMail the password reset mail
-   */
   @Override
   public void sendResetPasswordEmail(PasswordResetMail passwordResetMail) {
     Map<String, Object> model = new HashMap<>();
@@ -97,12 +80,6 @@ public class MailServiceImpl implements MailService {
     sendTemplateEmail(passwordResetMail.getMailModel(), "PasswordResetMail.html", model);
   }
 
-  /**
-   * Send book created mail.
-   *
-   * @param mailModel the mail model
-   * @param booking the booking
-   */
   @Override
   public void sendBookCreatedMail(MailModel mailModel, BookDTO booking) {
     Map<String, Object> model = new HashMap<>();

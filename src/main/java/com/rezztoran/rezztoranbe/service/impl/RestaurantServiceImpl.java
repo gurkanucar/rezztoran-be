@@ -51,7 +51,7 @@ public class RestaurantServiceImpl implements RestaurantService {
    * @param exceptionUtil the exception util
    * @param mapper the mapper
    * @param reviewService the review service
-   * @param qrCodeService
+   * @param qrCodeService the qr code service
    */
   public RestaurantServiceImpl(
       RestaurantRepository restaurantRepository,
@@ -72,20 +72,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     this.qrCodeService = qrCodeService;
   }
 
-  /**
-   * Gets restaurants.
-   *
-   * @param searchTerm the search term
-   * @param sortField the sort field
-   * @param sortDirection the sort direction
-   * @param city the city
-   * @param restaurantName the restaurant name
-   * @param district the district
-   * @param categories the categories
-   * @param localDate the local date
-   * @param pageable the pageable
-   * @return the restaurants
-   */
   @Override
   public Page<RestaurantDTO> getRestaurants(
       String searchTerm,
@@ -135,12 +121,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     return restaurantPage;
   }
 
-  /**
-   * Gets restaurants randomly.
-   *
-   * @param count the count
-   * @return the restaurants randomly
-   */
   @Override
   public List<RestaurantDTO> getRestaurantsRandomly(int count) {
     return restaurantRepository.findAllRandomly(count).stream()
@@ -148,12 +128,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         .collect(Collectors.toList());
   }
 
-  /**
-   * Create restaurant.
-   *
-   * @param restaurant the restaurant
-   * @return the restaurant
-   */
   @Override
   public Restaurant create(Restaurant restaurant) {
     if (doesRestaurantExistByName(restaurant)) {
@@ -162,11 +136,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     return restaurantRepository.save(restaurant);
   }
 
-  /**
-   * Create.
-   *
-   * @param restaurants the restaurants
-   */
   @Override
   public void create(List<Restaurant> restaurants) {
     restaurants.forEach(
@@ -177,12 +146,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         });
   }
 
-  /**
-   * Update restaurant.
-   *
-   * @param restaurant the restaurant
-   * @return the restaurant
-   */
   @Transactional
   @Override
   public Restaurant update(Restaurant restaurant) {
@@ -204,12 +167,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     return restaurantRepository.save(existing);
   }
 
-  /**
-   * Update owner restaurant.
-   *
-   * @param restaurant the restaurant
-   * @return the restaurant
-   */
   @Override
   public Restaurant updateOwner(Restaurant restaurant) {
     var existing = getById(restaurant.getId());
@@ -221,12 +178,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     return restaurantRepository.save(existing);
   }
 
-  /**
-   * Does restaurant exist by name boolean.
-   *
-   * @param restaurant the restaurant
-   * @return the boolean
-   */
   @Override
   public boolean doesRestaurantExistByName(Restaurant restaurant) {
     return restaurantRepository
@@ -234,23 +185,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         .isPresent();
   }
 
-  /**
-   * Does restaurant exist by user boolean.
-   *
-   * @param restaurant the restaurant
-   * @return the boolean
-   */
   @Override
   public boolean doesRestaurantExistByUser(Restaurant restaurant) {
     return restaurantRepository.findRestaurantByUser(restaurant.getUser()).isPresent();
   }
 
-  /**
-   * Gets by id.
-   *
-   * @param id the id
-   * @return the by id
-   */
   @Override
   public Restaurant getById(Long id) {
     return restaurantRepository
@@ -258,12 +197,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
   }
 
-  /**
-   * Gets by id dto.
-   *
-   * @param id the id
-   * @return the by id dto
-   */
   @Override
   public RestaurantDTO getByIdDto(Long id) {
     var score = reviewService.calculateStarCountByRestaurant(id);
@@ -290,11 +223,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     return restaurantDto;
   }
 
-  /**
-   * Delete.
-   *
-   * @param id the id
-   */
   @Override
   public void delete(Long id) {
     var restaurant = getById(id);

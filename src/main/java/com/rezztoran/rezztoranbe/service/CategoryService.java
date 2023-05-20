@@ -6,8 +6,15 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+/** The interface Category service. */
 public interface CategoryService {
 
+  /**
+   * Gets all categories.
+   *
+   * @param pageable the pageable
+   * @return the all categories
+   */
   Page<CategoryDTO> getAllCategories(Pageable pageable);
 
   /**
@@ -27,10 +34,10 @@ public interface CategoryService {
   Category create(Category category);
 
   /**
-   * Create category.
+   * Create category list list.
    *
-   * @param categories the category list
-   * @return the categories
+   * @param categories the categories
+   * @return the list
    */
   List<Category> createCategoryList(List<Category> categories);
 

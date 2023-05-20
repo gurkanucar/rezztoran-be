@@ -12,5 +12,10 @@ public interface BookingProducer {
    */
   void sendBookingCreatedMail(BookDTO booking);
 
+  /**
+   * Send booking reminder mail.
+   *
+   * @param booking the booking
+   */
   void sendBookingReminderMail(BookDTO booking);
 }

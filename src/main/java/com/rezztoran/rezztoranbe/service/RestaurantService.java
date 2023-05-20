@@ -8,8 +8,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+/** The interface Restaurant service. */
 public interface RestaurantService {
 
+  /**
+   * Gets restaurants.
+   *
+   * @param searchTerm the search term
+   * @param sortField the sort field
+   * @param sortDirection the sort direction
+   * @param city the city
+   * @param restaurantName the restaurant name
+   * @param district the district
+   * @param categories the categories
+   * @param localDate the local date
+   * @param pageable the pageable
+   * @return the restaurants
+   */
   Page<RestaurantDTO> getRestaurants(
       String searchTerm,
       String sortField,
@@ -92,5 +107,11 @@ public interface RestaurantService {
    */
   void delete(Long id);
 
-  byte[]  generateQrCodeForRestaurant(Long id);
+  /**
+   * Generate qr code for restaurant byte [ ].
+   *
+   * @param id the id
+   * @return the byte [ ]
+   */
+  byte[] generateQrCodeForRestaurant(Long id);
 }

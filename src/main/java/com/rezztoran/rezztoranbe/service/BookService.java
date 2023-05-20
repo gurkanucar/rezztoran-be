@@ -3,8 +3,6 @@ package com.rezztoran.rezztoranbe.service;
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.model.Booking;
-import com.rezztoran.rezztoranbe.model.Restaurant;
-import com.rezztoran.rezztoranbe.model.User;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -37,6 +35,12 @@ public interface BookService {
    */
   BookDTO updateBook(BookRequestModel bookRequestModel);
 
+  /**
+   * Sets book reminder mail status.
+   *
+   * @param id the id
+   * @param status the status
+   */
   void setBookReminderMailStatus(Long id, boolean status);
 
   /**
@@ -81,7 +85,17 @@ public interface BookService {
    */
   List<BookDTO> getBooksByUserAndDate(Long id, LocalDate date);
 
+  /**
+   * Find bookings with reminder condition list.
+   *
+   * @return the list
+   */
   List<Booking> findBookingsWithReminderCondition();
 
+  /**
+   * Send book reminder event.
+   *
+   * @param booking the booking
+   */
   void sendBookReminderEvent(Booking booking);
 }

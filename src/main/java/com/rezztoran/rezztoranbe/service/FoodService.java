@@ -6,10 +6,22 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+/** The interface Food service. */
 public interface FoodService {
 
+  /**
+   * Create food food.
+   *
+   * @param food the food
+   * @return the food
+   */
   Food createFood(Food food);
 
+  /**
+   * Create food list.
+   *
+   * @param foods the foods
+   */
   void createFoodList(List<Food> foods);
   /**
    * Update food food.
@@ -36,6 +48,7 @@ public interface FoodService {
    * Gets food by restaurant id.
    *
    * @param id the id
+   * @param pageable the pageable
    * @return the food by restaurant id
    */
   Page<FoodDTO> getFoodByRestaurantID(Long id, Pageable pageable);

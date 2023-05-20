@@ -24,12 +24,6 @@ public class FoodServiceImpl implements FoodService {
   private final CategoryService categoryService;
   private final ExceptionUtil exceptionUtil;
 
-  /**
-   * Create food food.
-   *
-   * @param food the food
-   * @return the food
-   */
   @Override
   public Food createFood(Food food) {
     var restaurant = restaurantService.getById(food.getRestaurant().getId());
@@ -45,12 +39,6 @@ public class FoodServiceImpl implements FoodService {
     foods.forEach(this::createFood);
   }
 
-  /**
-   * Update food food.
-   *
-   * @param food the food
-   * @return the food
-   */
   @Override
   public Food updateFood(Food food) {
     var existingFood = getFoodByID(food.getId());
@@ -67,12 +55,6 @@ public class FoodServiceImpl implements FoodService {
     return foodRepository.save(food);
   }
 
-  /**
-   * Gets food by id.
-   *
-   * @param id the id
-   * @return the food by id
-   */
   @Override
   public Food getFoodByID(Long id) {
     return foodRepository
@@ -80,22 +62,11 @@ public class FoodServiceImpl implements FoodService {
         .orElseThrow(() -> exceptionUtil.buildException(Ex.FOOD_NOT_FOUND_EXCEPTION));
   }
 
-  /**
-   * Delete food by id.
-   *
-   * @param id the id
-   */
   @Override
   public void deleteFoodByID(Long id) {
     foodRepository.delete(getFoodByID(id));
   }
 
-  /**
-   * Gets food by restaurant id.
-   *
-   * @param id the id
-   * @return the food by restaurant id
-   */
   @Override
   public Page<FoodDTO> getFoodByRestaurantID(Long id, Pageable pageable) {
 

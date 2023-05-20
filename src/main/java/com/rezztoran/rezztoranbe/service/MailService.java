@@ -5,9 +5,16 @@ import com.rezztoran.rezztoranbe.dto.request.MailModel;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 import java.util.Map;
 
+/** The interface Mail service. */
 public interface MailService {
 
+  /**
+   * Send simple message.
+   *
+   * @param mailModel the mail model
+   */
   void sendSimpleMessage(MailModel mailModel);
+
   /**
    * Send template email.
    *
@@ -32,5 +39,11 @@ public interface MailService {
    */
   void sendBookCreatedMail(MailModel mailModel, BookDTO booking);
 
+  /**
+   * Send book reminder mail.
+   *
+   * @param mailModel the mail model
+   * @param booking the booking
+   */
   void sendBookReminderMail(MailModel mailModel, BookDTO booking);
 }

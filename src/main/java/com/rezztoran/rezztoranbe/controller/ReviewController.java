@@ -36,11 +36,10 @@ public class ReviewController {
     return ApiResponse.builder().data(reviewService.createReview(request)).build();
   }
 
-
   /**
    * Create review response entity.
    *
-   * @param reviews the request
+   * @param reviews the reviews
    * @return the response entity
    */
   @PostMapping("/insert-list")

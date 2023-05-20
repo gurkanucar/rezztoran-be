@@ -24,7 +24,7 @@ public interface FoodService {
    */
   void createFoodList(List<Food> foods);
   /**
-   * Update food food.
+   * Update food.
    *
    * @param food the food
    * @return the food

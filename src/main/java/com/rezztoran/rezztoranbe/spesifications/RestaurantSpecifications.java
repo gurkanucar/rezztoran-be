@@ -40,6 +40,9 @@ public class RestaurantSpecifications {
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
 
+      // filter deleted
+      predicates.add(criteriaBuilder.isFalse(root.get("deleted")));
+
       if (StringUtils.isNotBlank(searchTerm)) {
         String likeTerm = "%" + searchTerm.toLowerCase() + "%";
         predicates.add(

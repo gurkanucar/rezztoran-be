@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,9 +107,10 @@ public class CategoryController {
    * @param id the id
    * @return the response entity
    */
-  @DeleteMapping("/{id}")
-  public ResponseEntity<ApiResponse<Object>> deleteCategory(@PathVariable Long id) {
-    categoryService.delete(id);
-    return ApiResponse.builder().build();
-  }
+  // category deleting operation cancelled
+  //  @DeleteMapping("/{id}")
+  //  public ResponseEntity<ApiResponse<Object>> deleteCategory(@PathVariable Long id) {
+  //    categoryService.delete(id);
+  //    return ApiResponse.builder().build();
+  //  }
 }

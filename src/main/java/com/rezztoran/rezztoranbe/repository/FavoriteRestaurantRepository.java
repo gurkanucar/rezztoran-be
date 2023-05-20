@@ -17,7 +17,8 @@ public interface FavoriteRestaurantRepository extends JpaRepository<FavoriteRest
    * @param userId the user id
    * @return the optional
    */
-  Optional<FavoriteRestaurant> findByRestaurant_IdAndUser_Id(Long restaurantId, Long userId);
+  Optional<FavoriteRestaurant> findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
+      Long restaurantId, Long userId);
 
   /**
    * Find all by user id list.
@@ -25,5 +26,5 @@ public interface FavoriteRestaurantRepository extends JpaRepository<FavoriteRest
    * @param userId the user id
    * @return the list
    */
-  List<FavoriteRestaurant> findAllByUser_Id(Long userId);
+  List<FavoriteRestaurant> findAllByUser_IdAndRestaurant_DeletedFalse(Long userId);
 }

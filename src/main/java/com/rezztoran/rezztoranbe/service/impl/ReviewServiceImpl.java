@@ -106,7 +106,7 @@ public class ReviewServiceImpl implements ReviewService {
 
   @Override
   public List<ReviewDTO> getReviewsByRestaurant(Long id) {
-    return reviewRepository.findAllByRestaurant_Id(id).stream()
+    return reviewRepository.findAllByRestaurant_IdAndRestaurant_DeletedFalse(id).stream()
         .map(ReviewServiceImpl::getReviewDTO)
         .collect(Collectors.toList());
   }
@@ -120,7 +120,7 @@ public class ReviewServiceImpl implements ReviewService {
 
   @Override
   public Double calculateStarCountByRestaurant(Long id) {
-    var restaurantData = reviewRepository.findAllByRestaurant_Id(id);
+    var restaurantData = reviewRepository.findAllByRestaurant_IdAndRestaurant_DeletedFalse(id);
     return restaurantData.stream().mapToInt(Review::getStar).average().orElse(0);
   }
 

@@ -29,7 +29,9 @@ public interface RestaurantRepository
    * @param count the count
    * @return the list
    */
-  @Query(value = "SELECT * FROM restaurant ORDER BY RAND() LIMIT :elementCount", nativeQuery = true)
+  @Query(
+      value = "SELECT * FROM restaurant WHERE deleted = FALSE ORDER BY RAND() LIMIT :elementCount",
+      nativeQuery = true)
   List<Restaurant> findAllRandomly(@Param("elementCount") int count);
 
   Page<Restaurant> findAll(Specification<Restaurant> spec, Pageable pageable);
@@ -76,7 +78,13 @@ public interface RestaurantRepository
    */
   Optional<Restaurant> findRestaurantByUser(User user);
 
-  List<Restaurant> findAll();
+  /**
+   * Find restaurant by user optional.
+   *
+   * @param id the id
+   * @return the optional
+   */
+  Optional<Restaurant> findByIdAndDeletedFalse(Long id);
 
   /**
    * Find all map map.

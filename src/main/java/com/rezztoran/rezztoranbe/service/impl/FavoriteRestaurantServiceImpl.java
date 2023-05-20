@@ -64,7 +64,7 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   @Override
   public void addToFavorite(FavoriteRestaurantRequestModel requestModel) {
     var existing =
-        favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(
+        favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
             requestModel.getRestaurantId(), requestModel.getUserId());
     var user = userService.findUserByID(requestModel.getUserId());
     var restaurant = restaurantService.getById(requestModel.getRestaurantId());
@@ -77,7 +77,7 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   @Override
   public void removeFromFavorite(FavoriteRestaurantRequestModel requestModel) {
     var existing =
-        favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(
+        favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
             requestModel.getRestaurantId(), requestModel.getUserId());
     existing.ifPresent(
         favoriteRestaurant -> favoriteRestaurantRepository.deleteById(favoriteRestaurant.getId()));
@@ -85,13 +85,13 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
 
   @Override
   public List<Restaurant> getFavoriteRestaurantsByUser(Long userId) {
-    var result = favoriteRestaurantRepository.findAllByUser_Id(userId);
+    var result = favoriteRestaurantRepository.findAllByUser_IdAndRestaurant_DeletedFalse(userId);
     return result.stream().map(FavoriteRestaurant::getRestaurant).collect(Collectors.toList());
   }
 
   @Override
   public List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId) {
-    var result = favoriteRestaurantRepository.findAllByUser_Id(userId);
+    var result = favoriteRestaurantRepository.findAllByUser_IdAndRestaurant_DeletedFalse(userId);
     var dtoResult =
         result.stream()
             .map(FavoriteRestaurantServiceImpl::convertToRestaurantDTO)
@@ -104,9 +104,7 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
     var starCounts = reviewService.calculateStarCountByRestaurant(ids);
 
     dtoResult.forEach(
-        x -> {
-          x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId()));
-        });
+        x -> x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId())));
 
     return dtoResult;
   }
@@ -114,13 +112,14 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   @Override
   public Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
       Long userId, Long restaurantId) {
-    return favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(restaurantId, userId);
+    return favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
+        restaurantId, userId);
   }
 
   @Override
   public void toggle(FavoriteRestaurantRequestModel requestModel) {
     var existing =
-        favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(
+        favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
             requestModel.getRestaurantId(), requestModel.getUserId());
     var user = userService.findUserByID(requestModel.getUserId());
     var restaurant = restaurantService.getById(requestModel.getRestaurantId());

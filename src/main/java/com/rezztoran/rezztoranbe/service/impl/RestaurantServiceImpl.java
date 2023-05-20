@@ -193,7 +193,7 @@ public class RestaurantServiceImpl implements RestaurantService {
   @Override
   public Restaurant getById(Long id) {
     return restaurantRepository
-        .findById(id)
+        .findByIdAndDeletedFalse(id)
         .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
   }
 
@@ -204,7 +204,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     if (user.isEmpty()) {
       var restaurant =
           restaurantRepository
-              .findById(id)
+              .findByIdAndDeletedFalse(id)
               .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
       return mapper.map(restaurant, RestaurantDTO.class);
     }
@@ -213,7 +213,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             user.get().getId(), id);
     var restaurant =
         restaurantRepository
-            .findById(id)
+            .findByIdAndDeletedFalse(id)
             .orElseThrow(() -> exceptionUtil.buildException(Ex.RESTAURANT_NOT_FOUND_EXCEPTION));
     var restaurantDto = mapper.map(restaurant, RestaurantDTO.class);
 
@@ -226,7 +226,8 @@ public class RestaurantServiceImpl implements RestaurantService {
   @Override
   public void delete(Long id) {
     var restaurant = getById(id);
-    restaurantRepository.delete(restaurant);
+    restaurant.setDeleted(true);
+    restaurantRepository.save(restaurant);
   }
 
   @Override

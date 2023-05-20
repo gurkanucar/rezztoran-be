@@ -86,4 +86,6 @@ public class Restaurant extends BaseEntity {
   @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private List<LocalDate> busyDates;
+
+  private boolean deleted;
 }

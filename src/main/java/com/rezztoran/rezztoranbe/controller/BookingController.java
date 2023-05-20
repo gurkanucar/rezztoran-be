@@ -1,11 +1,9 @@
 package com.rezztoran.rezztoranbe.controller;
 
-import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
 import java.time.LocalDate;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -40,13 +38,7 @@ public class BookingController {
   public ResponseEntity<ApiResponse<Object>> getBooksByUserId(
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    List<BookDTO> response;
-    if (localDate == null) {
-      response = bookService.getBooksByUser(id);
-    } else {
-      response = bookService.getBooksByUserAndDate(id, localDate);
-    }
-    return ApiResponse.builder().data(response).build();
+    return ApiResponse.builder().data(bookService.getBooksByUserAndDate(id, localDate)).build();
   }
 
   /**

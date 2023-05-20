@@ -174,6 +174,9 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public List<BookDTO> getBooksByUserAndDate(Long id, LocalDate date) {
+    if (date == null) {
+      return getBooksByUser(id);
+    }
     return bookRepository.findAllByUser_IdAndReservationDate(id, date).stream()
         .map(x -> convertToBookDTO(x, false, true))
         .collect(Collectors.toList());

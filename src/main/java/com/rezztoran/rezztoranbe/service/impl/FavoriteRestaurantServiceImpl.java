@@ -7,6 +7,7 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.FavoriteRestaurantRepository;
 import com.rezztoran.rezztoranbe.service.FavoriteRestaurantService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
+import com.rezztoran.rezztoranbe.service.ReviewService;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   private final FavoriteRestaurantRepository favoriteRestaurantRepository;
   private final UserService userService;
   private final RestaurantService restaurantService;
+  private final ReviewService reviewService;
 
   /**
    * Instantiates a new Favorite restaurant service.
@@ -29,14 +31,17 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
    * @param favoriteRestaurantRepository the favorite restaurant repository
    * @param userService the user service
    * @param restaurantService the restaurant service
+   * @param reviewService
    */
   public FavoriteRestaurantServiceImpl(
       FavoriteRestaurantRepository favoriteRestaurantRepository,
       UserService userService,
-      RestaurantService restaurantService) {
+      RestaurantService restaurantService,
+      ReviewService reviewService) {
     this.favoriteRestaurantRepository = favoriteRestaurantRepository;
     this.userService = userService;
     this.restaurantService = restaurantService;
+    this.reviewService = reviewService;
   }
 
   private static RestaurantDTO convertToRestaurantDTO(FavoriteRestaurant x) {
@@ -87,9 +92,24 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   @Override
   public List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId) {
     var result = favoriteRestaurantRepository.findAllByUser_Id(userId);
-    return result.stream()
-        .map(FavoriteRestaurantServiceImpl::convertToRestaurantDTO)
-        .collect(Collectors.toList());
+    var dtoResult =
+        result.stream()
+            .map(FavoriteRestaurantServiceImpl::convertToRestaurantDTO)
+            .collect(Collectors.toList());
+
+    dtoResult.forEach(x -> x.setIsFavorite(true));
+
+    var ids = dtoResult.stream().map(RestaurantDTO::getId).collect(Collectors.toList());
+
+    var starCounts = reviewService.calculateStarCountByRestaurant(ids);
+
+    dtoResult.forEach(
+        x -> {
+          x.setMenu(null);
+          x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId()));
+        });
+
+    return dtoResult;
   }
 
   @Override

@@ -51,31 +51,6 @@ public class BookServiceImpl implements BookService {
     return convertToBookDTO(book, true, true);
   }
 
-  @Override
-  public BookDTO createBook(BookRequestModel bookRequestModel) {
-    var user = userService.findUserByID(bookRequestModel.getUserId());
-    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
-    if (!isAvailable(bookRequestModel, restaurant)) {
-      throw exceptionUtil.buildException(Ex.AVAILABLE_BOOK_NOT_FOUND_EXCEPTION);
-    }
-    var book =
-        Booking.builder()
-            .personCount(bookRequestModel.getPersonCount())
-            .bookingStatus(BookingStatus.PENDING)
-            .reservationDate(bookRequestModel.getReservationDate())
-            .reservationTime(bookRequestModel.getReservationTime())
-            .phone(bookRequestModel.getPhone())
-            .user(user)
-            .restaurant(restaurant)
-            .note(bookRequestModel.getNote())
-            .build();
-
-    var result = bookRepository.save(book);
-
-    sendBookCreatedEvent(user, restaurant, result);
-    return convertToBookDTO(book, true, true);
-  }
-
   private boolean isAvailable(BookRequestModel bookRequestModel, Restaurant restaurant) {
     var availableTimes =
         getAvailableTimeSlotsMap(bookRequestModel.getReservationDate(), restaurant.getId());
@@ -307,75 +282,102 @@ public class BookServiceImpl implements BookService {
     return convertToBookDTO(existing, false, false);
   }
 
-  private static BookDTO convertToBookDTO(
-      Booking booking, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
-    return BookDTO.builder()
-        .id(booking.getId())
-        .personCount(booking.getPersonCount())
-        .bookingStatus(booking.getBookingStatus())
-        .phone(booking.getPhone())
-        .reservationDate(booking.getReservationDate())
-        .reservationTime(booking.getReservationTime())
-        .restaurant(
-            !restaurantLeaveEmpty
-                ? RestaurantDTO.builder()
-                    .id(booking.getRestaurant().getId())
-                    .restaurantName(booking.getRestaurant().getRestaurantName())
-                    .restaurantImage(booking.getRestaurant().getRestaurantImage())
-                    .restaurantImageList(booking.getRestaurant().getRestaurantImageList())
-                    .city(booking.getRestaurant().getCity())
-                    .district(booking.getRestaurant().getDistrict())
-                    .detailedAddress(booking.getRestaurant().getDetailedAddress())
-                    .latitude(booking.getRestaurant().getLatitude())
-                    .longitude(booking.getRestaurant().getLongitude())
-                    .openingTime(booking.getRestaurant().getOpeningTime())
-                    .closingTime(booking.getRestaurant().getClosingTime())
-                    .phone(booking.getRestaurant().getPhone())
-                    .build()
-                : null)
-        .user(
-            !userLeaveEmpty
-                ? UserDTO.builder()
-                    .id(booking.getUser().getId())
-                    .username(booking.getUser().getUsername())
-                    .name(booking.getUser().getName())
-                    .surname(booking.getUser().getSurname())
-                    .mail(booking.getUser().getMail())
-                    .build()
-                : null)
-        .note(booking.getNote())
+  @Override
+  public BookDTO createBook(BookRequestModel bookRequestModel) {
+    var user = userService.findUserByID(bookRequestModel.getUserId());
+    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
+    if (!isAvailable(bookRequestModel, restaurant)) {
+      throw exceptionUtil.buildException(Ex.AVAILABLE_BOOK_NOT_FOUND_EXCEPTION);
+    }
+
+    var book = createBookingFromRequestModel(bookRequestModel, user, restaurant);
+    var result = bookRepository.save(book);
+    sendBookCreatedEvent(user, restaurant, result);
+
+    return convertToBookDTO(book, true, true);
+  }
+
+  private static Booking createBookingFromRequestModel(
+      BookRequestModel bookRequestModel, User user, Restaurant restaurant) {
+    return Booking.builder()
+        .personCount(bookRequestModel.getPersonCount())
+        .bookingStatus(BookingStatus.PENDING)
+        .reservationDate(bookRequestModel.getReservationDate())
+        .reservationTime(bookRequestModel.getReservationTime())
+        .phone(bookRequestModel.getPhone())
+        .user(user)
+        .restaurant(restaurant)
+        .note(bookRequestModel.getNote())
         .build();
   }
 
   private static BookDTO getBookDTO(User user, Restaurant restaurant, Booking booking) {
-    var restaurantDto =
-        RestaurantDTO.builder()
-            .id(restaurant.getId())
-            .restaurantName(restaurant.getRestaurantName())
-            .city(restaurant.getCity())
-            .latitude(restaurant.getLatitude())
-            .longitude(restaurant.getLongitude())
-            .build();
-
-    var userDto =
-        UserDTO.builder()
-            .id(user.getId())
-            .username(user.getUsername())
-            .mail(user.getMail())
-            .name(user.getName())
-            .surname(user.getSurname())
-            .build();
+    var restaurantDTO = convertToRestaurantDTO(restaurant, false);
+    var userDTO = convertToUserDTO(user, false);
 
     return BookDTO.builder()
         .id(booking.getId())
         .personCount(booking.getPersonCount())
         .bookingStatus(booking.getBookingStatus())
+        .phone(booking.getPhone())
         .reservationDate(booking.getReservationDate())
         .reservationTime(booking.getReservationTime())
-        .phone(booking.getPhone())
-        .user(userDto)
-        .restaurant(restaurantDto)
+        .restaurant(restaurantDTO)
+        .user(userDTO)
         .note(booking.getNote())
+        .build();
+  }
+
+  private static BookDTO convertToBookDTO(
+      Booking booking, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
+    var restaurantDTO = convertToRestaurantDTO(booking.getRestaurant(), restaurantLeaveEmpty);
+    var userDTO = convertToUserDTO(booking.getUser(), userLeaveEmpty);
+
+    return BookDTO.builder()
+        .id(booking.getId())
+        .personCount(booking.getPersonCount())
+        .bookingStatus(booking.getBookingStatus())
+        .phone(booking.getPhone())
+        .reservationDate(booking.getReservationDate())
+        .reservationTime(booking.getReservationTime())
+        .restaurant(restaurantDTO)
+        .user(userDTO)
+        .note(booking.getNote())
+        .build();
+  }
+
+  private static RestaurantDTO convertToRestaurantDTO(Restaurant restaurant, boolean leaveEmpty) {
+    if (leaveEmpty) {
+      return null;
+    }
+
+    return RestaurantDTO.builder()
+        .id(restaurant.getId())
+        .restaurantName(restaurant.getRestaurantName())
+        .restaurantImage(restaurant.getRestaurantImage())
+        .restaurantImageList(restaurant.getRestaurantImageList())
+        .city(restaurant.getCity())
+        .district(restaurant.getDistrict())
+        .detailedAddress(restaurant.getDetailedAddress())
+        .latitude(restaurant.getLatitude())
+        .longitude(restaurant.getLongitude())
+        .openingTime(restaurant.getOpeningTime())
+        .closingTime(restaurant.getClosingTime())
+        .phone(restaurant.getPhone())
+        .build();
+  }
+
+  private static UserDTO convertToUserDTO(User user, boolean leaveEmpty) {
+    if (leaveEmpty) {
+      return null;
+    }
+
+    return UserDTO.builder()
+        .id(user.getId())
+        .username(user.getUsername())
+        .name(user.getName())
+        .surname(user.getSurname())
+        .mail(user.getMail())
         .build();
   }
 }

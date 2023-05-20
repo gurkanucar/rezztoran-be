@@ -35,6 +35,12 @@ public class FoodController {
     return ApiResponse.builder().data(FoodDTO.toDTO(foodService.getFoodByID(id))).build();
   }
 
+  /**
+   * Gets food by restaurant id.
+   *
+   * @param id the id
+   * @return the food by restaurant id
+   */
   @GetMapping("/restaurant/{id}")
   public ResponseEntity<ApiResponse<Object>> getFoodByRestaurantID(@PathVariable Long id) {
     var data =

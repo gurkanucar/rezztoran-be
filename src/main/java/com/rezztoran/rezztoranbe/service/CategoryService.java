@@ -1,7 +1,6 @@
 package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.CategoryDTO;
-import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Category;
@@ -24,12 +23,11 @@ public class CategoryService {
   /**
    * Gets all categories.
    *
+   * @param pageable the pageable
    * @return the all categories
    */
   public Page<CategoryDTO> getAllCategories(Pageable pageable) {
-    return categoryRepository
-        .findAll( pageable)
-        .map(x -> mapper.map(x, CategoryDTO.class));
+    return categoryRepository.findAll(pageable).map(x -> mapper.map(x, CategoryDTO.class));
   }
 
   /**

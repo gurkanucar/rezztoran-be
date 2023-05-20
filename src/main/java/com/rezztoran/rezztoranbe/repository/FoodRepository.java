@@ -10,7 +10,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FoodRepository extends JpaRepository<Food, Long> {
 
+  /**
+   * Find by food name optional.
+   *
+   * @param foodName the food name
+   * @return the optional
+   */
   Optional<Food> findByFoodName(String foodName);
-  List<Food> findAllByRestaurant_Id(Long restaurantId);
 
+  /**
+   * Find all by restaurant id list.
+   *
+   * @param restaurantId the restaurant id
+   * @return the list
+   */
+  List<Food> findAllByRestaurant_Id(Long restaurantId);
 }

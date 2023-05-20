@@ -18,6 +18,17 @@ import org.springframework.data.jpa.domain.Specification;
 /** The type Restaurant specifications. */
 public class RestaurantSpecifications {
 
+  /**
+   * Search by city district or name specification.
+   *
+   * @param searchTerm the search term
+   * @param city the city
+   * @param restaurantName the restaurant name
+   * @param district the district
+   * @param availabilityDate the availability date
+   * @param foodCategories the food categories
+   * @return the specification
+   */
   public static Specification<Restaurant> searchByCityDistrictOrName(
       String searchTerm,
       String city,
@@ -92,6 +103,13 @@ public class RestaurantSpecifications {
     };
   }
 
+  /**
+   * Sort by selected fields specification.
+   *
+   * @param sortField the sort field
+   * @param sortDirection the sort direction
+   * @return the specification
+   */
   public static Specification<Restaurant> sortBySelectedFields(
       String sortField, Sort.Direction sortDirection) {
     return (root, query, criteriaBuilder) -> {

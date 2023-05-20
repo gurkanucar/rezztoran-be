@@ -78,6 +78,11 @@ public interface RestaurantRepository
 
   List<Restaurant> findAll();
 
+  /**
+   * Find all map map.
+   *
+   * @return the map
+   */
   default Map<Object, Object> findAllMap() {
     return findAll().stream()
         .collect(Collectors.toMap(Restaurant::getRestaurantName, Restaurant::getCity));

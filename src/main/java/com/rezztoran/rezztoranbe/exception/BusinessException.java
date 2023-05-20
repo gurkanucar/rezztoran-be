@@ -100,7 +100,9 @@ public class BusinessException extends RuntimeException {
     REVIEW_ALREADY_EXISTS_EXCEPTION(
         "messages.error.review_already_exists_exception", HttpStatus.BAD_REQUEST),
     /** Token is not valid exception ex. */
-    TOKEN_IS_NOT_VALID_EXCEPTION("messages.error.token_is_not_valid_exception", HttpStatus.UNAUTHORIZED),;
+    TOKEN_IS_NOT_VALID_EXCEPTION(
+        "messages.error.token_is_not_valid_exception", HttpStatus.UNAUTHORIZED),
+    ;
 
     private final String message;
     private final HttpStatus status;

@@ -82,6 +82,12 @@ public class FoodService {
     foodRepository.delete(getFoodByID(id));
   }
 
+  /**
+   * Gets food by restaurant id.
+   *
+   * @param id the id
+   * @return the food by restaurant id
+   */
   public List<Food> getFoodByRestaurantID(Long id) {
     return foodRepository.findAllByRestaurant_Id(id);
   }

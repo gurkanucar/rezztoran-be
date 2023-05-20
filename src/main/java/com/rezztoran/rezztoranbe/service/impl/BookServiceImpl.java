@@ -38,6 +38,45 @@ public class BookServiceImpl implements BookService {
   private final ExceptionUtil exceptionUtil;
   private final BookingProducer bookingProducer;
 
+  private static BookDTO convertToBookDTO(
+      Booking booking, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
+    return BookDTO.builder()
+        .id(booking.getId())
+        .personCount(booking.getPersonCount())
+        .bookingStatus(booking.getBookingStatus())
+        .reservationDate(booking.getReservationDate())
+        .reservationTime(booking.getReservationTime())
+        .restaurant(
+            !restaurantLeaveEmpty
+                ? RestaurantDTO.builder()
+                    .id(booking.getRestaurant().getId())
+                    .restaurantName(booking.getRestaurant().getRestaurantName())
+                    .restaurantImage(booking.getRestaurant().getRestaurantImage())
+                    .restaurantImageList(booking.getRestaurant().getRestaurantImageList())
+                    .city(booking.getRestaurant().getCity())
+                    .district(booking.getRestaurant().getDistrict())
+                    .detailedAddress(booking.getRestaurant().getDetailedAddress())
+                    .latitude(booking.getRestaurant().getLatitude())
+                    .longitude(booking.getRestaurant().getLongitude())
+                    .openingTime(booking.getRestaurant().getOpeningTime())
+                    .closingTime(booking.getRestaurant().getClosingTime())
+                    .phone(booking.getRestaurant().getPhone())
+                    .build()
+                : null)
+        .user(
+            !userLeaveEmpty
+                ? UserDTO.builder()
+                    .id(booking.getUser().getId())
+                    .username(booking.getUser().getUsername())
+                    .name(booking.getUser().getName())
+                    .surname(booking.getUser().getSurname())
+                    .mail(booking.getUser().getMail())
+                    .build()
+                : null)
+        .note(booking.getNote())
+        .build();
+  }
+
   @Override
   public BookDTO getBookById(Long id) {
     var book =
@@ -254,44 +293,5 @@ public class BookServiceImpl implements BookService {
             .build();
 
     bookingProducer.sendBookingCreatedMail(bookDto);
-  }
-
-  private static BookDTO convertToBookDTO(
-      Booking booking, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
-    return BookDTO.builder()
-        .id(booking.getId())
-        .personCount(booking.getPersonCount())
-        .bookingStatus(booking.getBookingStatus())
-        .reservationDate(booking.getReservationDate())
-        .reservationTime(booking.getReservationTime())
-        .restaurant(
-            !restaurantLeaveEmpty
-                ? RestaurantDTO.builder()
-                    .id(booking.getRestaurant().getId())
-                    .restaurantName(booking.getRestaurant().getRestaurantName())
-                    .restaurantImage(booking.getRestaurant().getRestaurantImage())
-                    .restaurantImageList(booking.getRestaurant().getRestaurantImageList())
-                    .city(booking.getRestaurant().getCity())
-                    .district(booking.getRestaurant().getDistrict())
-                    .detailedAddress(booking.getRestaurant().getDetailedAddress())
-                    .latitude(booking.getRestaurant().getLatitude())
-                    .longitude(booking.getRestaurant().getLongitude())
-                    .openingTime(booking.getRestaurant().getOpeningTime())
-                    .closingTime(booking.getRestaurant().getClosingTime())
-                    .phone(booking.getRestaurant().getPhone())
-                    .build()
-                : null)
-        .user(
-            !userLeaveEmpty
-                ? UserDTO.builder()
-                    .id(booking.getUser().getId())
-                    .username(booking.getUser().getUsername())
-                    .name(booking.getUser().getName())
-                    .surname(booking.getUser().getSurname())
-                    .mail(booking.getUser().getMail())
-                    .build()
-                : null)
-        .note(booking.getNote())
-        .build();
   }
 }

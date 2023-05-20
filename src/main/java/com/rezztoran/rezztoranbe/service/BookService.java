@@ -2,7 +2,6 @@ package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
-import com.rezztoran.rezztoranbe.model.Booking;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -20,18 +19,18 @@ public interface BookService {
   BookDTO getBookById(Long id);
 
   /**
-   * Create book booking.
+   * Create book book dto.
    *
    * @param bookRequestModel the book request model
-   * @return the booking
+   * @return the book dto
    */
   BookDTO createBook(BookRequestModel bookRequestModel);
 
   /**
-   * Update book booking.
+   * Update book book dto.
    *
    * @param bookRequestModel the book request model
-   * @return the booking
+   * @return the book dto
    */
   BookDTO updateBook(BookRequestModel bookRequestModel);
 

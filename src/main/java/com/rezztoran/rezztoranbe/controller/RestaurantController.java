@@ -10,7 +10,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -43,10 +42,12 @@ public class RestaurantController {
   /**
    * Search response entity.
    *
+   * @param localDate the local date
    * @param searchTerm the search term
    * @param city the city
    * @param restaurantName the restaurant name
    * @param district the district
+   * @param categories the categories
    * @param sortField the sort field
    * @param sortDirection the sort direction
    * @param pageable the pageable
@@ -179,11 +180,11 @@ public class RestaurantController {
   }
 
   /**
-   * Gets tables by restaurant id and date.
+   * Gets available time slots.
    *
    * @param id the id
    * @param localDate the local date
-   * @return the tables by restaurant id and date
+   * @return the available time slots
    */
   @GetMapping("/{id}/book/slots")
   public ResponseEntity<ApiResponse<Object>> getAvailableTimeSlots(

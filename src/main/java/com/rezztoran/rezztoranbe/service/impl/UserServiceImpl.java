@@ -22,6 +22,15 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
   private final ExceptionUtil exceptionUtil;
 
+  private static void setPasswordResetInfo(User user) {
+    PasswordResetInfo passwordResetInfo = new PasswordResetInfo();
+    passwordResetInfo.setResetPassword(false);
+    passwordResetInfo.setResetPasswordCode(null);
+    passwordResetInfo.setResetPasswordExpiration(null);
+
+    user.setPasswordResetInfo(passwordResetInfo);
+  }
+
   public User create(User user) {
     if (userRepository.findUserByMail(user.getMail()).isPresent()
         || userRepository.findUserByUsername(user.getUsername()).isPresent()) {
@@ -120,14 +129,5 @@ public class UserServiceImpl implements UserService {
     } else {
       throw exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION);
     }
-  }
-
-  private static void setPasswordResetInfo(User user) {
-    PasswordResetInfo passwordResetInfo = new PasswordResetInfo();
-    passwordResetInfo.setResetPassword(false);
-    passwordResetInfo.setResetPasswordCode(null);
-    passwordResetInfo.setResetPasswordExpiration(null);
-
-    user.setPasswordResetInfo(passwordResetInfo);
   }
 }

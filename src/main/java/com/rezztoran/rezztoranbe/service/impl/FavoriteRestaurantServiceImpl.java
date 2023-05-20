@@ -31,7 +31,7 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
    * @param favoriteRestaurantRepository the favorite restaurant repository
    * @param userService the user service
    * @param restaurantService the restaurant service
-   * @param reviewService
+   * @param reviewService the review service
    */
   public FavoriteRestaurantServiceImpl(
       FavoriteRestaurantRepository favoriteRestaurantRepository,

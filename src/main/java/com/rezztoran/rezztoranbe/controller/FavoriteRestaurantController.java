@@ -29,7 +29,7 @@ public class FavoriteRestaurantController {
   }
 
   /**
-   * Add favorite restaurant response entity.
+   * Toggle favorite restaurant response entity.
    *
    * @param requestModel the request model
    * @return the response entity

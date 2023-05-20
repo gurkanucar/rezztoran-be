@@ -44,10 +44,13 @@ public class QRCodeServiceImpl implements QRCodeService {
     int logoY = (height - logoHeight) / 2;
 
     if (isColored) {
-      qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix, new MatrixToImageConfig(0xFF000000, 0x00FFFFFF));
+      qrImage =
+          MatrixToImageWriter.toBufferedImage(
+              bitMatrix, new MatrixToImageConfig(0xFF000000, 0x00FFFFFF));
 
       // Create a white circular background for the logo
-      Ellipse2D.Double backgroundShape = new Ellipse2D.Double(logoX - 5, logoY - 5, logoWidth + 10, logoHeight + 10);
+      Ellipse2D.Double backgroundShape =
+          new Ellipse2D.Double(logoX - 5, logoY - 5, logoWidth + 10, logoHeight + 10);
 
       Graphics2D graphics = qrImage.createGraphics();
       graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -74,5 +77,4 @@ public class QRCodeServiceImpl implements QRCodeService {
     ClassPathResource imageResource = new ClassPathResource("static/rezztoran_logo.png");
     return ImageIO.read(imageResource.getInputStream());
   }
-
 }

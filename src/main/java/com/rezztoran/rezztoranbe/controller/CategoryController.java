@@ -39,6 +39,7 @@ public class CategoryController {
   /**
    * Gets all categories.
    *
+   * @param pageable the pageable
    * @return the all categories
    */
   @GetMapping

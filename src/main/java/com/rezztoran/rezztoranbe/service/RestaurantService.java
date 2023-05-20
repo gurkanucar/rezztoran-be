@@ -34,6 +34,17 @@ public class RestaurantService {
   private final ModelMapper mapper;
   private final ReviewService reviewService;
 
+  /**
+   * Instantiates a new Restaurant service.
+   *
+   * @param restaurantRepository the restaurant repository
+   * @param userService the user service
+   * @param authService the auth service
+   * @param favoriteRestaurantService the favorite restaurant service
+   * @param exceptionUtil the exception util
+   * @param mapper the mapper
+   * @param reviewService the review service
+   */
   public RestaurantService(
       RestaurantRepository restaurantRepository,
       UserServiceImpl userService,
@@ -60,6 +71,8 @@ public class RestaurantService {
    * @param city the city
    * @param restaurantName the restaurant name
    * @param district the district
+   * @param categories the categories
+   * @param localDate the local date
    * @param pageable the pageable
    * @return the restaurants
    */
@@ -77,7 +90,7 @@ public class RestaurantService {
     Specification<Restaurant> spec =
         Specification.where(
                 RestaurantSpecifications.searchByCityDistrictOrName(
-                    searchTerm, city, restaurantName, district, localDate,categories))
+                    searchTerm, city, restaurantName, district, localDate, categories))
             .and(RestaurantSpecifications.sortBySelectedFields(sortField, sortDirection));
 
     Page<RestaurantDTO> restaurantPage =

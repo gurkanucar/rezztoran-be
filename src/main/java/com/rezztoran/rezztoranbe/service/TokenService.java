@@ -16,17 +16,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
 
+  private final UserService userService;
   @Value("${jwt-variables.KEY}")
   private String KEY;
-
   @Value("${jwt-variables.ISSUER}")
   private String ISSUER;
-
   @Value("${jwt-variables.EXPIRES_ACCESS_TOKEN_MINUTE}")
   private Integer EXPIRES_ACCESS_TOKEN_MINUTE;
 
-  private final UserService userService;
-
+  /**
+   * Instantiates a new Token service.
+   *
+   * @param userService the user service
+   */
   public TokenService(UserService userService) {
     this.userService = userService;
   }

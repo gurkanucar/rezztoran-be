@@ -36,6 +36,12 @@ public class UserServiceImpl implements UserService {
   }
 
   public User create(User user, Role role) {
+
+    if (userRepository.findUserByMail(user.getMail()).isPresent()
+        || userRepository.findUserByUsername(user.getUsername()).isPresent()) {
+      throw exceptionUtil.buildException(Ex.USER_ALREADY_EXISTS_EXCEPTION);
+    }
+
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRole(role);
 
@@ -45,6 +51,12 @@ public class UserServiceImpl implements UserService {
   }
 
   public User create(RegisterModel registerUser) {
+
+    if (userRepository.findUserByMail(registerUser.getMail()).isPresent()
+        || userRepository.findUserByUsername(registerUser.getUsername()).isPresent()) {
+      throw exceptionUtil.buildException(Ex.USER_ALREADY_EXISTS_EXCEPTION);
+    }
+
     var user = new User();
     user.setMail(registerUser.getMail());
     user.setUsername(registerUser.getUsername());

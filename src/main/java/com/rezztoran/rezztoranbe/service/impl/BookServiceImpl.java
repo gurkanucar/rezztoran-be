@@ -5,6 +5,7 @@ import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
+import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.kafka.producer.BookingProducer;
@@ -292,6 +293,18 @@ public class BookServiceImpl implements BookService {
 
     BookDTO bookDto = getBookDTO(user, restaurant, existing);
     bookingProducer.sendBookingReminderMail(bookDto);
+  }
+
+  @Override
+  public BookDTO getBookingByIdAndAuth(Long id) {
+    var existing = getBookingById(id);
+    var authUser = authService.getAuthenticatedUser().get();
+    if (existing.getUser().getId().equals(authUser.getId())) {
+      return convertToBookDTO(existing, false, false);
+    } else if (authUser.getRole().equals(Role.USER)) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
+    return convertToBookDTO(existing, false, false);
   }
 
   private static BookDTO convertToBookDTO(

@@ -81,7 +81,7 @@ public class BookingController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> getBookingById(@PathVariable Long id) {
-    return ApiResponse.builder().data(bookService.getBookDTOById(id)).build();
+    return ApiResponse.builder().data(bookService.getBookingByIdAndAuth(id)).build();
   }
 
   /**

@@ -111,4 +111,6 @@ public interface BookService {
    * @param booking the booking
    */
   void sendBookReminderEvent(Booking booking);
+
+  BookDTO getBookingByIdAndAuth(Long id);
 }

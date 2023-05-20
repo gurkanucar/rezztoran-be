@@ -1,4 +1,4 @@
-package com.rezztoran.rezztoranbe.service.spesifications;
+package com.rezztoran.rezztoranbe.spesifications;
 
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.model.Food;

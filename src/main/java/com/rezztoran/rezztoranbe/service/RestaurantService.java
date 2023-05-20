@@ -8,7 +8,7 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import com.rezztoran.rezztoranbe.service.impl.AuthServiceImpl;
 import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
-import com.rezztoran.rezztoranbe.service.spesifications.RestaurantSpecifications;
+import com.rezztoran.rezztoranbe.spesifications.RestaurantSpecifications;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;

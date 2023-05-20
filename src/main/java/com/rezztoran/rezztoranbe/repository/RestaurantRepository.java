@@ -79,7 +79,7 @@ public interface RestaurantRepository
   Optional<Restaurant> findRestaurantByUser(User user);
 
   /**
-   * Find restaurant by user optional.
+   * Find by id and deleted false optional.
    *
    * @param id the id
    * @return the optional

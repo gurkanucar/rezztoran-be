@@ -20,10 +20,10 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
   Optional<Food> findByFoodName(String foodName);
 
   /**
-   * Find by food name and category id optional.
+   * Find by food name and restaurant id and category id optional.
    *
    * @param foodName the food name
-   * @param restaurantId the restaurantId id
+   * @param restaurantId the restaurant id
    * @param categoryId the category id
    * @return the optional
    */

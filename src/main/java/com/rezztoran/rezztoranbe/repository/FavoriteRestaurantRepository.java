@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface FavoriteRestaurantRepository extends JpaRepository<FavoriteRestaurant, Long> {
 
   /**
-   * Find by restaurant id and user id optional.
+   * Find by restaurant id and user id and restaurant deleted false optional.
    *
    * @param restaurantId the restaurant id
    * @param userId the user id
@@ -21,7 +21,7 @@ public interface FavoriteRestaurantRepository extends JpaRepository<FavoriteRest
       Long restaurantId, Long userId);
 
   /**
-   * Find all by user id list.
+   * Find all by user id and restaurant deleted false list.
    *
    * @param userId the user id
    * @return the list

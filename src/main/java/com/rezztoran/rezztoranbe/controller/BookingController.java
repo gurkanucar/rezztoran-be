@@ -74,10 +74,10 @@ public class BookingController {
   }
 
   /**
-   * get booking response entity.
+   * Gets booking by id.
    *
    * @param id the id
-   * @return the response entity
+   * @return the booking by id
    */
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> getBookingById(@PathVariable Long id) {
@@ -97,7 +97,7 @@ public class BookingController {
   }
 
   /**
-   * Delete booking response entity.
+   * Delete booking by restaurant response entity.
    *
    * @param id the id
    * @return the response entity

@@ -27,12 +27,11 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 @Slf4j
 public class MailServiceImpl implements MailService {
 
+  private final JavaMailSender emailSender;
+  private final FreeMarkerConfigurer freeMarkerConfigurer;
+
   @Value("${app-context}")
   private String appContext;
-
-  private final JavaMailSender emailSender;
-
-  private final FreeMarkerConfigurer freeMarkerConfigurer;
 
   @Override
   public void sendSimpleMessage(MailModel mailModel) {

@@ -5,7 +5,6 @@ import com.rezztoran.rezztoranbe.dto.request.MailModel;
 import com.rezztoran.rezztoranbe.kafka.consumer.BookingConsumer;
 import com.rezztoran.rezztoranbe.service.MailService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -47,14 +46,14 @@ public class BookingConsumerImpl implements BookingConsumer {
         booking);
   }
 
-   @KafkaListener(
+  @KafkaListener(
       topics = "${spring.kafka.topics.book-cancelled-restaurant}",
       containerFactory = "bookingKafkaListenerContainerFactory",
       groupId = "group-id")
   @Override
   public void consumeBookingCancelledByRestaurant(BookDTO booking) {
-     mailService.sendBookCancelledByRestaurantMail(
-         MailModel.builder().subject("Book Cancelled :(").to(booking.getUser().getMail()).build(),
-         booking);
+    mailService.sendBookCancelledByRestaurantMail(
+        MailModel.builder().subject("Book Cancelled :(").to(booking.getUser().getMail()).build(),
+        booking);
   }
 }

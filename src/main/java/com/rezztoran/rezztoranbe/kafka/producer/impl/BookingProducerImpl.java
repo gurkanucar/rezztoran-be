@@ -23,7 +23,7 @@ public class BookingProducerImpl implements BookingProducer {
   @Value("${spring.kafka.topics.book-reminder}")
   String topicNameReminder;
 
-  /** The Topic name reminder. */
+  /** The Topic name cancelled by restaurant. */
   @Value("${spring.kafka.topics.book-cancelled-restaurant}")
   String topicNameCancelledByRestaurant;
 

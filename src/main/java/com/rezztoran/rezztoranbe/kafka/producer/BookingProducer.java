@@ -20,7 +20,7 @@ public interface BookingProducer {
   void sendBookingReminderMail(BookDTO booking);
 
   /**
-   * Send booking reminder mail.
+   * Send book cancelled by restaurant mail.
    *
    * @param booking the booking
    */

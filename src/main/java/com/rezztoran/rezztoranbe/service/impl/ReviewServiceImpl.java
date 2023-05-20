@@ -2,7 +2,6 @@ package com.rezztoran.rezztoranbe.service.impl;
 
 import static java.util.stream.Collectors.groupingBy;
 
-import com.rezztoran.rezztoranbe.aop.AuthorizeCheck;
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.dto.request.ReviewRequestModel;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
@@ -45,9 +44,6 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
-  @AuthorizeCheck(
-      field = "userId",
-      exceptRoles = {"ADMIN", "RESTAURANT_ADMIN"})
   public ReviewDTO createReview(ReviewRequestModel request) {
     var user = userService.findUserByID(request.getUserId());
     var restaurant = restaurantService.getById(request.getRestaurantId());
@@ -73,9 +69,19 @@ public class ReviewServiceImpl implements ReviewService {
 
     var existing = getReviewById(request.getId());
 
-    // for checking user and restaurant
-    userService.findUserByID(request.getUserId());
-    restaurantService.getById(request.getRestaurantId());
+    var user = userService.findUserByID(request.getUserId());
+    var restaurant = restaurantService.getById(request.getRestaurantId());
+
+    var loggedInUser = authService.getAuthenticatedUser().get();
+
+    if (!loggedInUser.getId().equals(user.getId())) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
+
+    if (Boolean.FALSE.equals(
+        reviewRepository.existsByUser_IdAndRestaurant_Id(user.getId(), restaurant.getId()))) {
+      throw exceptionUtil.buildException(Ex.REVIEW_NOT_FOUND_EXCEPTION);
+    }
 
     existing.setContent(request.getContent());
     existing.setStar(request.getStar());

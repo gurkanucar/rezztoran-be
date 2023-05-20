@@ -12,10 +12,10 @@ import java.util.Map;
 public interface BookService {
 
   /**
-   * Gets book by id.
+   * Gets book dto by id.
    *
    * @param id the id
-   * @return the book by id
+   * @return the book dto by id
    */
   BookDTO getBookDTOById(Long id);
 
@@ -69,14 +69,14 @@ public interface BookService {
   void deleteBook(Long id);
 
   /**
-   * Delete book.
+   * Delete book by restaurant.
    *
    * @param id the id
    */
   void deleteBookByRestaurant(Long id);
 
   /**
-   * cancel all books.
+   * Cancel all bookings by restaurant.
    *
    * @param id the id
    */
@@ -112,5 +112,11 @@ public interface BookService {
    */
   void sendBookReminderEvent(Booking booking);
 
+  /**
+   * Gets booking by id and auth.
+   *
+   * @param id the id
+   * @return the booking by id and auth
+   */
   BookDTO getBookingByIdAndAuth(Long id);
 }

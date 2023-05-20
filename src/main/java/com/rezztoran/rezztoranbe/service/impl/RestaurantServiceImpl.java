@@ -54,7 +54,7 @@ public class RestaurantServiceImpl implements RestaurantService {
    * @param mapper the mapper
    * @param reviewService the review service
    * @param qrCodeService the qr code service
-   * @param bookService
+   * @param bookService the book service
    */
   public RestaurantServiceImpl(
       RestaurantRepository restaurantRepository,

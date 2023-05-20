@@ -1,6 +1,5 @@
 package com.rezztoran.rezztoranbe.controller;
 
-import com.rezztoran.rezztoranbe.aop.AuthorizeCheck;
 import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
@@ -72,6 +71,17 @@ public class BookingController {
   public ResponseEntity<ApiResponse<Object>> updateBooking(
       @Valid @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.updateBook(bookRequestModel)).build();
+  }
+
+  /**
+   * get booking response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
+  @GetMapping("/{id}")
+  public ResponseEntity<ApiResponse<Object>> getBookingById(@PathVariable Long id) {
+    return ApiResponse.builder().data(bookService.getBookDTOById(id)).build();
   }
 
   /**

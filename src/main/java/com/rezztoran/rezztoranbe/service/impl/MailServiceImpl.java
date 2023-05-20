@@ -111,7 +111,7 @@ public class MailServiceImpl implements MailService {
     model.put("note", booking.getNote());
     model.put("person_count", booking.getPersonCount());
     model.put("phone", booking.getPhone());
-    model.put("reservation_details_url", appContext + "/swagger-ui.html");
+    model.put("reservation_details_url", appContext + "/book/" + booking.getId());
     return model;
   }
 }

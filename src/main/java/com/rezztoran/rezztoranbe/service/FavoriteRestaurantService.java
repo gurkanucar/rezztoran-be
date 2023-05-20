@@ -57,5 +57,4 @@ public interface FavoriteRestaurantService {
    */
   void toggle(FavoriteRestaurantRequestModel requestModel);
 
-  //  List<Restaurant> getMostFavoriteRestaurants();
 }

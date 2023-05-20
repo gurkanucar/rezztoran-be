@@ -4,6 +4,7 @@ import com.rezztoran.rezztoranbe.dto.CategoryDTO;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.CategoryService;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -71,6 +72,20 @@ public class CategoryController {
   public ResponseEntity<ApiResponse<Object>> createCategory(@RequestBody Category category) {
     return ApiResponse.builder()
         .data(mapper.map(categoryService.create(category), CategoryDTO.class))
+        .build();
+  }
+
+  /**
+   * Create category response entity.
+   *
+   * @param categories the category
+   * @return the response entity
+   */
+  @PostMapping("/insert-list")
+  public ResponseEntity<ApiResponse<Object>> createCategoryList(
+      @RequestBody List<Category> categories) {
+    return ApiResponse.builder()
+        .data(mapper.map(categoryService.createCategoryList(categories), CategoryDTO.class))
         .build();
   }
 

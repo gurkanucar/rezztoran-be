@@ -5,6 +5,7 @@ import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.repository.CategoryRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -56,6 +57,22 @@ public class CategoryService {
   }
 
   /**
+   * Create category.
+   *
+   * @param categories the category list
+   * @return the categories
+   */
+  public List<Category> createCategoryList(List<Category> categories) {
+    categories.forEach(
+        x -> {
+          if (categoryRepository.findByCategoryName(x.getCategoryName()).isEmpty()) {
+            categoryRepository.save(x);
+          }
+        });
+    return categoryRepository.findAll();
+  }
+
+  /**
    * Update category.
    *
    * @param category the category
@@ -63,7 +80,8 @@ public class CategoryService {
    */
   public Category update(Category category) {
     var existing = getCategoryByID(category.getId());
-    if (categoryRepository.findByCategoryName(category.getCategoryName()).isPresent()) {
+    var found = categoryRepository.findByCategoryName(category.getCategoryName());
+    if (found.isPresent() && !found.get().getId().equals(existing.getId())) {
       throw exceptionUtil.buildException(Ex.CATEGORY_ALREADY_EXISTS_EXCEPTION);
     }
     existing.setCategoryName(category.getCategoryName());

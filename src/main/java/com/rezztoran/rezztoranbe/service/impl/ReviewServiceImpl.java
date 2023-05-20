@@ -148,4 +148,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     return resultMap;
   }
+
+  @Override
+  public void createReviewList(List<ReviewRequestModel> reviews) {
+    reviews.forEach(this::createReview);
+  }
 }

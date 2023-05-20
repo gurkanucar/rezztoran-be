@@ -9,8 +9,6 @@ import com.rezztoran.rezztoranbe.repository.RestaurantRepository;
 import com.rezztoran.rezztoranbe.service.FavoriteRestaurantService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.ReviewService;
-import com.rezztoran.rezztoranbe.service.impl.AuthServiceImpl;
-import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import com.rezztoran.rezztoranbe.spesifications.RestaurantSpecifications;
 import java.time.LocalDate;
 import java.util.List;

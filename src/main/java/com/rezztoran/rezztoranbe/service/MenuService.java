@@ -105,8 +105,10 @@ public class MenuService {
         menuRepository
             .findById(id)
             .orElseThrow(() -> exceptionUtil.buildException(Ex.NOT_FOUND_EXCEPTION));
-
-    return convertToDto(result);
+    var dto = convertToDto(result);
+    dto.getFoods().forEach(x -> x.setMenu(null));
+    dto.getFoods().forEach(x -> x.setCategories(null));
+    return dto;
   }
 
   private MenuDTO convertToDto(Menu result) {

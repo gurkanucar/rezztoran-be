@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +24,9 @@ public class Food extends BaseEntity {
   private String foodName;
   private String foodImage;
 
-  @ManyToMany private List<Category> categories;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  @ManyToMany
+  private List<Category> categories;
 
   @OneToOne private Category mainCategory;
 

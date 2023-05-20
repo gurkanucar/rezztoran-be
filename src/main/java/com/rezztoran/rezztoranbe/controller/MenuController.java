@@ -1,7 +1,7 @@
 package com.rezztoran.rezztoranbe.controller;
 
-import com.rezztoran.rezztoranbe.dto.MenuDTO;
 import com.rezztoran.rezztoranbe.model.Menu;
+import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +29,8 @@ public class MenuController {
    * @return the menu by id
    */
   @GetMapping("/{id}")
-  public ResponseEntity<MenuDTO> getMenuByID(@PathVariable Long id) {
-    return ResponseEntity.ok(menuService.getMenuDtoById(id));
+  public ResponseEntity<ApiResponse<Object>> getMenuByID(@PathVariable Long id) {
+    return ApiResponse.builder().data(menuService.getMenuDtoById(id)).build();
   }
 
   /**
@@ -40,8 +40,8 @@ public class MenuController {
    * @return the response entity
    */
   @PostMapping
-  public ResponseEntity<MenuDTO> create(@RequestBody Menu menu) {
-    return ResponseEntity.ok(menuService.create(menu));
+  public ResponseEntity<ApiResponse<Object>> create(@RequestBody Menu menu) {
+    return ApiResponse.builder().data(menuService.create(menu)).build();
   }
 
   /**
@@ -51,8 +51,8 @@ public class MenuController {
    * @return the response entity
    */
   @PutMapping
-  public ResponseEntity<MenuDTO> update(@RequestBody Menu menu) {
-    return ResponseEntity.ok(menuService.update(menu));
+  public ResponseEntity<ApiResponse<Object>> update(@RequestBody Menu menu) {
+    return ApiResponse.builder().data(menuService.update(menu)).build();
   }
 
   /**
@@ -62,8 +62,8 @@ public class MenuController {
    * @return the response entity
    */
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
+  public ResponseEntity<ApiResponse<Object>> delete(@PathVariable Long id) {
     menuService.delete(id);
-    return ResponseEntity.ok().build();
+    return ApiResponse.builder().build();
   }
 }

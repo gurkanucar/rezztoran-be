@@ -5,8 +5,9 @@ import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.FoodService;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,17 +44,11 @@ public class FoodController {
    * @return the food by restaurant id
    */
   @GetMapping("/restaurant/{id}")
-  public ResponseEntity<ApiResponse<Object>> getFoodByRestaurantID(@PathVariable Long id) {
-    var data =
-        foodService.getFoodByRestaurantID(id).stream()
-            .map(
-                x -> {
-                  x.setRestaurant(null);
-                  return FoodDTO.toDTO(x);
-                })
-            .collect(Collectors.toList());
-
-    return ApiResponse.builder().data(data).build();
+  public ResponseEntity<ApiResponse<Object>> getFoodByRestaurantID(
+      @PathVariable Long id, @PageableDefault(size = 20) Pageable pageable) {
+    return ApiResponse.builder()
+        .pageableData(foodService.getFoodByRestaurantID(id, pageable))
+        .build();
   }
 
   /**

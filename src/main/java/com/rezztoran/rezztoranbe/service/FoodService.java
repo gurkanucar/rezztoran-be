@@ -1,11 +1,14 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.FoodDTO;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.repository.FoodRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /** The type Food service. */
@@ -27,27 +30,24 @@ public class FoodService {
   public Food createFood(Food food) {
     var restaurant = restaurantService.getById(food.getRestaurant().getId());
     var category = categoryService.getCategoryByID(food.getCategory().getId());
-//    foodRepository
-//        .findByFoodName(food.getFoodName())
-//        .ifPresentOrElse(
-//            (item) -> {
-//              if (item.getCategory().getId().equals(category.getId()) && item.get) {
-//                throw exceptionUtil.buildException(Ex.ALREADY_EXISTS_EXCEPTION);
-//              }
-//            },
-//            () -> {});
+    //    foodRepository
+    //        .findByFoodName(food.getFoodName())
+    //        .ifPresentOrElse(
+    //            (item) -> {
+    //              if (item.getCategory().getId().equals(category.getId()) && item.get) {
+    //                throw exceptionUtil.buildException(Ex.ALREADY_EXISTS_EXCEPTION);
+    //              }
+    //            },
+    //            () -> {});
     var savedFood = foodRepository.save(food);
     savedFood.setRestaurant(restaurant);
     savedFood.setCategory(category);
     return savedFood;
   }
 
-  public void createFoodList(List<Food> foods){
+  public void createFoodList(List<Food> foods) {
     foods.forEach(this::createFood);
   }
-
-
-
 
   /**
    * Update food food.
@@ -97,7 +97,17 @@ public class FoodService {
    * @param id the id
    * @return the food by restaurant id
    */
-  public List<Food> getFoodByRestaurantID(Long id) {
-    return foodRepository.findAllByRestaurant_Id(id);
+  public Page<FoodDTO> getFoodByRestaurantID(Long id, Pageable pageable) {
+
+    var foods =
+        foodRepository
+            .findAllByRestaurant_Id(id, pageable)
+            .map(
+                x -> {
+                  x.setRestaurant(null);
+                  return FoodDTO.toDTO(x);
+                });
+
+    return foods;
   }
 }

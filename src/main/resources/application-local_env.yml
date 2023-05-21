@@ -75,6 +75,14 @@ resilience4j:
         limit-refresh-period: 15s
         timeout-duration: 10s
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+          - prometheus
+
 mail:
   address: MAIL
   password: PASSWORD

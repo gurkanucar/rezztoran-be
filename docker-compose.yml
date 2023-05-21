@@ -25,6 +25,7 @@ services:
 
   db:
     image: mysql:8
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: rezztoran
@@ -34,7 +35,6 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    restart: always
     networks:
       - shared-net
 
@@ -105,6 +105,40 @@ services:
 
     networks:
       - shared-net
+
+
+
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - shared-net
+
+
+  grafana:
+    image: grafana/grafana-oss:8.5.2
+    pull_policy: always
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "4000:3000"
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SERVER_DOMAIN=localhost
+    networks:
+      - shared-net
+
+
+
 
 volumes:
   db_data:

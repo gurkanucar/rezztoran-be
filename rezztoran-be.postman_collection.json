@@ -282,7 +282,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mail\":\"gurkanucar@yaani.com\",\r\n    \"password\":\"pass\",\r\n    \"code\":\"13203\"\r\n}",
+							"raw": "{\r\n    \"mail\":\"gurkanucar@yaani.com\",\r\n    \"password\":\"pass\",\r\n    \"code\":\"36684\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -378,7 +378,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 1,\r\n    \"restaurantId\": 1,\r\n    \"reservationDate\": \"2023-05-09\",\r\n    \"reservationTime\": \"17:10\",\r\n    \"note\": \"beklenti buyuk bakalim nasil restaurant\",\r\n    \"phone\":\"123 456 5604\",\r\n    \"personCount\": 7\r\n}",
+							"raw": "{\r\n    \"userId\": 3,\r\n    \"restaurantId\": 1,\r\n    \"reservationDate\": \"2023-05-09\",\r\n    \"reservationTime\": \"17:30\",\r\n    \"note\": \"beklenti buyuk bakalim nasil restaurant\",\r\n    \"phone\":\"123 456 5604\",\r\n    \"personCount\": 7\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -405,7 +405,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 10,\r\n    \"userId\": 1,\r\n    \"bookingStatus\": \"PENDING\",\r\n    \"restaurantId\": 1,\r\n    \"reservationDate\": \"2023-05-09\",\r\n    \"reservationTime\": \"17:30\",\r\n    \"note\": \"lutfen cam kenari olsun yoksa gelmem bak update!\",\r\n    \"phone\": \"123 456 5604\",\r\n    \"personCount\": 7\r\n}",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"userId\": 1,\r\n    \"bookingStatus\": \"PENDING\",\r\n    \"restaurantId\": 1,\r\n    \"reservationDate\": \"2023-05-09\",\r\n    \"reservationTime\": \"17:30\",\r\n    \"note\": \"lutfen cam kenari olsun yoksa gelmem bak update!\",\r\n    \"phone\": \"123 456 5604\",\r\n    \"personCount\": 7\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1601,7 +1601,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJncmtuIiwiaXNzIjoicmV6enRvcmFuIiwicGFzc3dvcmRDaGFuZ2VWZXJzaW9uIjowLCJleHAiOjE2ODM3NDM0MzZ9.JZ50wjXMXRtXgbNVGjBQkwROgtflSZsi09fG_hUf-vo",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJncmtuIiwiaXNzIjoicmV6enRvcmFuIiwicGFzc3dvcmRDaGFuZ2VWZXJzaW9uIjoyLCJleHAiOjE2ODM3ODg4NjJ9.TrT178QBuBnJPnzShWFoEnZgUmwgznUThWwxsrHhbbs",
 				"type": "string"
 			}
 		]

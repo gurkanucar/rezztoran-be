@@ -62,16 +62,16 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public BookDTO updateBook(BookRequestModel bookRequestModel) {
-
-    if (!bookRequestModel.getUserId().equals(authService.getAuthenticatedUser().get().getId())) {
-      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
-    }
-
-    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
     Booking existing =
         bookRepository
             .findById(bookRequestModel.getId())
             .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+
+    if (!existing.getUser().getId().equals(authService.getAuthenticatedUser().get().getId())) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
+
+    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
 
     if (!isSameDateTime(existing, bookRequestModel) && !isAvailable(bookRequestModel, restaurant)) {
       throw exceptionUtil.buildException(Ex.COULD_NOT_BOOK_EXCEPTION);

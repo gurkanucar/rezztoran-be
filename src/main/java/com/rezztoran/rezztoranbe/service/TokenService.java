@@ -2,9 +2,7 @@ package com.rezztoran.rezztoranbe.service;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.core.Authentication;
-/**
- * The interface Token service.
- */
+/** The interface Token service. */
 public interface TokenService {
 
   /**
@@ -13,7 +11,7 @@ public interface TokenService {
    * @param auth the auth
    * @return the string
    */
-String generateToken(Authentication auth);
+  String generateToken(Authentication auth);
 
   /**
    * Verify jwt decoded jwt.

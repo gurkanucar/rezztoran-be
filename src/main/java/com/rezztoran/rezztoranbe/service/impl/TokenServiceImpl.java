@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-/**
- * The type Token service.
- */
+/** The type Token service. */
 @Service
 public class TokenServiceImpl implements TokenService {
 

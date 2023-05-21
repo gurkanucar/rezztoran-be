@@ -49,8 +49,17 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 
 ## Example Images
 
-![postman_collection](./images/postman_collection.jpg)
-postman_collection
+![img](./images/fe1.png)
+
+![img](./images/fe2.png)
+
+![img](./images/fe3.png)
+
+![img](./images/fe4.png)
+
+![img](./images/fe5.png)
+
+![img](./images/fe6.png)
 
 ![password reset](./images/password_reset.png)
 password reset mail
@@ -64,5 +73,8 @@ book cancelled mail
 ![book reminder](./images/book_reminder.jpg)
 book reminder mail
 
+
+![postman_collection](./images/postman_collection.jpg)
+postman_collection
 
 

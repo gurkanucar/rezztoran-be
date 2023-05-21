@@ -5,71 +5,20 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.rezztoran.rezztoranbe.model.User;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-/** The type Token service. */
-@Service
-public class TokenService {
 
-  private final UserService userService;
+public interface TokenService {
 
-  @Value("${jwt-variables.KEY}")
-  private String KEY;
+    String generateToken(Authentication auth);
 
-  @Value("${jwt-variables.ISSUER}")
-  private String ISSUER;
+    DecodedJWT verifyJWT(String token);
 
-  @Value("${jwt-variables.EXPIRES_ACCESS_TOKEN_MINUTE}")
-  private Integer EXPIRES_ACCESS_TOKEN_MINUTE;
-
-  /**
-   * Instantiates a new Token service.
-   *
-   * @param userService the user service
-   */
-  public TokenService(UserService userService) {
-    this.userService = userService;
-  }
-
-  /**
-   * Generate token string.
-   *
-   * @param auth the auth
-   * @return the string
-   */
-  public String generateToken(Authentication auth) {
-    UserDetails userDetails = (UserDetails) auth.getPrincipal();
-    User user = userService.findUserByUsername(userDetails.getUsername());
-    return JWT.create()
-        .withSubject(userDetails.getUsername())
-        .withExpiresAt(
-            new Date(System.currentTimeMillis() + (EXPIRES_ACCESS_TOKEN_MINUTE * 60 * 1000)))
-        .withIssuer(ISSUER)
-        .withClaim(
-            "passwordChangeVersion",
-            user.getPasswordChangeVersion()) // Add password change version to payload
-        .sign(Algorithm.HMAC256(KEY.getBytes()));
-  }
-
-  /**
-   * Verify jwt decoded jwt.
-   *
-   * @param token the token
-   * @return the decoded jwt
-   */
-  public DecodedJWT verifyJWT(String token) {
-    Algorithm algorithm = Algorithm.HMAC256(KEY.getBytes(StandardCharsets.UTF_8));
-    JWTVerifier verifier =
-        JWT.require(algorithm).acceptExpiresAt(EXPIRES_ACCESS_TOKEN_MINUTE * 60).build();
-    try {
-      return verifier.verify(token);
-    } catch (Exception e) {
-      throw new RuntimeException(e.getMessage().toString());
-    }
-  }
 }

@@ -16,18 +16,26 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /** The type Restaurant service. */
 @Service
+@CacheConfig(cacheNames = {"restaurants"})
+@Slf4j
 public class RestaurantServiceImpl implements RestaurantService {
 
   private final RestaurantRepository restaurantRepository;
@@ -75,6 +83,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     this.reviewService = reviewService;
     this.qrCodeService = qrCodeService;
     this.bookService = bookService;
+  }
+
+  @CacheEvict(allEntries = true)
+  @PostConstruct
+  @Scheduled(fixedRateString = "${cache-config.restaurant-cache-ttl}")
+  public void clearCache() {
+    //log.info("Caches are cleared");
   }
 
   @Override
@@ -127,8 +142,9 @@ public class RestaurantServiceImpl implements RestaurantService {
   }
 
   @Override
-  public List<RestaurantDTO> getRestaurantsRandomly(int count) {
-    return restaurantRepository.findAllRandomly(count).stream()
+  @Cacheable(key = "#randomCount")
+  public List<RestaurantDTO> getRestaurantsRandomly(int randomCount) {
+    return restaurantRepository.findAllRandomly(randomCount).stream()
         .map(x -> mapper.map(x, RestaurantDTO.class))
         .collect(Collectors.toList());
   }

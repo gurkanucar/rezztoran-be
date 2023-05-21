@@ -40,6 +40,7 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 - **Added an authorization checker aspect.**
 - **Implemented token invalidation after change password.**
 - **Rate Limiting.**
+- **Caching.**
 
 
 ## How to Run

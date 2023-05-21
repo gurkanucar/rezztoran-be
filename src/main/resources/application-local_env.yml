@@ -75,6 +75,15 @@ resilience4j:
         limit-refresh-period: 15s
         timeout-duration: 10s
 
+cache-config:
+  restaurant-cache-name: restaurants
+  restaurant-cache-ttl: 10000
+  food-cache-name: foods
+  food-cache-ttl: 10000
+  category-cache-name: categories
+  category-cache-ttl: 10000
+
+
 mail:
   address: MAIL
   password: PASSWORD

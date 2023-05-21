@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+/**
+ * The type Token service.
+ */
 @Service
 public class TokenServiceImpl implements TokenService {
 
@@ -29,6 +32,11 @@ public class TokenServiceImpl implements TokenService {
   @Value("${jwt-variables.EXPIRES_ACCESS_TOKEN_MINUTE}")
   private Integer EXPIRES_ACCESS_TOKEN_MINUTE;
 
+  /**
+   * Instantiates a new Token service.
+   *
+   * @param userService the user service
+   */
   public TokenServiceImpl(UserService userService) {
     this.userService = userService;
   }

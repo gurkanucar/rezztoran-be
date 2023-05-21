@@ -1,9 +1,14 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
+import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.model.User;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 /** The interface User service. */
 public interface UserService {
@@ -86,7 +91,9 @@ public interface UserService {
    *
    * @return the users
    */
-  List<User> getUsers();
+  Page<UserDTO> getUsers( String searchTerm,
+      String sortField,
+      Sort.Direction sortDirection, Pageable pageable);
 
   /**
    * Delete user.

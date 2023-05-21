@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.service.impl;
 
+import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
@@ -7,20 +8,40 @@ import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.PasswordResetInfo;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.UserRepository;
+import com.rezztoran.rezztoranbe.service.AuthService;
 import com.rezztoran.rezztoranbe.service.UserService;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
+import com.rezztoran.rezztoranbe.spesifications.UserSpecifications;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /** The type User service. */
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ExceptionUtil exceptionUtil;
+  private final ModelMapper modelMapper;
+  private final AuthService authService;
+
+  public UserServiceImpl(
+      UserRepository userRepository,
+      PasswordEncoder passwordEncoder,
+      ExceptionUtil exceptionUtil,
+      ModelMapper modelMapper,
+      @Lazy AuthService authService) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.exceptionUtil = exceptionUtil;
+    this.modelMapper = modelMapper;
+    this.authService = authService;
+  }
 
   private static void setPasswordResetInfo(User user) {
     PasswordResetInfo passwordResetInfo = new PasswordResetInfo();
@@ -119,8 +140,14 @@ public class UserServiceImpl implements UserService {
         .orElseThrow(() -> exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION));
   }
 
-  public List<User> getUsers() {
-    return userRepository.findAll();
+  public Page<UserDTO> getUsers(
+      String searchTerm, String sortField, Sort.Direction sortDirection, Pageable pageable) {
+    var user = authService.getAuthenticatedUser().get();
+    Specification<User> spec =
+        Specification.where(
+                UserSpecifications.searchByUsernameNameSurnameOrEmail(searchTerm, user.getId()))
+            .and(UserSpecifications.sortByField(sortField, sortDirection));
+    return userRepository.findAll(spec, pageable).map(x -> modelMapper.map(x, UserDTO.class));
   }
 
   public void deleteUser(Long id) {

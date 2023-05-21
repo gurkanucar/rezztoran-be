@@ -923,6 +923,9 @@
 				{
 					"name": "food get by restaurant id",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1471,13 +1474,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{server}}/api/user",
+							"raw": "{{server}}/api/user?searchTerm=a&sortField=mail&sortDirection=DESC",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"api",
 								"user"
+							],
+							"query": [
+								{
+									"key": "searchTerm",
+									"value": "a"
+								},
+								{
+									"key": "sortField",
+									"value": "mail"
+								},
+								{
+									"key": "sortDirection",
+									"value": "DESC"
+								}
 							]
 						}
 					},
@@ -1584,7 +1601,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJncmtuIiwiaXNzIjoicmV6enRvcmFuIiwicGFzc3dvcmRDaGFuZ2VWZXJzaW9uIjoyLCJleHAiOjE2ODM3MzgxNzd9.WO0cwBvEJsLi6-yEOMGFY485QBlXb5Nf6nOBDoxi-Io",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJncmtuIiwiaXNzIjoicmV6enRvcmFuIiwicGFzc3dvcmRDaGFuZ2VWZXJzaW9uIjowLCJleHAiOjE2ODM3NDM0MzZ9.JZ50wjXMXRtXgbNVGjBQkwROgtflSZsi09fG_hUf-vo",
 				"type": "string"
 			}
 		]

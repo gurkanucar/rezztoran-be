@@ -5,9 +5,11 @@ import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.UserService;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** The type User controller. */
@@ -71,12 +74,15 @@ public class UserController {
    * @return the users
    */
   @GetMapping
-  public ResponseEntity<ApiResponse<Object>> getUsers() {
-    var users =
-        userService.getUsers().stream()
-            .map(x -> modelMapper.map(x, UserDTO.class))
-            .collect(Collectors.toList());
-    return ApiResponse.builder().data(users).build();
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'RESTAURANT_ADMIN')")
+  public ResponseEntity<ApiResponse<Object>> searchUsers(
+      @RequestParam(required = false) String searchTerm,
+      @RequestParam(defaultValue = "name") String sortField,
+      @RequestParam(defaultValue = "ASC") String sortDirection,
+      @PageableDefault(size = 20) Pageable pageable) {
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection.toUpperCase());
+    var result = userService.getUsers(searchTerm, sortField, direction, pageable);
+    return ApiResponse.builder().pageableData(result).build();
   }
 
   /**

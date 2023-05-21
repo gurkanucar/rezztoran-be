@@ -59,9 +59,22 @@ jwt-variables:
 logging:
   level:
     org:
-      hibernate: DEBUG
+      hibernate: INFO
       springframework:
         web: DEBUG
+
+resilience4j:
+  ratelimiter:
+    instances:
+      basic:
+        limit-for-period: 10
+        limit-refresh-period: 1m
+        timeout-duration: 10s
+      auth:
+        limit-for-period: 3
+        limit-refresh-period: 15s
+        timeout-duration: 10s
+
 mail:
   address: MAIL
   password: PASSWORD

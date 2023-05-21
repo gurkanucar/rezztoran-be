@@ -3,6 +3,7 @@ package com.rezztoran.rezztoranbe.controller;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import java.time.LocalDate;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,7 @@ public class BookingController {
    * @return the response entity
    */
   @PostMapping
+  @RateLimiter(name = "basic")
   public ResponseEntity<ApiResponse<Object>> createBooking(
       @Valid @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.createBook(bookRequestModel)).build();

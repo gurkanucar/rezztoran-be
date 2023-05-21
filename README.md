@@ -24,9 +24,9 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 
 ## Features
 
+- **Dockerized the project.**
 - **Implemented a reservation system.**
 - **Authentication using JWT.**
-- **Dockerized the project.**
 - **Added the review feature.**
 - **Added the favorite restaurant feature.**
 - **Implemented AWS LocalStack for image uploading.**
@@ -39,6 +39,7 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 - **Sent an email to the user if a restaurant cancels booking.**
 - **Added an authorization checker aspect.**
 - **Implemented token invalidation after change password.**
+- **Rate Limiting.**
 
 
 ## How to Run

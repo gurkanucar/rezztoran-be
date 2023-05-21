@@ -176,6 +176,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     existing.setLongitude(restaurant.getLongitude());
     existing.setLatitude(restaurant.getLatitude());
     existing.setRestaurantImage(restaurant.getRestaurantImage());
+    existing.setRestaurantName(restaurant.getRestaurantName());
     existing.setRestaurantImageList(restaurant.getRestaurantImageList());
     existing.setDetailedAddress(restaurant.getDetailedAddress());
     existing.setPhone(restaurant.getPhone());

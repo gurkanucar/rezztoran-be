@@ -9,6 +9,9 @@ server:
       enabled: false
   port: 8082
 spring:
+#  config:
+#    activate:
+#      on-profile: local_env
   datasource:
     password: ${SPRING_DATASOURCE_PASSWORD}
     url: ${SPRING_DATASOURCE_URL}

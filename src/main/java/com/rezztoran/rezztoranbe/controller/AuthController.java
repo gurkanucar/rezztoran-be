@@ -70,6 +70,7 @@ public class AuthController {
    * @param passwordResetRequest the password reset request
    * @return the response entity
    */
+  @RateLimiter(name = "password-reset")
   @PostMapping("/reset-request")
   public ResponseEntity<ApiResponse<Object>> resetMail(
       @Valid @RequestBody PasswordResetRequest passwordResetRequest) {

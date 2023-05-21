@@ -36,7 +36,7 @@ public class Restaurant extends BaseEntity {
   private String restaurantName;
   private String restaurantImage;
 
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "restaurant_image_list", joinColumns = @JoinColumn(name = "id"))
   @Column(name = "restaurant_image_list")
   private List<String> restaurantImageList;
@@ -63,7 +63,7 @@ public class Restaurant extends BaseEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)
   private List<Review> reviews;
 
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @MapKeyColumn(name = "name")
   @Column(name = "value")
   @CollectionTable(

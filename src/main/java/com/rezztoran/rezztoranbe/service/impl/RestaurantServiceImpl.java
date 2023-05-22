@@ -114,18 +114,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     Page<RestaurantDTO> restaurantPage =
         restaurantRepository.findAll(spec, pageable).map(x -> mapper.map(x, RestaurantDTO.class));
 
-    log.info("COUNT {}", restaurantPage.getContent().size());
-
-    var ids =
-        restaurantPage.getContent().stream().map(RestaurantDTO::getId).collect(Collectors.toList());
-
-    var starCounts = reviewService.calculateStarCountByRestaurant(ids);
-
-    restaurantPage
-        .getContent()
-        .forEach(
-            x ->
-                x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId())));
     // if user is empty return without isFavorite field
     var user = authService.getAuthenticatedUser();
     if (user.isEmpty()) {
@@ -157,6 +145,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     if (doesRestaurantExistByName(restaurant)) {
       throw exceptionUtil.buildException(Ex.RESTAURANT_ALREADY_EXISTS_EXCEPTION);
     }
+    restaurant.setReviewsCount(0);
+    restaurant.setStarCount(-1.0);
     return restaurantRepository.save(restaurant);
   }
 

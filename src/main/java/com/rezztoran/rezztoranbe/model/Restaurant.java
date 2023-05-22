@@ -89,5 +89,5 @@ public class Restaurant extends BaseEntity {
   private boolean deleted;
 
   private Double starCount;
-  private int reviewsCount;
+  private Integer reviewsCount;
 }

@@ -3,11 +3,9 @@ package com.rezztoran.rezztoranbe.spesifications;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.model.Restaurant;
-import com.rezztoran.rezztoranbe.model.Review;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
@@ -97,39 +95,23 @@ public class RestaurantSpecifications {
   public static Specification<Restaurant> sortBySelectedFields(
       String sortField, Sort.Direction sortDirection) {
     return (root, query, criteriaBuilder) -> {
-
-      if (sortField.equals("restaurantName")) {
-        if (sortDirection.isAscending()) {
-          query.orderBy(criteriaBuilder.asc(root.get("restaurantName")));
-        } else {
-          query.orderBy(criteriaBuilder.desc(root.get("restaurantName")));
-        }
-      } else if (sortField.equals("averageReviewStar") || sortField.equals("reviewsCount")) {
-        // Join with Review
-        Join<Restaurant, Review> reviewJoin = root.join("reviews", JoinType.INNER);
-
-        if (sortField.equals("averageReviewStar")) {
-          // Order by average star count
-          if (sortDirection.isAscending()) {
-            query.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(reviewJoin.get("star"))));
-          } else {
-            query.orderBy(criteriaBuilder.desc(criteriaBuilder.avg(reviewJoin.get("star"))));
-          }
-        } else {
-          // Order by review count
-          query.multiselect(root, criteriaBuilder.count(reviewJoin)).groupBy(root);
-          if (sortDirection.isAscending()) {
-            query.orderBy(criteriaBuilder.asc(criteriaBuilder.count(reviewJoin)));
-          } else {
-            query.orderBy(criteriaBuilder.desc(criteriaBuilder.count(reviewJoin)));
-          }
-        }
+      if (sortField.equalsIgnoreCase("restaurantName")) {
+        query.orderBy(
+            sortDirection == Sort.Direction.DESC
+                ? criteriaBuilder.desc(root.get("restaurantName"))
+                : criteriaBuilder.asc(root.get("restaurantName")));
+      } else if (sortField.equalsIgnoreCase("reviewsCount")) {
+        query.orderBy(
+            sortDirection == Sort.Direction.DESC
+                ? criteriaBuilder.desc(root.get("reviewsCount"))
+                : criteriaBuilder.asc(root.get("reviewsCount")));
+      } else if (sortField.equalsIgnoreCase("averageReviewStar")) {
+        query.orderBy(
+            sortDirection == Sort.Direction.DESC
+                ? criteriaBuilder.desc(root.get("starCount"))
+                : criteriaBuilder.asc(root.get("starCount")));
       }
-
       return query.getRestriction();
     };
   }
-
-
-
 }

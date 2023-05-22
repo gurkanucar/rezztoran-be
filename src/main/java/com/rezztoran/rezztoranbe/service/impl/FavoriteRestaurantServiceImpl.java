@@ -99,13 +99,6 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
 
     dtoResult.forEach(x -> x.setIsFavorite(true));
 
-    var ids = dtoResult.stream().map(RestaurantDTO::getId).collect(Collectors.toList());
-
-    var starCounts = reviewService.calculateStarCountByRestaurant(ids);
-
-    dtoResult.forEach(
-        x -> x.setStarCount(starCounts.get(x.getId()) == null ? -1 : starCounts.get(x.getId())));
-
     return dtoResult;
   }
 

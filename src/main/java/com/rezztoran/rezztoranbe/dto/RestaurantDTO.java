@@ -31,8 +31,8 @@ public class RestaurantDTO {
   private String detailedAddress;
   private Double latitude;
   private Double longitude;
+  private Integer reviewsCount;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Double starCount;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

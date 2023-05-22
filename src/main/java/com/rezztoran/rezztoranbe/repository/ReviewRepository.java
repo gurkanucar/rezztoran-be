@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.repository;
 
+import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.Review;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,14 @@ import org.springframework.stereotype.Repository;
 /** The interface Review repository. */
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
+
+
+
+  @Query("SELECT AVG(r.star) FROM Review r WHERE r.restaurant = :restaurant")
+  double findAverageRatingByRestaurant(Restaurant restaurant);
+
+  @Query("SELECT COUNT(r) FROM Review r WHERE r.restaurant = :restaurant")
+  int findReviewCountByRestaurant(Restaurant restaurant);
 
   /**
    * Find all by user id list.

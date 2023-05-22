@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.config;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
+import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,6 +85,28 @@ public class KafkaConsumerConfig {
     ConcurrentKafkaListenerContainerFactory<String, PasswordResetMail> factory =
         new ConcurrentKafkaListenerContainerFactory<>();
     factory.setConsumerFactory(passwordResetConsumerFactory());
+    return factory;
+  }
+
+  @Bean
+  public ConsumerFactory<String, ReviewDTO>
+      reviewConsumerFactory() {
+    Map<String, Object> props = setProps(bootstrapServers, groupId);
+    return new DefaultKafkaConsumerFactory<>(
+        props, new StringDeserializer(), new JsonDeserializer<>(ReviewDTO.class));
+  }
+
+  /**
+   * Password reset kafka listener container factory concurrent kafka listener container factory.
+   *
+   * @return the concurrent kafka listener container factory
+   */
+  @Bean
+  public ConcurrentKafkaListenerContainerFactory<String, ReviewDTO>
+      reviewKafkaListenerContainerFactory() {
+    ConcurrentKafkaListenerContainerFactory<String, ReviewDTO> factory =
+        new ConcurrentKafkaListenerContainerFactory<>();
+    factory.setConsumerFactory(reviewConsumerFactory());
     return factory;
   }
 }

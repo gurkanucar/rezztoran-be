@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.service.impl;
 
 import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
+import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.BaseEntity;
@@ -89,7 +90,7 @@ public class RestaurantServiceImpl implements RestaurantService {
   @PostConstruct
   @Scheduled(fixedRateString = "${cache-config.restaurant-cache-ttl}")
   public void clearCache() {
-    //log.info("Caches are cleared");
+    // log.info("Caches are cleared");
   }
 
   @Override
@@ -112,6 +113,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     Page<RestaurantDTO> restaurantPage =
         restaurantRepository.findAll(spec, pageable).map(x -> mapper.map(x, RestaurantDTO.class));
+
+    log.info("COUNT {}", restaurantPage.getContent().size());
 
     var ids =
         restaurantPage.getContent().stream().map(RestaurantDTO::getId).collect(Collectors.toList());
@@ -266,5 +269,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     restaurant.setQrCode(qrCode);
     restaurantRepository.save(restaurant);
     return qrCode;
+  }
+
+  @Override
+  public void updateReviewCountAndStar(ReviewDTO reviewDTO) {
+    var reviews = reviewService.getReviewsByRestaurant(reviewDTO.getRestaurantId());
+    var averageStar = reviews.stream().mapToInt(ReviewDTO::getStar).average().orElse(0);
+    var existing = getById(reviewDTO.getRestaurantId());
+    existing.setStarCount(averageStar);
+    existing.setReviewsCount(reviews.size());
+    restaurantRepository.save(existing);
   }
 }

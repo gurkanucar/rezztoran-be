@@ -1,6 +1,8 @@
 package com.rezztoran.rezztoranbe.model;
 
+import com.rezztoran.rezztoranbe.service.ReviewCountAndRatingListener;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EntityListeners(ReviewCountAndRatingListener.class)
 public class Review extends BaseEntity {
 
   private String content;

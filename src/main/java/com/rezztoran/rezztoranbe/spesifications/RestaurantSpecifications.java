@@ -7,6 +7,7 @@ import com.rezztoran.rezztoranbe.model.Review;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
@@ -40,6 +41,7 @@ public class RestaurantSpecifications {
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
 
+      // filter deleted
       predicates.add(criteriaBuilder.isFalse(root.get("deleted")));
 
       if (StringUtils.isNotBlank(searchTerm)) {
@@ -81,8 +83,6 @@ public class RestaurantSpecifications {
         predicates.add(categoryPredicate);
       }
 
-      query.distinct(true);
-
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     };
   }
@@ -97,8 +97,6 @@ public class RestaurantSpecifications {
   public static Specification<Restaurant> sortBySelectedFields(
       String sortField, Sort.Direction sortDirection) {
     return (root, query, criteriaBuilder) -> {
-      Join<Restaurant, Review> reviewJoin = root.join("reviews", JoinType.LEFT);
-      query.distinct(true);
 
       if (sortField.equals("restaurantName")) {
         if (sortDirection.isAscending()) {
@@ -106,20 +104,32 @@ public class RestaurantSpecifications {
         } else {
           query.orderBy(criteriaBuilder.desc(root.get("restaurantName")));
         }
-      } else if (sortField.equals("reviewsCount")) {
-        if (sortDirection.isAscending()) {
-          query.orderBy(criteriaBuilder.asc(criteriaBuilder.countDistinct(reviewJoin)));
+      } else if (sortField.equals("averageReviewStar") || sortField.equals("reviewsCount")) {
+        // Join with Review
+        Join<Restaurant, Review> reviewJoin = root.join("reviews", JoinType.INNER);
+
+        if (sortField.equals("averageReviewStar")) {
+          // Order by average star count
+          if (sortDirection.isAscending()) {
+            query.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(reviewJoin.get("star"))));
+          } else {
+            query.orderBy(criteriaBuilder.desc(criteriaBuilder.avg(reviewJoin.get("star"))));
+          }
         } else {
-          query.orderBy(criteriaBuilder.desc(criteriaBuilder.countDistinct(reviewJoin)));
-        }
-      } else if (sortField.equals("averageReviewStar")) {
-        if (sortDirection.isAscending()) {
-          query.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(reviewJoin.get("star"))));
-        } else {
-          query.orderBy(criteriaBuilder.desc(criteriaBuilder.avg(reviewJoin.get("star"))));
+          // Order by review count
+          query.multiselect(root, criteriaBuilder.count(reviewJoin)).groupBy(root);
+          if (sortDirection.isAscending()) {
+            query.orderBy(criteriaBuilder.asc(criteriaBuilder.count(reviewJoin)));
+          } else {
+            query.orderBy(criteriaBuilder.desc(criteriaBuilder.count(reviewJoin)));
+          }
         }
       }
+
       return query.getRestriction();
     };
   }
+
+
+
 }

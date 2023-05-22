@@ -46,7 +46,6 @@ public class Restaurant extends BaseEntity {
   private String detailedAddress;
   private Double latitude;
   private Double longitude;
-  private Double starCount;
   private String phone;
 
   @OneToOne private User user;
@@ -88,4 +87,7 @@ public class Restaurant extends BaseEntity {
   private List<LocalDate> busyDates;
 
   private boolean deleted;
+
+  private Double starCount;
+  private int reviewsCount;
 }

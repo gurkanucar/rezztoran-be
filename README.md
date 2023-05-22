@@ -6,11 +6,14 @@
   Rezztoran - Restaurant Reservation (Booking) System ~ University Graduation Project
 </h1>
 
-- frontend: [https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal/web](https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal/web)
-- admin panel: [https://github.com/alperenkapusuz/rezztoran-admin-panel](https://github.com/alperenkapusuz/rezztoran-admin-panel)
+-
+frontend: [https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal/web](https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal/web)
+- admin
+  panel: [https://github.com/alperenkapusuz/rezztoran-admin-panel](https://github.com/alperenkapusuz/rezztoran-admin-panel)
 
-Rezztoran-be, is a backend restaurant reservation (booking) system that allows restaurants to manage their reservations efficiently. The system enables customers to reserve tables online, while restaurant owners can manage reservations, availability, and guest preferences
-
+Rezztoran-be, is a backend restaurant reservation (booking) system that allows restaurants to manage
+their reservations efficiently. The system enables customers to reserve tables online, while
+restaurant owners can manage reservations, availability, and guest preferences
 
 ## Entity Class Diagram
 
@@ -18,9 +21,9 @@ Rezztoran-be, is a backend restaurant reservation (booking) system that allows r
 
 ## Tech Stack
 
-
-This project is built using a modern tech stack that includes **RESTful**, **Java**, **Spring Boot**, **Docker**, **MySQL**, **Localstack S3**, **Kafka** and **Mail Sender**. Each technology is chosen to fulfill a specific purpose in the project.
-
+This project is built using a modern tech stack that includes **RESTful**, **Java**, **Spring Boot**
+, **Docker**, **MySQL**, **Localstack S3**, **Kafka** and **Mail Sender**. Each technology is chosen
+to fulfill a specific purpose in the project.
 
 ## Features
 
@@ -29,7 +32,7 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 - **Authentication using JWT.**
 - **Added the review feature.**
 - **Added the favorite restaurant feature.**
-- **Implemented AWS LocalStack for image uploading.**
+- **Implemented AWS S3 LocalStack for image uploading.**
 - **Implemented custom exception handling and internationalization.**
 - **Implemented a password reset mechanism via mail otp code.**
 - **Added an email sending mechanism using Kafka.**
@@ -41,7 +44,6 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 - **Implemented token invalidation after change password.**
 - **Rate Limiting.**
 - **Caching.**
-
 
 ## How to Run
 
@@ -74,7 +76,6 @@ book cancelled mail
 
 ![book reminder](./images/book_reminder.jpg)
 book reminder mail
-
 
 ![postman_collection](./images/postman_collection.jpg)
 postman_collection

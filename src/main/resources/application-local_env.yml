@@ -39,6 +39,7 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     topics:
       book-created: book-created
+      review-update: review-update
       book-reminder: book-reminder
       book-cancelled-restaurant: book-cancelled-restaurant
       password-reset: password-reset

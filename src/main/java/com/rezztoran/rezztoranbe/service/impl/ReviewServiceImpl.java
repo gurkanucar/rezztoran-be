@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -111,6 +112,7 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
+  @Transactional
   public List<ReviewDTO> getReviewsByRestaurant(Long id) {
     return reviewRepository.findAllByRestaurant_IdAndRestaurant_DeletedFalse(id).stream()
         .map(ReviewServiceImpl::getReviewDTO)

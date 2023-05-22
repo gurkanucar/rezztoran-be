@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
+import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import java.time.LocalDate;
 import java.util.List;
@@ -114,4 +115,7 @@ public interface RestaurantService {
    * @return the byte [ ]
    */
   byte[] generateQrCodeForRestaurant(Long id);
+
+
+  void updateReviewCountAndStar(ReviewDTO reviewDTO);
 }

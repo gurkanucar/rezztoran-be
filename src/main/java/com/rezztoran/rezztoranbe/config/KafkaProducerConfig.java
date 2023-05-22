@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.config;
 
 import com.rezztoran.rezztoranbe.dto.BookDTO;
+import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.dto.request.PasswordResetMail;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,5 +75,26 @@ public class KafkaProducerConfig {
   @Bean
   public KafkaTemplate<String, PasswordResetMail> passwordResetMailKafkaTemplate() {
     return new KafkaTemplate<>(passwordResetMailProducerFactory());
+  }
+
+  @Bean("ReviewFactory")
+  public ProducerFactory<String, ReviewDTO> reviewFactory() {
+    Map<String, Object> configProps = new HashMap<>();
+    configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+    configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+    configProps.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+    return new DefaultKafkaProducerFactory<>(configProps);
+  }
+
+  /**
+   * Password reset mail kafka template kafka template.
+   *
+   * @return the kafka template
+   */
+  @Bean
+  public KafkaTemplate<String, ReviewDTO>
+      reviewKafkaTemplate() {
+    return new KafkaTemplate<>(reviewFactory());
   }
 }

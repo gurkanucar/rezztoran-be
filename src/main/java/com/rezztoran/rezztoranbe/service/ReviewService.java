@@ -2,6 +2,7 @@ package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.dto.request.ReviewRequestModel;
+import com.rezztoran.rezztoranbe.model.Review;
 import java.util.List;
 import java.util.Map;
 
@@ -68,4 +69,5 @@ public interface ReviewService {
    * @param reviews the reviews
    */
   void createReviewList(List<ReviewRequestModel> reviews);
+
 }

@@ -7,13 +7,12 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.TokenService;
 import com.rezztoran.rezztoranbe.service.UserService;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
 
 /** The type Token service. */
 @Service

@@ -86,6 +86,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     this.bookService = bookService;
   }
 
+  /** Clear cache. */
   @CacheEvict(allEntries = true)
   @PostConstruct
   @Scheduled(fixedRateString = "${cache-config.restaurant-cache-ttl}")

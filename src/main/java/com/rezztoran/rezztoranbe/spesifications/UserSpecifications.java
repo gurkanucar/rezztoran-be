@@ -8,8 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+/** The type User specifications. */
 public class UserSpecifications {
 
+  /**
+   * Search by username name surname or email specification.
+   *
+   * @param searchTerm the search term
+   * @param userId the user id
+   * @return the specification
+   */
   public static Specification<User> searchByUsernameNameSurnameOrEmail(
       String searchTerm, Long userId) {
     return (root, query, criteriaBuilder) -> {
@@ -33,6 +41,13 @@ public class UserSpecifications {
     };
   }
 
+  /**
+   * Sort by field specification.
+   *
+   * @param sortField the sort field
+   * @param sortDirection the sort direction
+   * @return the specification
+   */
   public static Specification<User> sortByField(String sortField, Sort.Direction sortDirection) {
     return (root, query, criteriaBuilder) -> {
       if (sortField.equals("name")) {

@@ -69,9 +69,13 @@ public class UserController {
   }
 
   /**
-   * Gets users.
+   * Search users response entity.
    *
-   * @return the users
+   * @param searchTerm the search term
+   * @param sortField the sort field
+   * @param sortDirection the sort direction
+   * @param pageable the pageable
+   * @return the response entity
    */
   @GetMapping
   @PreAuthorize("hasAnyAuthority('ADMIN', 'RESTAURANT_ADMIN')")

@@ -77,6 +77,11 @@ public class KafkaProducerConfig {
     return new KafkaTemplate<>(passwordResetMailProducerFactory());
   }
 
+  /**
+   * Review factory producer factory.
+   *
+   * @return the producer factory
+   */
   @Bean("ReviewFactory")
   public ProducerFactory<String, ReviewDTO> reviewFactory() {
     Map<String, Object> configProps = new HashMap<>();
@@ -88,13 +93,12 @@ public class KafkaProducerConfig {
   }
 
   /**
-   * Password reset mail kafka template kafka template.
+   * Review kafka template kafka template.
    *
    * @return the kafka template
    */
   @Bean
-  public KafkaTemplate<String, ReviewDTO>
-      reviewKafkaTemplate() {
+  public KafkaTemplate<String, ReviewDTO> reviewKafkaTemplate() {
     return new KafkaTemplate<>(reviewFactory());
   }
 }

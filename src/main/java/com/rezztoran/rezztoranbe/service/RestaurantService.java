@@ -116,6 +116,10 @@ public interface RestaurantService {
    */
   byte[] generateQrCodeForRestaurant(Long id);
 
-
+  /**
+   * Update review count and star.
+   *
+   * @param reviewDTO the review dto
+   */
   void updateReviewCountAndStar(ReviewDTO reviewDTO);
 }

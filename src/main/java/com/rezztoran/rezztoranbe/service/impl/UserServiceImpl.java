@@ -30,6 +30,15 @@ public class UserServiceImpl implements UserService {
   private final ModelMapper modelMapper;
   private final AuthService authService;
 
+  /**
+   * Instantiates a new User service.
+   *
+   * @param userRepository the user repository
+   * @param passwordEncoder the password encoder
+   * @param exceptionUtil the exception util
+   * @param modelMapper the model mapper
+   * @param authService the auth service
+   */
   public UserServiceImpl(
       UserRepository userRepository,
       PasswordEncoder passwordEncoder,

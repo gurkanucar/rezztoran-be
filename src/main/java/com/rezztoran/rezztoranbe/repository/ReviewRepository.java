@@ -12,11 +12,21 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-
-
+  /**
+   * Find average rating by restaurant double.
+   *
+   * @param restaurant the restaurant
+   * @return the double
+   */
   @Query("SELECT AVG(r.star) FROM Review r WHERE r.restaurant = :restaurant")
   double findAverageRatingByRestaurant(Restaurant restaurant);
 
+  /**
+   * Find review count by restaurant int.
+   *
+   * @param restaurant the restaurant
+   * @return the int
+   */
   @Query("SELECT COUNT(r) FROM Review r WHERE r.restaurant = :restaurant")
   int findReviewCountByRestaurant(Restaurant restaurant);
 

@@ -2,12 +2,12 @@ package com.rezztoran.rezztoranbe.kafka.consumer;
 
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 
-/** The interface Password reset mail consumer. */
+/** The interface Restaurant review star consumer. */
 public interface RestaurantReviewStarConsumer {
   /**
-   * Consume password reset mail.
+   * Consume.
    *
-   * @param passwordResetMail the password reset mail
+   * @param reviewDTO the review dto
    */
   void consume(ReviewDTO reviewDTO);
 }

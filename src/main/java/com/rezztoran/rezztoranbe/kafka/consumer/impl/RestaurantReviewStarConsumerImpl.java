@@ -7,13 +7,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-/** The type Password reset mail consumer. */
+/** The type Restaurant review star consumer. */
 @Service
 @Slf4j
 public class RestaurantReviewStarConsumerImpl implements RestaurantReviewStarConsumer {
 
   private final RestaurantService restaurantService;
 
+  /**
+   * Instantiates a new Restaurant review star consumer.
+   *
+   * @param restaurantService the restaurant service
+   */
   public RestaurantReviewStarConsumerImpl(RestaurantService restaurantService) {
     this.restaurantService = restaurantService;
   }

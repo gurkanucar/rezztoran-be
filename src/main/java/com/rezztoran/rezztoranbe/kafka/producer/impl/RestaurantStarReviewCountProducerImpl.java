@@ -8,24 +8,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-/** The type Booking producer. */
+/** The type Restaurant star review count producer. */
 @Service
 @Slf4j
 public class RestaurantStarReviewCountProducerImpl implements RestaurantStarReviewCountProducer {
   @Qualifier("ReviewFactory")
   private final KafkaTemplate<String, ReviewDTO> kafkaTemplate;
 
-  /** The Topic name created. */
+  /** The Topic name. */
   @Value("${spring.kafka.topics.review-update}")
   String topicName;
 
   /**
-   * Instantiates a new Booking producer.
+   * Instantiates a new Restaurant star review count producer.
    *
    * @param kafkaTemplate the kafka template
    */
-  public RestaurantStarReviewCountProducerImpl(
-      KafkaTemplate<String, ReviewDTO> kafkaTemplate) {
+  public RestaurantStarReviewCountProducerImpl(KafkaTemplate<String, ReviewDTO> kafkaTemplate) {
     this.kafkaTemplate = kafkaTemplate;
   }
 

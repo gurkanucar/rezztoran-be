@@ -88,16 +88,20 @@ public class KafkaConsumerConfig {
     return factory;
   }
 
+  /**
+   * Review consumer factory consumer factory.
+   *
+   * @return the consumer factory
+   */
   @Bean
-  public ConsumerFactory<String, ReviewDTO>
-      reviewConsumerFactory() {
+  public ConsumerFactory<String, ReviewDTO> reviewConsumerFactory() {
     Map<String, Object> props = setProps(bootstrapServers, groupId);
     return new DefaultKafkaConsumerFactory<>(
         props, new StringDeserializer(), new JsonDeserializer<>(ReviewDTO.class));
   }
 
   /**
-   * Password reset kafka listener container factory concurrent kafka listener container factory.
+   * Review kafka listener container factory concurrent kafka listener container factory.
    *
    * @return the concurrent kafka listener container factory
    */

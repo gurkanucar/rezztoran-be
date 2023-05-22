@@ -9,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecifications {
-
   public static Specification<User> searchByUsernameNameSurnameOrEmail(
       String searchTerm, Long userId) {
     return (root, query, criteriaBuilder) -> {
@@ -29,12 +28,17 @@ public class UserSpecifications {
         predicates.add(criteriaBuilder.notEqual(root.get("id"), userId));
       }
 
+      query.distinct(true);
+
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     };
   }
 
   public static Specification<User> sortByField(String sortField, Sort.Direction sortDirection) {
     return (root, query, criteriaBuilder) -> {
+
+      query.distinct(true);
+
       if (sortField.equals("name")) {
         if (sortDirection.isAscending()) {
           query.orderBy(criteriaBuilder.asc(root.get("name")));

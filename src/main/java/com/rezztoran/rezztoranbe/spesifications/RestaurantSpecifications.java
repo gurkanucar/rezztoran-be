@@ -40,7 +40,6 @@ public class RestaurantSpecifications {
     return (root, query, criteriaBuilder) -> {
       List<Predicate> predicates = new ArrayList<>();
 
-      // filter deleted
       predicates.add(criteriaBuilder.isFalse(root.get("deleted")));
 
       if (StringUtils.isNotBlank(searchTerm)) {
@@ -74,26 +73,6 @@ public class RestaurantSpecifications {
         predicates.add(criteriaBuilder.not(criteriaBuilder.isMember(availabilityDate, datesPath)));
       }
 
-      // SEARCH BY FOOD CATEGORY NAME
-      //      if (foodCategories != null && !foodCategories.isEmpty()) {
-      //        Join<Restaurant, Menu> menuJoin = root.join("menu", JoinType.INNER);
-      //        Join<Menu, Food> foodJoin = menuJoin.join("foods", JoinType.INNER);
-      //        Join<Food, Category> categoryJoin = foodJoin.join("mainCategory", JoinType.INNER);
-      //
-      //        List<Predicate> categoryPredicates = new ArrayList<>();
-      //        for (String category : foodCategories) {
-      //          Predicate categoryPredicate =
-      //              criteriaBuilder.like(
-      //                  criteriaBuilder.lower(categoryJoin.get("categoryName")),
-      //                  "%" + category.toLowerCase() + "%");
-      //          categoryPredicates.add(categoryPredicate);
-      //        }
-      //
-      //        Predicate finalCategoryPredicate =
-      //            criteriaBuilder.or(categoryPredicates.toArray(new Predicate[0]));
-      //        predicates.add(finalCategoryPredicate);
-      //      }
-
       if (foodCategories != null && !foodCategories.isEmpty()) {
         Join<Restaurant, Food> foodJoin = root.join("foods", JoinType.INNER);
         Join<Food, Category> categoryJoin = foodJoin.join("category", JoinType.INNER);
@@ -101,6 +80,8 @@ public class RestaurantSpecifications {
         Predicate categoryPredicate = categoryJoin.get("id").in(foodCategories);
         predicates.add(categoryPredicate);
       }
+
+      query.distinct(true);
 
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
     };
@@ -117,7 +98,7 @@ public class RestaurantSpecifications {
       String sortField, Sort.Direction sortDirection) {
     return (root, query, criteriaBuilder) -> {
       Join<Restaurant, Review> reviewJoin = root.join("reviews", JoinType.LEFT);
-      query.groupBy(root.get("id"));
+      query.distinct(true);
 
       if (sortField.equals("restaurantName")) {
         if (sortDirection.isAscending()) {
@@ -127,9 +108,9 @@ public class RestaurantSpecifications {
         }
       } else if (sortField.equals("reviewsCount")) {
         if (sortDirection.isAscending()) {
-          query.orderBy(criteriaBuilder.asc(criteriaBuilder.count(reviewJoin)));
+          query.orderBy(criteriaBuilder.asc(criteriaBuilder.countDistinct(reviewJoin)));
         } else {
-          query.orderBy(criteriaBuilder.desc(criteriaBuilder.count(reviewJoin)));
+          query.orderBy(criteriaBuilder.desc(criteriaBuilder.countDistinct(reviewJoin)));
         }
       } else if (sortField.equals("averageReviewStar")) {
         if (sortDirection.isAscending()) {
@@ -138,7 +119,6 @@ public class RestaurantSpecifications {
           query.orderBy(criteriaBuilder.desc(criteriaBuilder.avg(reviewJoin.get("star"))));
         }
       }
-
       return query.getRestriction();
     };
   }

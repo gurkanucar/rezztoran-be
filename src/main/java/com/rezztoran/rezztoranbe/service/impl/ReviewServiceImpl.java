@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
         .id(x.getId())
         .restaurantId(x.getRestaurant().getId())
         .restaurantName(x.getRestaurant().getRestaurantName())
-        .userId(x.getId())
+        .userId(x.getUser().getId())
         .username(x.getUser().getUsername())
         .content(x.getContent())
         .star(x.getStar())

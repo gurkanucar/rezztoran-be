@@ -1,6 +1,6 @@
 package com.rezztoran.rezztoranbe.model;
 
-import com.rezztoran.rezztoranbe.service.ReviewCountAndRatingListener;
+import com.rezztoran.rezztoranbe.service.impl.ReviewCountAndRatingListener;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;

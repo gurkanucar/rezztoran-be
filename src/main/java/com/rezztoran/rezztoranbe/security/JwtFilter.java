@@ -6,7 +6,7 @@ import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.service.TokenService;
-import com.rezztoran.rezztoranbe.service.UserDetailsServiceImpl;
+import com.rezztoran.rezztoranbe.service.impl.UserDetailsServiceImpl;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;

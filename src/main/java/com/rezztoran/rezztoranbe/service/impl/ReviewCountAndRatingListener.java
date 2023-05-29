@@ -1,4 +1,4 @@
-package com.rezztoran.rezztoranbe.service;
+package com.rezztoran.rezztoranbe.service.impl;
 
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.kafka.producer.RestaurantStarReviewCountProducer;

@@ -1,44 +1,40 @@
 package com.rezztoran.rezztoranbe.service.impl;
 
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
-import com.rezztoran.rezztoranbe.kafka.producer.RestaurantStarReviewCountProducer;
 import com.rezztoran.rezztoranbe.model.Review;
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
+import com.rezztoran.rezztoranbe.service.RestaurantService;
+import javax.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-/** The type Review count and rating listener. */
-@Service
 @Slf4j
-public class ReviewCountAndRatingListener {
+@Component
+public class ReviewCountAndRatingListener implements ApplicationContextAware {
 
-  private final RestaurantStarReviewCountProducer producer;
+  private static ApplicationContext context;
 
-  /**
-   * Instantiates a new Review count and rating listener.
-   *
-   * @param producer the producer
-   */
-  public ReviewCountAndRatingListener(RestaurantStarReviewCountProducer producer) {
-    this.producer = producer;
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) {
+    context = applicationContext;
   }
 
-  /**
-   * Calculate average star and review count.
-   *
-   * @param review the review
-   */
-  @PostPersist
-  @PostUpdate
-  @PostRemove
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public void calculateAverageStarAndReviewCount(Review review) {
-    producer.updateValues(
+
+    EntityManager entityManager = context.getBean(EntityManager.class);
+    boolean deleted = !entityManager.contains(review);
+
+    RestaurantService restaurantService = context.getBean(RestaurantService.class);
+    restaurantService.updateReviewCountAndStar(
         ReviewDTO.builder()
             .id(review.getId())
             .star(review.getStar())
             .restaurantId(review.getRestaurant().getId())
+            .deleted(deleted)
             .build());
   }
 }

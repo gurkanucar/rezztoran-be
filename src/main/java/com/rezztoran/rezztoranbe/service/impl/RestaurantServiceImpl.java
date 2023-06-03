@@ -266,13 +266,13 @@ public class RestaurantServiceImpl implements RestaurantService {
   public void updateReviewCountAndStar(ReviewDTO reviewDTO) {
     log.info("updateReviewCountAndStar {}", reviewDTO.toString());
     var reviews = reviewService.getReviewsByRestaurant(reviewDTO.getRestaurantId());
-    var reviewsCount = reviewDTO.isDeleted() ? reviews.size() - 1 : reviews.size();
     if (reviewDTO.isDeleted()) {
       reviews =
           reviews.stream()
               .filter(x -> !x.getId().equals(reviewDTO.getId()))
               .collect(Collectors.toList());
     }
+    var reviewsCount = reviews.size();
     var averageStar = reviews.stream().mapToInt(ReviewDTO::getStar).average().orElse(0);
     var existing = getById(reviewDTO.getRestaurantId());
     existing.setStarCount(averageStar);

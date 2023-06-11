@@ -10,6 +10,8 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -74,11 +76,17 @@ public class RestaurantSpecifications {
       }
 
       if (foodCategories != null && !foodCategories.isEmpty()) {
-        Join<Restaurant, Food> foodJoin = root.join("foods", JoinType.INNER);
-        Join<Food, Category> categoryJoin = foodJoin.join("category", JoinType.INNER);
+        Subquery<Long> foodCategorySubQuery = query.subquery(Long.class);
+        Root<Food> food = foodCategorySubQuery.from(Food.class);
+        Join<Food, Category> joinCategory = food.join("category", JoinType.INNER);
+        foodCategorySubQuery
+            .select(criteriaBuilder.count(food))
+            .where(
+                criteriaBuilder.and(
+                    criteriaBuilder.equal(food.get("restaurant"), root),
+                    joinCategory.get("id").in(foodCategories)));
 
-        Predicate categoryPredicate = categoryJoin.get("id").in(foodCategories);
-        predicates.add(categoryPredicate);
+        predicates.add(criteriaBuilder.greaterThan(foodCategorySubQuery, 0L));
       }
 
       return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

@@ -284,7 +284,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     restaurantRepository.save(existing);
   }
 
-
   @Override
   public List<BookDTO> getBooksOfRestaurant(LocalDate localDate, Long id) {
     return bookService.getBooks(localDate, id);
@@ -295,5 +294,4 @@ public class RestaurantServiceImpl implements RestaurantService {
     var timeSlotsMap = bookService.getAvailableTimeSlotsMap(localDate, id);
     return new ArrayList<>(timeSlotsMap.entrySet());
   }
-
 }

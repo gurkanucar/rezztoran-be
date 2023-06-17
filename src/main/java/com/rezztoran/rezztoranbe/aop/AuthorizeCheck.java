@@ -15,6 +15,7 @@ public @interface AuthorizeCheck {
    * @return the string
    */
   String field();
+
   /**
    * Except roles string [ ].
    *

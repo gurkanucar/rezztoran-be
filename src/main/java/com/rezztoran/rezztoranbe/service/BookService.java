@@ -81,6 +81,7 @@ public interface BookService {
    * @param id the id
    */
   void cancelAllBookingsByRestaurant(Long id);
+
   /**
    * Gets books by user.
    *

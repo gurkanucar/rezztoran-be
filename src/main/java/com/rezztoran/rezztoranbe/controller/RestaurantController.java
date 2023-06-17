@@ -6,10 +6,7 @@ import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -175,7 +172,7 @@ public class RestaurantController {
   public ResponseEntity<ApiResponse<Object>> getBooksByRestaurantIdAndDate(
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    var response = bookService.getBooks(localDate, id);
+    var response = restaurantService.getBooksOfRestaurant(localDate, id);
     return ApiResponse.builder().data(response).build();
   }
 
@@ -190,9 +187,7 @@ public class RestaurantController {
   public ResponseEntity<ApiResponse<Object>> getAvailableTimeSlots(
       @PathVariable Long id,
       @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    var timeSlotsMap = bookService.getAvailableTimeSlotsMap(localDate, id);
-    List<Map.Entry<LocalTime, Boolean>> timeSlotsList = new ArrayList<>(timeSlotsMap.entrySet());
-    return ApiResponse.builder().data(timeSlotsList).build();
+    return ApiResponse.builder().data(restaurantService.getTimeSlotsList(localDate, id)).build();
   }
 
   /**

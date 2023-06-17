@@ -1,10 +1,13 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,6 +39,7 @@ public interface RestaurantService {
       List<String> categories,
       LocalDate localDate,
       Pageable pageable);
+
   /**
    * Gets restaurants randomly.
    *
@@ -43,6 +47,7 @@ public interface RestaurantService {
    * @return the restaurants randomly
    */
   List<RestaurantDTO> getRestaurantsRandomly(int count);
+
   /**
    * Create restaurant.
    *
@@ -50,12 +55,14 @@ public interface RestaurantService {
    * @return the restaurant
    */
   Restaurant create(Restaurant restaurant);
+
   /**
    * Create.
    *
    * @param restaurants the restaurants
    */
   void create(List<Restaurant> restaurants);
+
   /**
    * Update restaurant.
    *
@@ -63,6 +70,7 @@ public interface RestaurantService {
    * @return the restaurant
    */
   Restaurant update(Restaurant restaurant);
+
   /**
    * Update owner restaurant.
    *
@@ -78,6 +86,7 @@ public interface RestaurantService {
    * @return the boolean
    */
   boolean doesRestaurantExistByName(Restaurant restaurant);
+
   /**
    * Does restaurant exist by user boolean.
    *
@@ -85,6 +94,7 @@ public interface RestaurantService {
    * @return the boolean
    */
   boolean doesRestaurantExistByUser(Restaurant restaurant);
+
   /**
    * Gets by id.
    *
@@ -122,6 +132,24 @@ public interface RestaurantService {
    * @param reviewDTO the review dto
    */
   void updateReviewCountAndStar(ReviewDTO reviewDTO);
+
+  /**
+   * Gets books of restaurant.
+   *
+   * @param localDate the local date
+   * @param id the id
+   * @return the books of restaurant
+   */
+  List<BookDTO> getBooksOfRestaurant(LocalDate localDate, Long id);
+
+  /**
+   * Gets time slots list.
+   *
+   * @param localDate the local date
+   * @param id the id
+   * @return the time slots list
+   */
+  List<Map.Entry<LocalTime, Boolean>> getTimeSlotsList(LocalDate localDate, Long id);
 
   /**
    * Get total RESTAURANT count.

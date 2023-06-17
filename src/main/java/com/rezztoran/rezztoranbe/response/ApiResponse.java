@@ -171,6 +171,7 @@ public class ApiResponse<T> {
       this.empty = pageObj.isEmpty();
       return this;
     }
+
     /**
      * Error builder.
      *

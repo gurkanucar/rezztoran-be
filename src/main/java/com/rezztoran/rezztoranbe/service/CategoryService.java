@@ -48,6 +48,7 @@ public interface CategoryService {
    * @return the category
    */
   Category update(Category category);
+
   /**
    * Delete.
    *

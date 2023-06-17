@@ -42,6 +42,90 @@ public class BookServiceImpl implements BookService {
   private final BookingProducer bookingProducer;
   private final AuthService authService;
 
+  private static Booking createBookingFromRequestModel(
+      BookRequestModel bookRequestModel, User user, Restaurant restaurant) {
+    return Booking.builder()
+        .personCount(bookRequestModel.getPersonCount())
+        .bookingStatus(BookingStatus.PENDING)
+        .reservationDate(bookRequestModel.getReservationDate())
+        .reservationTime(bookRequestModel.getReservationTime())
+        .phone(bookRequestModel.getPhone())
+        .user(user)
+        .restaurant(restaurant)
+        .note(bookRequestModel.getNote())
+        .build();
+  }
+
+  private static BookDTO getBookDTO(User user, Restaurant restaurant, Booking booking) {
+    var restaurantDTO = convertToRestaurantDTO(restaurant, false);
+    var userDTO = convertToUserDTO(user, false);
+
+    return BookDTO.builder()
+        .id(booking.getId())
+        .personCount(booking.getPersonCount())
+        .bookingStatus(booking.getBookingStatus())
+        .phone(booking.getPhone())
+        .reservationDate(booking.getReservationDate())
+        .reservationTime(booking.getReservationTime())
+        .restaurant(restaurantDTO)
+        .user(userDTO)
+        .note(booking.getNote())
+        .build();
+  }
+
+  private static BookDTO convertToBookDTO(
+      Booking booking, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
+    var restaurantDTO = convertToRestaurantDTO(booking.getRestaurant(), restaurantLeaveEmpty);
+    var userDTO = convertToUserDTO(booking.getUser(), userLeaveEmpty);
+
+    return BookDTO.builder()
+        .id(booking.getId())
+        .personCount(booking.getPersonCount())
+        .bookingStatus(booking.getBookingStatus())
+        .phone(booking.getPhone())
+        .reservationDate(booking.getReservationDate())
+        .reservationTime(booking.getReservationTime())
+        .restaurant(restaurantDTO)
+        .user(userDTO)
+        .note(booking.getNote())
+        .build();
+  }
+
+  private static RestaurantDTO convertToRestaurantDTO(Restaurant restaurant, boolean leaveEmpty) {
+    if (leaveEmpty) {
+      return null;
+    }
+
+    return RestaurantDTO.builder()
+        .id(restaurant.getId())
+        .restaurantName(restaurant.getRestaurantName())
+        .restaurantImage(restaurant.getRestaurantImage())
+        .restaurantImageList(restaurant.getRestaurantImageList())
+        .city(restaurant.getCity())
+        .district(restaurant.getDistrict())
+        .detailedAddress(restaurant.getDetailedAddress())
+        .latitude(restaurant.getLatitude())
+        .longitude(restaurant.getLongitude())
+        .openingTime(restaurant.getOpeningTime())
+        .closingTime(restaurant.getClosingTime())
+        .phone(restaurant.getPhone())
+        .build();
+  }
+
+  private static UserDTO convertToUserDTO(User user, boolean leaveEmpty) {
+    if (leaveEmpty) {
+      return null;
+    }
+
+    return UserDTO.builder()
+        .id(user.getId())
+        .username(user.getUsername())
+        .name(user.getName())
+        .surname(user.getSurname())
+        .mail(user.getMail())
+        .build();
+  }
+
   @Override
   public BookDTO getBookDTOById(Long id) {
     var book =
@@ -310,90 +394,8 @@ public class BookServiceImpl implements BookService {
     return convertToBookDTO(book, true, true);
   }
 
-  private static Booking createBookingFromRequestModel(
-      BookRequestModel bookRequestModel, User user, Restaurant restaurant) {
-    return Booking.builder()
-        .personCount(bookRequestModel.getPersonCount())
-        .bookingStatus(BookingStatus.PENDING)
-        .reservationDate(bookRequestModel.getReservationDate())
-        .reservationTime(bookRequestModel.getReservationTime())
-        .phone(bookRequestModel.getPhone())
-        .user(user)
-        .restaurant(restaurant)
-        .note(bookRequestModel.getNote())
-        .build();
-  }
-
-  private static BookDTO getBookDTO(User user, Restaurant restaurant, Booking booking) {
-    var restaurantDTO = convertToRestaurantDTO(restaurant, false);
-    var userDTO = convertToUserDTO(user, false);
-
-    return BookDTO.builder()
-        .id(booking.getId())
-        .personCount(booking.getPersonCount())
-        .bookingStatus(booking.getBookingStatus())
-        .phone(booking.getPhone())
-        .reservationDate(booking.getReservationDate())
-        .reservationTime(booking.getReservationTime())
-        .restaurant(restaurantDTO)
-        .user(userDTO)
-        .note(booking.getNote())
-        .build();
-  }
-
-  private static BookDTO convertToBookDTO(
-      Booking booking, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
-    var restaurantDTO = convertToRestaurantDTO(booking.getRestaurant(), restaurantLeaveEmpty);
-    var userDTO = convertToUserDTO(booking.getUser(), userLeaveEmpty);
-
-    return BookDTO.builder()
-        .id(booking.getId())
-        .personCount(booking.getPersonCount())
-        .bookingStatus(booking.getBookingStatus())
-        .phone(booking.getPhone())
-        .reservationDate(booking.getReservationDate())
-        .reservationTime(booking.getReservationTime())
-        .restaurant(restaurantDTO)
-        .user(userDTO)
-        .note(booking.getNote())
-        .build();
-  }
-
-  private static RestaurantDTO convertToRestaurantDTO(Restaurant restaurant, boolean leaveEmpty) {
-    if (leaveEmpty) {
-      return null;
-    }
-
-    return RestaurantDTO.builder()
-        .id(restaurant.getId())
-        .restaurantName(restaurant.getRestaurantName())
-        .restaurantImage(restaurant.getRestaurantImage())
-        .restaurantImageList(restaurant.getRestaurantImageList())
-        .city(restaurant.getCity())
-        .district(restaurant.getDistrict())
-        .detailedAddress(restaurant.getDetailedAddress())
-        .latitude(restaurant.getLatitude())
-        .longitude(restaurant.getLongitude())
-        .openingTime(restaurant.getOpeningTime())
-        .closingTime(restaurant.getClosingTime())
-        .phone(restaurant.getPhone())
-        .build();
-  }
-
-  private static UserDTO convertToUserDTO(User user, boolean leaveEmpty) {
-    if (leaveEmpty) {
-      return null;
-    }
-
-    return UserDTO.builder()
-        .id(user.getId())
-        .username(user.getUsername())
-        .name(user.getName())
-        .surname(user.getSurname())
-        .mail(user.getMail())
-        .build();
-  }
-
   @Override
-  public long getCount(){return bookRepository.count();}
+  public long getCount() {
+    return bookRepository.count();
+  }
 }

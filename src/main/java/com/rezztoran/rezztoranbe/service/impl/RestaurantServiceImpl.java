@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.service.impl;
 
+import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
@@ -14,7 +15,10 @@ import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.ReviewService;
 import com.rezztoran.rezztoranbe.spesifications.RestaurantSpecifications;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -278,6 +282,17 @@ public class RestaurantServiceImpl implements RestaurantService {
     existing.setStarCount(averageStar);
     existing.setReviewsCount(reviewsCount);
     restaurantRepository.save(existing);
+  }
+
+  @Override
+  public List<BookDTO> getBooksOfRestaurant(LocalDate localDate, Long id) {
+    return bookService.getBooks(localDate, id);
+  }
+
+  @Override
+  public List<Map.Entry<LocalTime, Boolean>> getTimeSlotsList(LocalDate localDate, Long id) {
+    var timeSlotsMap = bookService.getAvailableTimeSlotsMap(localDate, id);
+    return new ArrayList<>(timeSlotsMap.entrySet());
   }
 
   @Override

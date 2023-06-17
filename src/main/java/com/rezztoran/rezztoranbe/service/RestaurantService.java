@@ -1,10 +1,14 @@
 package com.rezztoran.rezztoranbe.service;
 
+import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -122,4 +126,10 @@ public interface RestaurantService {
    * @param reviewDTO the review dto
    */
   void updateReviewCountAndStar(ReviewDTO reviewDTO);
+
+
+  List<BookDTO> getBooksOfRestaurant(LocalDate localDate, Long id);
+
+  List<Map.Entry<LocalTime,Boolean>> getTimeSlotsList(LocalDate localDate, Long id);
+
 }

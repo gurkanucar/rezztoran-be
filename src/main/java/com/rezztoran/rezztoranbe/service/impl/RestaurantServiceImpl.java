@@ -294,4 +294,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     var timeSlotsMap = bookService.getAvailableTimeSlotsMap(localDate, id);
     return new ArrayList<>(timeSlotsMap.entrySet());
   }
+
+  @Override
+  public long getCount() {
+    return restaurantRepository.count();
+  }
+
 }

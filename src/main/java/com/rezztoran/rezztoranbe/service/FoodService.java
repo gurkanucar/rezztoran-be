@@ -55,4 +55,6 @@ public interface FoodService {
    * @return the food by restaurant id
    */
   Page<FoodDTO> getFoodByRestaurantID(Long id, Pageable pageable);
+
+  long getCount();
 }

@@ -87,4 +87,7 @@ public class FoodServiceImpl implements FoodService {
               return FoodDTO.toDTO(x);
             });
   }
+
+  @Override
+  public long getCount(){return foodRepository.count();}
 }

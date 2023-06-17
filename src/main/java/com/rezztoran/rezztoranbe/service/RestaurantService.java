@@ -150,4 +150,10 @@ public interface RestaurantService {
    * @return the time slots list
    */
   List<Map.Entry<LocalTime, Boolean>> getTimeSlotsList(LocalDate localDate, Long id);
+
+  /**
+   * Get total RESTAURANT count.
+   *
+   */
+  long getCount();
 }

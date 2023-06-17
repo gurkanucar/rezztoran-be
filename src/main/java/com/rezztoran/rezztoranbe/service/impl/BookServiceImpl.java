@@ -393,4 +393,9 @@ public class BookServiceImpl implements BookService {
 
     return convertToBookDTO(book, true, true);
   }
+
+  @Override
+  public long getCount() {
+    return bookRepository.count();
+  }
 }

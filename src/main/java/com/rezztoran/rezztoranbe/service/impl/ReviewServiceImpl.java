@@ -161,4 +161,7 @@ public class ReviewServiceImpl implements ReviewService {
   public void createReviewList(List<ReviewRequestModel> reviews) {
     reviews.forEach(this::createReview);
   }
+
+  @Override
+  public long getCount(){return reviewRepository.count();};
 }

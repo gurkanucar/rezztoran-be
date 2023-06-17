@@ -119,4 +119,6 @@ public interface BookService {
    * @return the booking by id and auth
    */
   BookDTO getBookingByIdAndAuth(Long id);
+
+  long getCount();
 }

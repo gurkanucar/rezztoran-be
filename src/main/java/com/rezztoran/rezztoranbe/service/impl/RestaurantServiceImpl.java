@@ -279,4 +279,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     existing.setReviewsCount(reviewsCount);
     restaurantRepository.save(existing);
   }
+
+  @Override
+  public long getCount() {
+    return restaurantRepository.count();
+  }
+
 }

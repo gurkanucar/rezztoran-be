@@ -393,4 +393,7 @@ public class BookServiceImpl implements BookService {
         .mail(user.getMail())
         .build();
   }
+
+  @Override
+  public long getCount(){return bookRepository.count();}
 }

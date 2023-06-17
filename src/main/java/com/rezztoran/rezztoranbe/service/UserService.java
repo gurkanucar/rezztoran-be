@@ -102,4 +102,10 @@ public interface UserService {
    * @param id the id
    */
   void deleteUser(Long id);
+
+  /**
+   * Get total USER count.
+   *
+   */
+  long getCount();
 }

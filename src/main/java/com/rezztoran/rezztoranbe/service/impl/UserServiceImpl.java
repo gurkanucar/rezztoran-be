@@ -166,4 +166,8 @@ public class UserServiceImpl implements UserService {
       throw exceptionUtil.buildException(Ex.USER_NOT_FOUND_EXCEPTION);
     }
   }
+
+  public long getCount() {
+    return userRepository.count();
+  }
 }

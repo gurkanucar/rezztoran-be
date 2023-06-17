@@ -68,4 +68,6 @@ public interface ReviewService {
    * @param reviews the reviews
    */
   void createReviewList(List<ReviewRequestModel> reviews);
+
+  long getCount();
 }

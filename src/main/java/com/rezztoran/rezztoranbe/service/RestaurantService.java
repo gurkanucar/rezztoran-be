@@ -122,4 +122,10 @@ public interface RestaurantService {
    * @param reviewDTO the review dto
    */
   void updateReviewCountAndStar(ReviewDTO reviewDTO);
+
+  /**
+   * Get total RESTAURANT count.
+   *
+   */
+  long getCount();
 }

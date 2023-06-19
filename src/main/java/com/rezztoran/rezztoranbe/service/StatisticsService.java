@@ -1,8 +1,8 @@
 package com.rezztoran.rezztoranbe.service;
 
-import com.rezztoran.rezztoranbe.dto.AnalyticsDTO;
+import com.rezztoran.rezztoranbe.dto.StatisticDto;
 
 public interface StatisticsService {
 
-    AnalyticsDTO getTotalCounts();
+    StatisticDto getTotalCounts();
 }

@@ -10,14 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnalyticsDTO {
-
-    private long restaurantCount;
-    private long userCount;
-    private long reviewCount;
-    private long foodCount;
-    private long bookingCount;
-
-
-
+public class StatisticDto {
+  private long restaurantCount;
+  private long userCount;
+  private long reviewCount;
+  private long foodCount;
+  private long bookingCount;
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AnalyticsServiceImpl implements AnalyticsService {
+public class StatisticsServiceImpl implements StatisticsService {
 
     private final UserService userService;
     private final RestaurantService restaurantService;

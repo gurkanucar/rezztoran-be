@@ -2,7 +2,7 @@ package com.rezztoran.rezztoranbe.controller;
 
 import com.rezztoran.rezztoranbe.dto.AnalyticsDTO;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
-import com.rezztoran.rezztoranbe.service.AnalyticsService;
+import com.rezztoran.rezztoranbe.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -13,22 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** The type Analytics controller. */
 @RestController
-@RequestMapping("/api/analytics")
+@RequestMapping("/api/statistics")
 @RequiredArgsConstructor
 @Slf4j
-public class AnalyticsController {
+public class StatisticsController {
 
-    private final AnalyticsService analyticsService;
-    private final ModelMapper modelMapper;
+  private final StatisticsService statisticsService;
+  private final ModelMapper modelMapper;
 
-
-    @GetMapping("/count")
-    public ResponseEntity<ApiResponse<Object>> getCountRestaurant() {
-
-        var response = modelMapper.map(analyticsService.getTotalCounts(), AnalyticsDTO.class);
-        return ApiResponse.builder().data(response).build();
-    }
+  @GetMapping("/count")
+  public ResponseEntity<ApiResponse<Object>> getStatistics() {
+    var response = modelMapper
+        .map(statisticsService.getTotalCounts(), AnalyticsDTO.class);
+    return ApiResponse.builder().data(response).build();
+  }
 }
-
-
-

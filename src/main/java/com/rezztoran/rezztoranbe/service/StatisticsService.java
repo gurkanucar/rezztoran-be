@@ -2,7 +2,7 @@ package com.rezztoran.rezztoranbe.service;
 
 import com.rezztoran.rezztoranbe.dto.AnalyticsDTO;
 
-public interface AnalyticsService {
+public interface StatisticsService {
 
     AnalyticsDTO getTotalCounts();
 }

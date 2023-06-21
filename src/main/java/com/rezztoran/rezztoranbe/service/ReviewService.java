@@ -61,4 +61,13 @@ public interface ReviewService {
    * @return the map
    */
   Map<Long, Double> calculateStarCountByRestaurant(List<Long> ids);
+
+  /**
+   * Create review list.
+   *
+   * @param reviews the reviews
+   */
+  void createReviewList(List<ReviewRequestModel> reviews);
+
+  long getCount();
 }

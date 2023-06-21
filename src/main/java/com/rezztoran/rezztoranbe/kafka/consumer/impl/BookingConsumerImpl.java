@@ -31,7 +31,29 @@ public class BookingConsumerImpl implements BookingConsumer {
   @Override
   public void consumeBookingCreated(BookDTO booking) {
     mailService.sendBookCreatedMail(
-        MailModel.builder().subject("Password Reset").to(booking.getUser().getMail()).build(),
+        MailModel.builder().subject("Book Created").to(booking.getUser().getMail()).build(),
+        booking);
+  }
+
+  @KafkaListener(
+      topics = "${spring.kafka.topics.book-reminder}",
+      containerFactory = "bookingKafkaListenerContainerFactory",
+      groupId = "group-id")
+  @Override
+  public void consumeBookingReminder(BookDTO booking) {
+    mailService.sendBookReminderMail(
+        MailModel.builder().subject("Book Reminder").to(booking.getUser().getMail()).build(),
+        booking);
+  }
+
+  @KafkaListener(
+      topics = "${spring.kafka.topics.book-cancelled-restaurant}",
+      containerFactory = "bookingKafkaListenerContainerFactory",
+      groupId = "group-id")
+  @Override
+  public void consumeBookingCancelledByRestaurant(BookDTO booking) {
+    mailService.sendBookCancelledByRestaurantMail(
+        MailModel.builder().subject("Book Cancelled :(").to(booking.getUser().getMail()).build(),
         booking);
   }
 }

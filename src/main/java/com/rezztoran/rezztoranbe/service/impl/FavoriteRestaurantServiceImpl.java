@@ -7,6 +7,7 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.repository.FavoriteRestaurantRepository;
 import com.rezztoran.rezztoranbe.service.FavoriteRestaurantService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
+import com.rezztoran.rezztoranbe.service.ReviewService;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
   private final FavoriteRestaurantRepository favoriteRestaurantRepository;
   private final UserService userService;
   private final RestaurantService restaurantService;
+  private final ReviewService reviewService;
 
   /**
    * Instantiates a new Favorite restaurant service.
@@ -29,56 +31,17 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
    * @param favoriteRestaurantRepository the favorite restaurant repository
    * @param userService the user service
    * @param restaurantService the restaurant service
+   * @param reviewService the review service
    */
   public FavoriteRestaurantServiceImpl(
       FavoriteRestaurantRepository favoriteRestaurantRepository,
       UserService userService,
-      RestaurantService restaurantService) {
+      RestaurantService restaurantService,
+      ReviewService reviewService) {
     this.favoriteRestaurantRepository = favoriteRestaurantRepository;
     this.userService = userService;
     this.restaurantService = restaurantService;
-  }
-
-  @Override
-  public void addToFavorite(FavoriteRestaurantRequestModel requestModel) {
-    var existing =
-        favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(
-            requestModel.getRestaurantId(), requestModel.getUserId());
-    var user = userService.findUserByID(requestModel.getUserId());
-    var restaurant = restaurantService.getById(requestModel.getRestaurantId());
-    if (existing.isEmpty()) {
-      favoriteRestaurantRepository.save(
-          FavoriteRestaurant.builder().user(user).restaurant(restaurant).build());
-    }
-  }
-
-  @Override
-  public void removeFromFavorite(FavoriteRestaurantRequestModel requestModel) {
-    var existing =
-        favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(
-            requestModel.getRestaurantId(), requestModel.getUserId());
-    existing.ifPresent(
-        favoriteRestaurant -> favoriteRestaurantRepository.deleteById(favoriteRestaurant.getId()));
-  }
-
-  @Override
-  public List<Restaurant> getFavoriteRestaurantsByUser(Long userId) {
-    var result = favoriteRestaurantRepository.findAllByUser_Id(userId);
-    return result.stream().map(FavoriteRestaurant::getRestaurant).collect(Collectors.toList());
-  }
-
-  @Override
-  public List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId) {
-    var result = favoriteRestaurantRepository.findAllByUser_Id(userId);
-    return result.stream()
-        .map(FavoriteRestaurantServiceImpl::convertToRestaurantDTO)
-        .collect(Collectors.toList());
-  }
-
-  @Override
-  public Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
-      Long userId, Long restaurantId) {
-    return favoriteRestaurantRepository.findByRestaurant_IdAndUser_Id(restaurantId, userId);
+    this.reviewService = reviewService;
   }
 
   private static RestaurantDTO convertToRestaurantDTO(FavoriteRestaurant x) {
@@ -96,5 +59,68 @@ public class FavoriteRestaurantServiceImpl implements FavoriteRestaurantService 
         .closingTime(x.getRestaurant().getClosingTime())
         .phone(x.getRestaurant().getPhone())
         .build();
+  }
+
+  @Override
+  public void addToFavorite(FavoriteRestaurantRequestModel requestModel) {
+    var existing =
+        favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
+            requestModel.getRestaurantId(), requestModel.getUserId());
+    var user = userService.findUserByID(requestModel.getUserId());
+    var restaurant = restaurantService.getById(requestModel.getRestaurantId());
+    if (existing.isEmpty()) {
+      favoriteRestaurantRepository.save(
+          FavoriteRestaurant.builder().user(user).restaurant(restaurant).build());
+    }
+  }
+
+  @Override
+  public void removeFromFavorite(FavoriteRestaurantRequestModel requestModel) {
+    var existing =
+        favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
+            requestModel.getRestaurantId(), requestModel.getUserId());
+    existing.ifPresent(
+        favoriteRestaurant -> favoriteRestaurantRepository.deleteById(favoriteRestaurant.getId()));
+  }
+
+  @Override
+  public List<Restaurant> getFavoriteRestaurantsByUser(Long userId) {
+    var result = favoriteRestaurantRepository.findAllByUser_IdAndRestaurant_DeletedFalse(userId);
+    return result.stream().map(FavoriteRestaurant::getRestaurant).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId) {
+    var result = favoriteRestaurantRepository.findAllByUser_IdAndRestaurant_DeletedFalse(userId);
+    var dtoResult =
+        result.stream()
+            .map(FavoriteRestaurantServiceImpl::convertToRestaurantDTO)
+            .collect(Collectors.toList());
+
+    dtoResult.forEach(x -> x.setIsFavorite(true));
+
+    return dtoResult;
+  }
+
+  @Override
+  public Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
+      Long userId, Long restaurantId) {
+    return favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
+        restaurantId, userId);
+  }
+
+  @Override
+  public void toggle(FavoriteRestaurantRequestModel requestModel) {
+    var existing =
+        favoriteRestaurantRepository.findByRestaurant_IdAndUser_IdAndRestaurant_DeletedFalse(
+            requestModel.getRestaurantId(), requestModel.getUserId());
+    var user = userService.findUserByID(requestModel.getUserId());
+    var restaurant = restaurantService.getById(requestModel.getRestaurantId());
+    if (existing.isEmpty()) {
+      favoriteRestaurantRepository.save(
+          FavoriteRestaurant.builder().user(user).restaurant(restaurant).build());
+    } else {
+      favoriteRestaurantRepository.deleteById(existing.get().getId());
+    }
   }
 }

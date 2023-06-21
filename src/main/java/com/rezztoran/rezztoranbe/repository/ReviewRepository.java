@@ -1,5 +1,6 @@
 package com.rezztoran.rezztoranbe.repository;
 
+import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.Review;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,24 @@ import org.springframework.stereotype.Repository;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
   /**
+   * Find average rating by restaurant double.
+   *
+   * @param restaurant the restaurant
+   * @return the double
+   */
+  @Query("SELECT AVG(r.star) FROM Review r WHERE r.restaurant = :restaurant")
+  double findAverageRatingByRestaurant(Restaurant restaurant);
+
+  /**
+   * Find review count by restaurant int.
+   *
+   * @param restaurant the restaurant
+   * @return the int
+   */
+  @Query("SELECT COUNT(r) FROM Review r WHERE r.restaurant = :restaurant")
+  int findReviewCountByRestaurant(Restaurant restaurant);
+
+  /**
    * Find all by user id list.
    *
    * @param userId the user id
@@ -20,12 +39,12 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
   List<Review> findAllByUser_Id(Long userId);
 
   /**
-   * Find all by restaurant id list.
+   * Find all by restaurant id and restaurant deleted false list.
    *
    * @param restaurantId the restaurant id
    * @return the list
    */
-  List<Review> findAllByRestaurant_Id(Long restaurantId);
+  List<Review> findAllByRestaurant_IdAndRestaurant_DeletedFalse(Long restaurantId);
 
   /**
    * Find all by restaurant ids list.
@@ -44,5 +63,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
    * @return the boolean
    */
   Boolean existsByUser_IdAndRestaurant_Id(Long userId, Long restaurantId);
-
 }

@@ -15,9 +15,17 @@ public class BookingProducerImpl implements BookingProducer {
   @Qualifier("BookingKafkaProducerFactory")
   private final KafkaTemplate<String, BookDTO> kafkaTemplate;
 
-  /** The Topic name. */
+  /** The Topic name created. */
   @Value("${spring.kafka.topics.book-created}")
-  String topicName;
+  String topicNameCreated;
+
+  /** The Topic name reminder. */
+  @Value("${spring.kafka.topics.book-reminder}")
+  String topicNameReminder;
+
+  /** The Topic name cancelled by restaurant. */
+  @Value("${spring.kafka.topics.book-cancelled-restaurant}")
+  String topicNameCancelledByRestaurant;
 
   /**
    * Instantiates a new Booking producer.
@@ -30,6 +38,16 @@ public class BookingProducerImpl implements BookingProducer {
 
   @Override
   public void sendBookingCreatedMail(BookDTO booking) {
-    kafkaTemplate.send(topicName, booking);
+    kafkaTemplate.send(topicNameCreated, booking);
+  }
+
+  @Override
+  public void sendBookingReminderMail(BookDTO booking) {
+    kafkaTemplate.send(topicNameReminder, booking);
+  }
+
+  @Override
+  public void sendBookCancelledByRestaurantMail(BookDTO booking) {
+    kafkaTemplate.send(topicNameCancelledByRestaurant, booking);
   }
 }

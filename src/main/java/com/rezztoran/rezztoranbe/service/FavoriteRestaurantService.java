@@ -36,7 +36,7 @@ public interface FavoriteRestaurantService {
    * Gets favorite restaurants dto by user.
    *
    * @param userId the user id
-   * @return the favorite restaurants by user
+   * @return the favorite restaurants dto by user
    */
   List<RestaurantDTO> getFavoriteRestaurantsDTOByUser(Long userId);
 
@@ -50,5 +50,10 @@ public interface FavoriteRestaurantService {
   Optional<FavoriteRestaurant> getFavoriteRestaurantByUserAndRestaurantId(
       Long userId, Long restaurantId);
 
-  //  List<Restaurant> getMostFavoriteRestaurants();
+  /**
+   * Toggle.
+   *
+   * @param requestModel the request model
+   */
+  void toggle(FavoriteRestaurantRequestModel requestModel);
 }

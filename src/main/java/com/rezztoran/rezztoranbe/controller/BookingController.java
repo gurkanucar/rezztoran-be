@@ -1,15 +1,15 @@
 package com.rezztoran.rezztoranbe.controller;
 
-import com.rezztoran.rezztoranbe.dto.BookDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
-import com.rezztoran.rezztoranbe.model.Booking;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import java.time.LocalDate;
-import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,13 +39,7 @@ public class BookingController {
   public ResponseEntity<ApiResponse<Object>> getBooksByUserId(
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    List<BookDTO> response;
-    if (localDate == null) {
-      response = bookService.getBooksByUser(id);
-    } else {
-      response = bookService.getBooksByUserAndDate(id, localDate);
-    }
-    return ApiResponse.builder().data(response).build();
+    return ApiResponse.builder().data(bookService.getBooksByUserAndDate(id, localDate)).build();
   }
 
   /**
@@ -55,8 +49,9 @@ public class BookingController {
    * @return the response entity
    */
   @PostMapping
+  @RateLimiter(name = "basic")
   public ResponseEntity<ApiResponse<Object>> createBooking(
-      @RequestBody BookRequestModel bookRequestModel) {
+      @Valid @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.createBook(bookRequestModel)).build();
   }
 
@@ -68,8 +63,19 @@ public class BookingController {
    */
   @PutMapping
   public ResponseEntity<ApiResponse<Object>> updateBooking(
-      @RequestBody BookRequestModel bookRequestModel) {
+      @Valid @RequestBody BookRequestModel bookRequestModel) {
     return ApiResponse.builder().data(bookService.updateBook(bookRequestModel)).build();
+  }
+
+  /**
+   * Gets booking by id.
+   *
+   * @param id the id
+   * @return the booking by id
+   */
+  @GetMapping("/{id}")
+  public ResponseEntity<ApiResponse<Object>> getBookingById(@PathVariable Long id) {
+    return ApiResponse.builder().data(bookService.getBookingByIdAndAuth(id)).build();
   }
 
   /**
@@ -81,6 +87,19 @@ public class BookingController {
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> deleteBooking(@PathVariable Long id) {
     bookService.deleteBook(id);
+    return ApiResponse.builder().build();
+  }
+
+  /**
+   * Delete booking by restaurant response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
+  @PreAuthorize("hasAnyAuthority('ADMIN', 'RESTAURANT_ADMIN')")
+  @DeleteMapping("/restaurant/{id}")
+  public ResponseEntity<ApiResponse<Object>> deleteBookingByRestaurant(@PathVariable Long id) {
+    bookService.deleteBookByRestaurant(id);
     return ApiResponse.builder().build();
   }
 }

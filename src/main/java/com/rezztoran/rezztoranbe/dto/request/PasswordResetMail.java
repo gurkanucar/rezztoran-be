@@ -1,6 +1,7 @@
 package com.rezztoran.rezztoranbe.dto.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +16,5 @@ public class PasswordResetMail {
   private MailModel mailModel;
   private String username;
   @NotBlank private String mail;
-  @NotBlank private Integer code;
+  @NotNull private Integer code;
 }

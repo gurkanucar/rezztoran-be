@@ -10,15 +10,29 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
+/** The type Authorized check aspect. */
 @Aspect
 @Component
 public class AuthorizedCheckAspect {
   private final AuthService authService;
 
+  /**
+   * Instantiates a new Authorized check aspect.
+   *
+   * @param authService the auth service
+   */
   public AuthorizedCheckAspect(AuthService authService) {
     this.authService = authService;
   }
 
+  /**
+   * Validate user object.
+   *
+   * @param joinPoint the join point
+   * @param authorizeCheck the authorize check
+   * @return the object
+   * @throws Throwable the throwable
+   */
   @Around("@annotation(authorizeCheck)")
   public Object validateUser(ProceedingJoinPoint joinPoint, AuthorizeCheck authorizeCheck)
       throws Throwable {

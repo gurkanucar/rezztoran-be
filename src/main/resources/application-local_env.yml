@@ -1,6 +1,7 @@
 application-description: Rezztoran
 application-version: 1.0
 
+app-context: http://localhost:8082
 
 server:
   error:
@@ -13,7 +14,7 @@ spring:
       on-profile: local_env
   datasource:
     password: 1234
-    url: jdbc:mysql://localhost:3306/rezztoran?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3307/rezztoran?createDatabaseIfNotExist=true
     username: root
   jpa:
     hibernate:
@@ -38,6 +39,9 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     topics:
       book-created: book-created
+      review-update: review-update
+      book-reminder: book-reminder
+      book-cancelled-restaurant: book-cancelled-restaurant
       password-reset: password-reset
 
 spring.servlet.multipart:
@@ -56,9 +60,35 @@ jwt-variables:
 logging:
   level:
     org:
-      hibernate: DEBUG
+      hibernate: INFO
       springframework:
         web: DEBUG
+
+resilience4j:
+  ratelimiter:
+    instances:
+      basic:
+        limit-for-period: 10
+        limit-refresh-period: 1m
+        timeout-duration: 10s
+      auth:
+        limit-for-period: 3
+        limit-refresh-period: 15s
+        timeout-duration: 10s
+      password-reset:
+        limit-for-period: 1
+        limit-refresh-period: 120s
+        timeout-duration: 10s
+
+cache-config:
+  restaurant-cache-name: restaurants
+  restaurant-cache-ttl: 10000
+  food-cache-name: foods
+  food-cache-ttl: 10000
+  category-cache-name: categories
+  category-cache-ttl: 10000
+
+
 mail:
   address: MAIL
   password: PASSWORD

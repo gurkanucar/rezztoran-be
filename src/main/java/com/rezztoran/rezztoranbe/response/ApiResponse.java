@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.rezztoran.rezztoranbe.enums.ResponseConstants;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,21 @@ import org.springframework.http.ResponseEntity;
  */
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"status", "code", "message", "isPageable", "content", "error"})
+@JsonPropertyOrder({
+  "status",
+  "error",
+  "code",
+  "message",
+  "isPageable",
+  "page",
+  "pageSize",
+  "totalElements",
+  "totalPages",
+  "last",
+  "first",
+  "empty",
+  "content",
+})
 public class ApiResponse<T> {
 
   @JsonIgnore private HttpHeaders httpHeaders;
@@ -26,6 +41,13 @@ public class ApiResponse<T> {
   private Boolean isPageable;
   private T error;
   private T content;
+  private Integer page;
+  private Integer pageSize;
+  private Long totalElements;
+  private Integer totalPages;
+  private Boolean last;
+  private Boolean first;
+  private Boolean empty;
 
   private ApiResponse(Builder<T> builder) {
     this.status = builder.status;
@@ -35,6 +57,13 @@ public class ApiResponse<T> {
     this.content = builder.content;
     this.message = builder.message;
     this.error = builder.error;
+    this.page = builder.page;
+    this.pageSize = builder.pageSize;
+    this.totalElements = builder.totalElements;
+    this.totalPages = builder.totalPages;
+    this.last = builder.last;
+    this.first = builder.first;
+    this.empty = builder.empty;
   }
 
   /**
@@ -73,6 +102,13 @@ public class ApiResponse<T> {
     private T content;
     private T error;
     private String message;
+    private Integer page;
+    private Integer pageSize;
+    private Long totalElements;
+    private Integer totalPages;
+    private Boolean last;
+    private Boolean first;
+    private Boolean empty;
 
     /**
      * Instantiates a new Builder.
@@ -124,7 +160,15 @@ public class ApiResponse<T> {
      */
     public Builder<T> pageableData(T object) {
       this.isPageable = true;
-      this.content = object;
+      Page<T> pageObj = (Page<T>) object;
+      this.content = (T) pageObj.getContent();
+      this.page = pageObj.getNumber();
+      this.pageSize = pageObj.getSize();
+      this.totalElements = pageObj.getTotalElements();
+      this.totalPages = pageObj.getTotalPages();
+      this.last = pageObj.isLast();
+      this.first = pageObj.isFirst();
+      this.empty = pageObj.isEmpty();
       return this;
     }
 

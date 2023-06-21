@@ -39,4 +39,10 @@ public class Booking extends BaseEntity {
   private User user;
 
   private String note;
+
+  private String phone;
+
+  private Integer personCount;
+
+  private boolean reminderMailSent;
 }

@@ -4,7 +4,10 @@ import com.rezztoran.rezztoranbe.dto.FoodDTO;
 import com.rezztoran.rezztoranbe.model.Food;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.FoodService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +38,21 @@ public class FoodController {
   }
 
   /**
+   * Gets food by restaurant id.
+   *
+   * @param id the id
+   * @param pageable the pageable
+   * @return the food by restaurant id
+   */
+  @GetMapping("/restaurant/{id}")
+  public ResponseEntity<ApiResponse<Object>> getFoodByRestaurantID(
+      @PathVariable Long id, @PageableDefault(size = 20) Pageable pageable) {
+    return ApiResponse.builder()
+        .pageableData(foodService.getFoodByRestaurantID(id, pageable))
+        .build();
+  }
+
+  /**
    * Create food response entity.
    *
    * @param food the food
@@ -43,6 +61,18 @@ public class FoodController {
   @PostMapping
   public ResponseEntity<ApiResponse<Object>> createFood(@RequestBody Food food) {
     return ApiResponse.builder().data(FoodDTO.toDTO(foodService.createFood(food))).build();
+  }
+
+  /**
+   * Create food list response entity.
+   *
+   * @param foods the foods
+   * @return the response entity
+   */
+  @PostMapping("/insert-list")
+  public ResponseEntity<ApiResponse<Object>> createFoodList(@RequestBody List<Food> foods) {
+    foodService.createFoodList(foods);
+    return ApiResponse.builder().build();
   }
 
   /**

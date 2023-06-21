@@ -5,6 +5,7 @@ import com.rezztoran.rezztoranbe.dto.RestaurantDTO;
 import com.rezztoran.rezztoranbe.dto.UserDTO;
 import com.rezztoran.rezztoranbe.dto.request.BookRequestModel;
 import com.rezztoran.rezztoranbe.enums.BookingStatus;
+import com.rezztoran.rezztoranbe.enums.Role;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
 import com.rezztoran.rezztoranbe.exception.ExceptionUtil;
 import com.rezztoran.rezztoranbe.kafka.producer.BookingProducer;
@@ -12,10 +13,12 @@ import com.rezztoran.rezztoranbe.model.Booking;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.User;
 import com.rezztoran.rezztoranbe.repository.BookRepository;
+import com.rezztoran.rezztoranbe.service.AuthService;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
 import com.rezztoran.rezztoranbe.service.UserService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -37,35 +40,99 @@ public class BookServiceImpl implements BookService {
   private final UserService userService;
   private final ExceptionUtil exceptionUtil;
   private final BookingProducer bookingProducer;
+  private final AuthService authService;
 
-  @Override
-  public Booking getBookById(Long id) {
-    return bookRepository
-        .findById(id)
-        .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+  private static Booking createBookingFromRequestModel(
+      BookRequestModel bookRequestModel, User user, Restaurant restaurant) {
+    return Booking.builder()
+        .personCount(bookRequestModel.getPersonCount())
+        .bookingStatus(BookingStatus.PENDING)
+        .reservationDate(bookRequestModel.getReservationDate())
+        .reservationTime(bookRequestModel.getReservationTime())
+        .phone(bookRequestModel.getPhone())
+        .user(user)
+        .restaurant(restaurant)
+        .note(bookRequestModel.getNote())
+        .build();
+  }
+
+  private static BookDTO getBookDTO(User user, Restaurant restaurant, Booking booking) {
+    var restaurantDTO = convertToRestaurantDTO(restaurant, false);
+    var userDTO = convertToUserDTO(user, false);
+
+    return BookDTO.builder()
+        .id(booking.getId())
+        .personCount(booking.getPersonCount())
+        .bookingStatus(booking.getBookingStatus())
+        .phone(booking.getPhone())
+        .reservationDate(booking.getReservationDate())
+        .reservationTime(booking.getReservationTime())
+        .restaurant(restaurantDTO)
+        .user(userDTO)
+        .note(booking.getNote())
+        .build();
+  }
+
+  private static BookDTO convertToBookDTO(
+      Booking booking, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
+    var restaurantDTO = convertToRestaurantDTO(booking.getRestaurant(), restaurantLeaveEmpty);
+    var userDTO = convertToUserDTO(booking.getUser(), userLeaveEmpty);
+
+    return BookDTO.builder()
+        .id(booking.getId())
+        .personCount(booking.getPersonCount())
+        .bookingStatus(booking.getBookingStatus())
+        .phone(booking.getPhone())
+        .reservationDate(booking.getReservationDate())
+        .reservationTime(booking.getReservationTime())
+        .restaurant(restaurantDTO)
+        .user(userDTO)
+        .note(booking.getNote())
+        .build();
+  }
+
+  private static RestaurantDTO convertToRestaurantDTO(Restaurant restaurant, boolean leaveEmpty) {
+    if (leaveEmpty) {
+      return null;
+    }
+
+    return RestaurantDTO.builder()
+        .id(restaurant.getId())
+        .restaurantName(restaurant.getRestaurantName())
+        .restaurantImage(restaurant.getRestaurantImage())
+        .restaurantImageList(restaurant.getRestaurantImageList())
+        .city(restaurant.getCity())
+        .district(restaurant.getDistrict())
+        .detailedAddress(restaurant.getDetailedAddress())
+        .latitude(restaurant.getLatitude())
+        .longitude(restaurant.getLongitude())
+        .openingTime(restaurant.getOpeningTime())
+        .closingTime(restaurant.getClosingTime())
+        .phone(restaurant.getPhone())
+        .build();
+  }
+
+  private static UserDTO convertToUserDTO(User user, boolean leaveEmpty) {
+    if (leaveEmpty) {
+      return null;
+    }
+
+    return UserDTO.builder()
+        .id(user.getId())
+        .username(user.getUsername())
+        .name(user.getName())
+        .surname(user.getSurname())
+        .mail(user.getMail())
+        .build();
   }
 
   @Override
-  public Booking createBook(BookRequestModel bookRequestModel) {
-    var user = userService.findUserByID(bookRequestModel.getUserId());
-    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
-    if (!isAvailable(bookRequestModel, restaurant)) {
-      throw exceptionUtil.buildException(Ex.AVAILABLE_BOOK_NOT_FOUND_EXCEPTION);
-    }
+  public BookDTO getBookDTOById(Long id) {
     var book =
-        Booking.builder()
-            .bookingStatus(BookingStatus.PENDING)
-            .reservationDate(bookRequestModel.getReservationDate())
-            .reservationTime(bookRequestModel.getReservationTime())
-            .user(user)
-            .restaurant(restaurant)
-            .note(bookRequestModel.getNote())
-            .build();
-
-    var result = bookRepository.save(book);
-
-    sendBookCreatedEvent(user, restaurant, result);
-    return result;
+        bookRepository
+            .findById(id)
+            .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+    return convertToBookDTO(book, true, true);
   }
 
   private boolean isAvailable(BookRequestModel bookRequestModel, Restaurant restaurant) {
@@ -78,23 +145,41 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public Booking updateBook(BookRequestModel bookRequestModel) {
-    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
+  public BookDTO updateBook(BookRequestModel bookRequestModel) {
     Booking existing =
         bookRepository
             .findById(bookRequestModel.getId())
             .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+
+    if (!existing.getUser().getId().equals(authService.getAuthenticatedUser().get().getId())) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
+
+    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
 
     if (!isSameDateTime(existing, bookRequestModel) && !isAvailable(bookRequestModel, restaurant)) {
       throw exceptionUtil.buildException(Ex.COULD_NOT_BOOK_EXCEPTION);
     }
 
     existing.setBookingStatus(bookRequestModel.getBookingStatus());
+    existing.setPhone(bookRequestModel.getPhone());
     existing.setReservationDate(bookRequestModel.getReservationDate());
     existing.setReservationTime(bookRequestModel.getReservationTime());
     existing.setNote(bookRequestModel.getNote());
+    existing.setPersonCount(bookRequestModel.getPersonCount());
 
-    return bookRepository.save(existing);
+    var result = bookRepository.save(existing);
+    return convertToBookDTO(result, true, true);
+  }
+
+  @Override
+  public void setBookReminderMailStatus(Long id, boolean status) {
+    var book =
+        bookRepository
+            .findById(id)
+            .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+    book.setReminderMailSent(status);
+    bookRepository.save(book);
   }
 
   @Override
@@ -104,44 +189,6 @@ public class BookServiceImpl implements BookService {
         .stream()
         .map(x -> convertToBookDTO(x, true, false))
         .collect(Collectors.toList());
-  }
-
-  private static BookDTO convertToBookDTO(
-      Booking x, boolean restaurantLeaveEmpty, boolean userLeaveEmpty) {
-    return BookDTO.builder()
-        .id(x.getId())
-        .bookingStatus(x.getBookingStatus())
-        .reservationDate(x.getReservationDate())
-        .reservationTime(x.getReservationTime())
-        .restaurant(
-            !restaurantLeaveEmpty
-                ? RestaurantDTO.builder()
-                    .id(x.getRestaurant().getId())
-                    .restaurantName(x.getRestaurant().getRestaurantName())
-                    .restaurantImage(x.getRestaurant().getRestaurantImage())
-                    .restaurantImageList(x.getRestaurant().getRestaurantImageList())
-                    .city(x.getRestaurant().getCity())
-                    .district(x.getRestaurant().getDistrict())
-                    .detailedAddress(x.getRestaurant().getDetailedAddress())
-                    .latitude(x.getRestaurant().getLatitude())
-                    .longitude(x.getRestaurant().getLongitude())
-                    .openingTime(x.getRestaurant().getOpeningTime())
-                    .closingTime(x.getRestaurant().getClosingTime())
-                    .phone(x.getRestaurant().getPhone())
-                    .build()
-                : null)
-        .user(
-            !userLeaveEmpty
-                ? UserDTO.builder()
-                    .id(x.getUser().getId())
-                    .username(x.getUser().getUsername())
-                    .name(x.getUser().getName())
-                    .surname(x.getUser().getSurname())
-                    .mail(x.getUser().getMail())
-                    .build()
-                : null)
-        .note(x.getNote())
-        .build();
   }
 
   @Override
@@ -179,15 +226,32 @@ public class BookServiceImpl implements BookService {
     return availableSlots;
   }
 
-  // TODO check access
   @Override
   public void deleteBook(Long id) {
-    Booking existing =
-        bookRepository
-            .findById(id)
-            .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+    var user = authService.getAuthenticatedUser();
+    var existing = getBookingById(id);
+    if (!user.get().getId().equals(existing.getUser().getId())) {
+      throw exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION);
+    }
     existing.setBookingStatus(BookingStatus.CANCELLED);
     bookRepository.save(existing);
+  }
+
+  @Override
+  public void deleteBookByRestaurant(Long id) {
+    var existing = getBookingById(id);
+    if (existing.getBookingStatus().equals(BookingStatus.CANCELLED)) {
+      return;
+    }
+    existing.setBookingStatus(BookingStatus.CANCELLED);
+    sendBookCancelledByRestaurantEvent(existing);
+    bookRepository.save(existing);
+  }
+
+  @Override
+  public void cancelAllBookingsByRestaurant(Long id) {
+    var books = bookRepository.findAllByRestaurant_Id(id);
+    books.forEach(x -> deleteBookByRestaurant(x.getId()));
   }
 
   @Override
@@ -199,9 +263,20 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public List<BookDTO> getBooksByUserAndDate(Long id, LocalDate date) {
+    if (date == null) {
+      return getBooksByUser(id);
+    }
     return bookRepository.findAllByUser_IdAndReservationDate(id, date).stream()
         .map(x -> convertToBookDTO(x, false, true))
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<Booking> findBookingsWithReminderCondition() {
+    LocalDateTime now = LocalDateTime.now();
+    LocalDate today = now.toLocalDate();
+    LocalTime threeHoursAgo = now.minusHours(3).toLocalTime();
+    return bookRepository.getTodayBookings(today, threeHoursAgo);
   }
 
   /**
@@ -255,36 +330,72 @@ public class BookServiceImpl implements BookService {
         restaurantId, bookingDate, bookingStatus);
   }
 
-  private void sendBookCreatedEvent(User user, Restaurant restaurant, Booking result) {
-    var restaurantDto =
-        RestaurantDTO.builder()
-            .id(restaurant.getId())
-            .restaurantName(restaurant.getRestaurantName())
-            .city(restaurant.getCity())
-            .latitude(restaurant.getLatitude())
-            .longitude(restaurant.getLongitude())
-            .build();
-
-    var userDto =
-        UserDTO.builder()
-            .id(user.getId())
-            .username(user.getUsername())
-            .mail(user.getMail())
-            .name(user.getName())
-            .surname(user.getSurname())
-            .build();
-
-    var bookDto =
-        BookDTO.builder()
-            .id(result.getId())
-            .bookingStatus(result.getBookingStatus())
-            .reservationDate(result.getReservationDate())
-            .reservationTime(result.getReservationTime())
-            .user(userDto)
-            .restaurant(restaurantDto)
-            .note(result.getNote())
-            .build();
-
+  private void sendBookCreatedEvent(User user, Restaurant restaurant, Booking booking) {
+    BookDTO bookDto = getBookDTO(user, restaurant, booking);
     bookingProducer.sendBookingCreatedMail(bookDto);
+  }
+
+  private Booking getBookingById(Long id) {
+    return bookRepository
+        .findById(id)
+        .orElseThrow(() -> exceptionUtil.buildException(Ex.BOOK_NOT_FOUND_EXCEPTION));
+  }
+
+  private void sendBookCancelledByRestaurantEvent(Booking booking) {
+    var existing = getBookingById(booking.getId());
+
+    var restaurant = restaurantService.getById(existing.getRestaurant().getId());
+    var user = userService.findUserByID(existing.getUser().getId());
+
+    BookDTO bookDto = getBookDTO(user, restaurant, existing);
+    bookingProducer.sendBookCancelledByRestaurantMail(bookDto);
+  }
+
+  @Override
+  public void sendBookReminderEvent(Booking booking) {
+    var existing = getBookingById(booking.getId());
+
+    var restaurant = restaurantService.getById(existing.getRestaurant().getId());
+    var user = userService.findUserByID(existing.getUser().getId());
+
+    BookDTO bookDto = getBookDTO(user, restaurant, existing);
+    bookingProducer.sendBookingReminderMail(bookDto);
+  }
+
+  @Override
+  public BookDTO getBookingByIdAndAuth(Long id) {
+    var existing = getBookingById(id);
+    var authUser = authService.getAuthenticatedUser().get();
+    if (existing.getUser().getId().equals(authUser.getId())) {
+      return convertToBookDTO(existing, false, false);
+    } else if (authUser.getRole().equals(Role.USER)) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
+    return convertToBookDTO(existing, false, false);
+  }
+
+  @Override
+  public BookDTO createBook(BookRequestModel bookRequestModel) {
+    var user = userService.findUserByID(bookRequestModel.getUserId());
+
+    if (!user.getId().equals(authService.getAuthenticatedUser().get().getId())) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
+
+    var restaurant = restaurantService.getById(bookRequestModel.getRestaurantId());
+    if (!isAvailable(bookRequestModel, restaurant)) {
+      throw exceptionUtil.buildException(Ex.AVAILABLE_BOOK_NOT_FOUND_EXCEPTION);
+    }
+
+    var book = createBookingFromRequestModel(bookRequestModel, user, restaurant);
+    var result = bookRepository.save(book);
+    sendBookCreatedEvent(user, restaurant, result);
+
+    return convertToBookDTO(book, true, true);
+  }
+
+  @Override
+  public long getCount() {
+    return bookRepository.count();
   }
 }

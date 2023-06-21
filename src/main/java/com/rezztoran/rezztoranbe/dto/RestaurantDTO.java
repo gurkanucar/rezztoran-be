@@ -3,7 +3,6 @@ package com.rezztoran.rezztoranbe.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.rezztoran.rezztoranbe.model.Menu;
 import com.rezztoran.rezztoranbe.model.Review;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,7 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestaurantDTO {
-  /** The Is favorite. */
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Boolean isFavorite;
 
@@ -33,17 +31,14 @@ public class RestaurantDTO {
   private String detailedAddress;
   private Double latitude;
   private Double longitude;
+  private Integer reviewsCount;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private Double starCount;
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private UserDTO user;
 
   private String phone;
-
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private Menu menu;
 
   @JsonIgnore private List<Review> reviews;
 

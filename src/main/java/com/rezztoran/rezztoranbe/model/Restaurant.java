@@ -15,6 +15,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -35,7 +36,7 @@ public class Restaurant extends BaseEntity {
   private String restaurantName;
   private String restaurantImage;
 
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "restaurant_image_list", joinColumns = @JoinColumn(name = "id"))
   @Column(name = "restaurant_image_list")
   private List<String> restaurantImageList;
@@ -45,29 +46,29 @@ public class Restaurant extends BaseEntity {
   private String detailedAddress;
   private Double latitude;
   private Double longitude;
-  private Double starCount;
   private String phone;
 
   @OneToOne private User user;
 
-  @OneToOne(mappedBy = "restaurant")
-  private Menu menu;
+  @Lob
+  @Column(columnDefinition = "BLOB")
+  private byte[] qrCode;
+
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)
+  private List<Food> foods;
 
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL)
   private List<Review> reviews;
 
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @MapKeyColumn(name = "name")
   @Column(name = "value")
   @CollectionTable(
       name = "restaurant_attributes",
       joinColumns = @JoinColumn(name = "restaurant_id"))
   private Map<String, String> restaurantAttributes = new HashMap<>();
-
-  //  @JsonIgnore
-  //  @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-  //  private List<RestaurantTable> restaurantTables;
 
   private Boolean bookingAvailable;
 
@@ -84,4 +85,9 @@ public class Restaurant extends BaseEntity {
   @CollectionTable(name = "busy_dates", joinColumns = @JoinColumn(name = "id"))
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private List<LocalDate> busyDates;
+
+  private boolean deleted;
+
+  private Double starCount;
+  private Integer reviewsCount;
 }

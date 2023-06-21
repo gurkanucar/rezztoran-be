@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rezztoran - Booking Completed</title>
+  <title>Rezztoran - Booking Created</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -71,14 +71,18 @@
 <div class="container">
 
   <div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
-    <h1>Rezztoran - Booking Completed</h1>
+    <h1>Rezztoran - Booking Created</h1>
   </div>
 
 
-  <p>Dear ${username},</p>
-  <p>We are pleased to confirm your reservation at <strong>${restaurant}</strong>. Below are the
-    details of your
-    reservation:</p>
+  <div style="text-align: center;">
+    <h3 style="margin-left: 20px; margin-right: 20px;">Dear ${username},</h3>
+    <h4 style="margin-left: 20px; margin-right: 20px;">We are pleased to confirm your reservation at
+      <strong>${restaurant}</strong>. Below are the
+      details of your reservation:</h4>
+  </div>
+
+
   <table class="table">
     <tr>
       <td><strong>Restaurant:</strong></td>
@@ -91,6 +95,14 @@
     <tr>
       <td><strong>Note:</strong></td>
       <td>${note}</td>
+    </tr>
+    <tr>
+      <td><strong>Person count:</strong></td>
+      <td>${person_count}</td>
+    </tr>
+    <tr>
+      <td><strong>Phone:</strong></td>
+      <td>${phone}</td>
     </tr>
   </table>
   <p style="margin-top: 20px">To view or modify your reservation details, please click the following

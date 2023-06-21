@@ -3,6 +3,8 @@ package com.rezztoran.rezztoranbe.controller;
 import com.rezztoran.rezztoranbe.dto.request.ReviewRequestModel;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.ReviewService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +32,23 @@ public class ReviewController {
    * @return the response entity
    */
   @PostMapping
+  @RateLimiter(name = "basic")
   public ResponseEntity<ApiResponse<Object>> createReview(
       @Valid @RequestBody ReviewRequestModel request) {
     return ApiResponse.builder().data(reviewService.createReview(request)).build();
+  }
+
+  /**
+   * Create review response entity.
+   *
+   * @param reviews the reviews
+   * @return the response entity
+   */
+  @PostMapping("/insert-list")
+  public ResponseEntity<ApiResponse<Object>> createReview(
+      @Valid @RequestBody List<ReviewRequestModel> reviews) {
+    reviewService.createReviewList(reviews);
+    return ApiResponse.builder().build();
   }
 
   /**

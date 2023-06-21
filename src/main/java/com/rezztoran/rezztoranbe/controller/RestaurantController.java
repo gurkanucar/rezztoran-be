@@ -5,15 +5,13 @@ import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.BookService;
 import com.rezztoran.rezztoranbe.service.RestaurantService;
-import com.rezztoran.rezztoranbe.service.spesifications.RestaurantSpecifications;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -41,27 +39,53 @@ public class RestaurantController {
   /**
    * Search response entity.
    *
+   * @param localDate the local date
+   * @param searchTerm the search term
    * @param city the city
    * @param restaurantName the restaurant name
    * @param district the district
+   * @param categories the categories
+   * @param sortField the sort field
    * @param sortDirection the sort direction
-   * @param sortBy the sort by
    * @param pageable the pageable
    * @return the response entity
    */
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> search(
+      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate,
+      @RequestParam(required = false) String searchTerm,
       @RequestParam(required = false) String city,
       @RequestParam(required = false) String restaurantName,
       @RequestParam(required = false) String district,
-      @RequestParam(required = false, defaultValue = "desc") String sortDirection,
-      @RequestParam(defaultValue = "restaurantName") String sortBy,
+      @RequestParam(required = false) List<String> categories,
+      @RequestParam(defaultValue = "restaurantName") String sortField,
+      @RequestParam(defaultValue = "ASC") String sortDirection,
       @PageableDefault(size = 20) Pageable pageable) {
-    Specification<Restaurant> specification =
-        RestaurantSpecifications.searchAndSortByFields(
-            city, restaurantName, district, sortBy, sortDirection);
-    var response = restaurantService.getRestaurants(specification, pageable);
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection.toUpperCase());
+    var response =
+        restaurantService.getRestaurants(
+            searchTerm,
+            sortField,
+            direction,
+            city,
+            restaurantName,
+            district,
+            categories,
+            localDate,
+            pageable);
     return ApiResponse.builder().pageableData(response).build();
+  }
+
+  /**
+   * Gets restaurants randomly.
+   *
+   * @param count the count
+   * @return the restaurants randomly
+   */
+  @GetMapping("/random/{count}")
+  public ResponseEntity<ApiResponse<Object>> getRestaurantsRandomly(@PathVariable Integer count) {
+    var response = restaurantService.getRestaurantsRandomly(count);
+    return ApiResponse.builder().data(response).build();
   }
 
   /**
@@ -73,7 +97,6 @@ public class RestaurantController {
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse<Object>> getById(@PathVariable Long id) {
     var response = restaurantService.getByIdDto(id);
-    Optional.ofNullable(response.getMenu()).ifPresent(x -> x.setRestaurant(null));
     return ApiResponse.builder().data(response).build();
   }
 
@@ -149,21 +172,33 @@ public class RestaurantController {
   public ResponseEntity<ApiResponse<Object>> getBooksByRestaurantIdAndDate(
       @PathVariable Long id,
       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    var response = bookService.getBooks(localDate, id);
+    var response = restaurantService.getBooksOfRestaurant(localDate, id);
     return ApiResponse.builder().data(response).build();
   }
 
   /**
-   * Gets tables by restaurant id and date.
+   * Gets available time slots.
    *
    * @param id the id
    * @param localDate the local date
-   * @return the tables by restaurant id and date
+   * @return the available time slots
    */
   @GetMapping("/{id}/book/slots")
-  public ResponseEntity<ApiResponse<Object>> getTablesByRestaurantIdAndDate(
+  public ResponseEntity<ApiResponse<Object>> getAvailableTimeSlots(
       @PathVariable Long id,
       @RequestParam(required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate localDate) {
-    return ApiResponse.builder().data(bookService.getAvailableTimeSlotsMap(localDate, id)).build();
+    return ApiResponse.builder().data(restaurantService.getTimeSlotsList(localDate, id)).build();
+  }
+
+  /**
+   * Generate qr code response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
+  @GetMapping("/qr-code/{id}")
+  public ResponseEntity<ApiResponse<Object>> generateQRCode(@PathVariable Long id) {
+    var response = restaurantService.generateQrCodeForRestaurant(id);
+    return ApiResponse.builder().data(response).build();
   }
 }

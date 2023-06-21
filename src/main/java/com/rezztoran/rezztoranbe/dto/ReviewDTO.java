@@ -19,4 +19,5 @@ public class ReviewDTO {
   private Long userId;
   private String content;
   private int star;
+  private boolean deleted;
 }

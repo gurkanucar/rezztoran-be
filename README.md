@@ -3,12 +3,16 @@
 </h1>
 
 <h1 align="center">
-  Rezztoran - Restaurant Reservation (Booking) System ~backend
+  Rezztoran - Restaurant Reservation (Booking) System ~ University Graduation Project
 </h1>
 
+- frontend: [https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal](https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal)
+- admin
+  panel: [https://github.com/alperenkapusuz/rezztoran-admin-panel](https://github.com/alperenkapusuz/rezztoran-admin-panel)
 
-Rezztoran-be, is a backend restaurant reservation (booking) system that allows restaurants to manage their reservations efficiently. The system enables customers to reserve tables online, while restaurant owners can manage reservations, availability, and guest preferences
-
+Rezztoran-be, is a backend restaurant reservation (booking) system that allows restaurants to manage
+their reservations efficiently. The system enables customers to reserve tables online, while
+restaurant owners can manage reservations, availability, and guest preferences
 
 ## Entity Class Diagram
 
@@ -16,12 +20,29 @@ Rezztoran-be, is a backend restaurant reservation (booking) system that allows r
 
 ## Tech Stack
 
+This project is built using a modern tech stack that includes **RESTful**, **Java**, **Spring Boot**
+, **Docker**, **MySQL**, **Localstack S3**, **Kafka** and **Mail Sender**. Each technology is chosen
+to fulfill a specific purpose in the project.
 
-This project is built using a modern tech stack that includes **RESTful**, **Java**, **Spring Boot**, **Docker**, **MySQL**, **Localstack S3**, **Kafka** and **Mail Sender**. Each technology is chosen to fulfill a specific purpose in the project.
+## Features
 
-
-![Docker Services](./images/docker_services.png)
-
+- **Dockerized the project.**
+- **Implemented a reservation system.**
+- **Authentication using JWT.**
+- **Added the review feature.**
+- **Added the favorite restaurant feature.**
+- **Implemented AWS S3 LocalStack for image uploading.**
+- **Implemented custom exception handling and internationalization.**
+- **Implemented a password reset mechanism via mail otp code.**
+- **Added an email sending mechanism using Kafka.**
+- **Added advanced comprehensive pagination, sorting, and filtering.**
+- **Implemented a QR code generation system.**
+- **Sent a reminder email 3 hours before booking.**
+- **Sent an email to the user if a restaurant cancels booking.**
+- **Added an authorization checker aspect.**
+- **Implemented token invalidation after change password.**
+- **Rate Limiting.**
+- **Caching.**
 
 ## How to Run
 
@@ -31,8 +52,31 @@ This project is built using a modern tech stack that includes **RESTful**, **Jav
 
 ## Example Images
 
+![img](./images/fe1.png)
+
+![img](./images/fe2.png)
+
+![img](./images/fe3.png)
+
+![img](./images/fe4.png)
+
+![img](./images/fe5.png)
+
+![img](./images/fe6.png)
+
 ![password reset](./images/password_reset.png)
 password reset mail
 
-![book created](./images/book_created.png)
+![book created](./images/book_created.jpg)
 book created mail
+
+![book cancelled](./images/book_cancelled.jpg)
+book cancelled mail
+
+![book reminder](./images/book_reminder.jpg)
+book reminder mail
+
+![postman_collection](./images/postman_collection.jpg)
+postman_collection
+
+

@@ -4,10 +4,11 @@ import com.rezztoran.rezztoranbe.dto.CategoryDTO;
 import com.rezztoran.rezztoranbe.model.Category;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.CategoryService;
-import java.util.stream.Collectors;
+import java.util.List;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,15 +39,13 @@ public class CategoryController {
   /**
    * Gets all categories.
    *
+   * @param pageable the pageable
    * @return the all categories
    */
   @GetMapping
-  public ResponseEntity<ApiResponse<Object>> getAllCategories() {
-    var categoryDTOs =
-        categoryService.getAllCategories().stream()
-            .map(x -> mapper.map(x, CategoryDTO.class))
-            .collect(Collectors.toList());
-    return ApiResponse.builder().data(categoryDTOs).build();
+  public ResponseEntity<ApiResponse<Object>> getAllCategories(
+      @PageableDefault(size = 20) Pageable pageable) {
+    return ApiResponse.builder().pageableData(categoryService.getAllCategories(pageable)).build();
   }
 
   /**
@@ -76,6 +75,20 @@ public class CategoryController {
   }
 
   /**
+   * Create category list response entity.
+   *
+   * @param categories the categories
+   * @return the response entity
+   */
+  @PostMapping("/insert-list")
+  public ResponseEntity<ApiResponse<Object>> createCategoryList(
+      @RequestBody List<Category> categories) {
+    return ApiResponse.builder()
+        .data(mapper.map(categoryService.createCategoryList(categories), CategoryDTO.class))
+        .build();
+  }
+
+  /**
    * Update category response entity.
    *
    * @param category the category
@@ -94,9 +107,10 @@ public class CategoryController {
    * @param id the id
    * @return the response entity
    */
-  @DeleteMapping("/{id}")
-  public ResponseEntity<ApiResponse<Object>> deleteCategory(@PathVariable Long id) {
-    categoryService.delete(id);
-    return ApiResponse.builder().build();
-  }
+  // category deleting operation cancelled
+  //  @DeleteMapping("/{id}")
+  //  public ResponseEntity<ApiResponse<Object>> deleteCategory(@PathVariable Long id) {
+  //    categoryService.delete(id);
+  //    return ApiResponse.builder().build();
+  //  }
 }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezztoran - Booking Reminder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #333;
+      background-color: #f2f3f8;
+      padding-bottom: 50px;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 30px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+    }
+
+
+    h1, h2, p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      margin-bottom: 20px;
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #FF702A;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+
+    .btn:hover {
+      background-color: #ff5500;
+    }
+
+    .table {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div
+    style="display: flex; justify-content: center; flex-direction: column; align-items: center;margin-top: 20px; margin-bottom: 20px;">
+  <img src="cid:image" alt="Rezztoran logo" style="max-width: 100%;">
+</div>
+
+
+<div class="container">
+
+  <div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+    <h1>Rezztoran - Booking Reminder</h1>
+  </div>
+
+
+  <div style="text-align: center;">
+    <h3 style="margin-left: 20px; margin-right: 20px;">Dear ${username},</h3>
+    <h4 style="margin-left: 20px; margin-right: 20px;">We are pleased to remind you about your
+      upcoming reservation at <strong>${restaurant}</strong>.
+      Below are the details of your reservation:</h4>
+  </div>
+
+
+  <table class="table">
+    <tr>
+      <td><strong>Restaurant:</strong></td>
+      <td>${restaurant}</td>
+    </tr>
+    <tr>
+      <td><strong>Reservation date:</strong></td>
+      <td>${booking_date}</td>
+    </tr>
+    <tr>
+      <td><strong>Note:</strong></td>
+      <td>${note}</td>
+    </tr>
+    <tr>
+      <td><strong>Person count:</strong></td>
+      <td>${person_count}</td>
+    </tr>
+    <tr>
+      <td><strong>Phone:</strong></td>
+      <td>${phone}</td>
+    </tr>
+  </table>
+  <p style="margin-top: 20px">To view or modify your reservation details, please click the following
+    button:</p>
+  <a href="${reservation_details_url}" class="btn"
+     style="display: inline-block;margin-bottom: 20px; padding: 10px 20px; font-size: 14px; font-weight: bold; color: #fff; background-color: #FF702A; border-radius: 5px; text-decoration: none; margin-top: 20px; text-align: center;">View
+    Reservation Details</a>
+
+  <p>Thank you for choosing Rezztoran. We look forward to seeing you soon!</p>
+  <p>Best regards,</p>
+  <p>The Rezztoran Team</p>
+</div>
+
+
+<div
+    style="display: flex; justify-content: center; flex-direction: column; align-items: center;margin-top: 20px;">
+  <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">
+    &copy; <strong>Rezztoran</strong></p>
+</div>
+</body>
+</html>

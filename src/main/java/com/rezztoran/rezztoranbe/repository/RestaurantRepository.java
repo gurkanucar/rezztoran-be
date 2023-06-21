@@ -3,7 +3,9 @@ package com.rezztoran.rezztoranbe.repository;
 import com.rezztoran.rezztoranbe.model.Restaurant;
 import com.rezztoran.rezztoranbe.model.User;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /** The interface Restaurant repository. */
@@ -19,6 +22,17 @@ public interface RestaurantRepository
     extends JpaRepository<Restaurant, Long>, JpaSpecificationExecutor<Restaurant> {
 
   Page<Restaurant> findAll(@NonNull Pageable pageable);
+
+  /**
+   * Find all randomly list.
+   *
+   * @param count the count
+   * @return the list
+   */
+  @Query(
+      value = "SELECT * FROM restaurant WHERE deleted = FALSE ORDER BY RAND() LIMIT :elementCount",
+      nativeQuery = true)
+  List<Restaurant> findAllRandomly(@Param("elementCount") int count);
 
   Page<Restaurant> findAll(Specification<Restaurant> spec, Pageable pageable);
 
@@ -63,4 +77,22 @@ public interface RestaurantRepository
    * @return the optional
    */
   Optional<Restaurant> findRestaurantByUser(User user);
+
+  /**
+   * Find by id and deleted false optional.
+   *
+   * @param id the id
+   * @return the optional
+   */
+  Optional<Restaurant> findByIdAndDeletedFalse(Long id);
+
+  /**
+   * Find all map map.
+   *
+   * @return the map
+   */
+  default Map<Object, Object> findAllMap() {
+    return findAll().stream()
+        .collect(Collectors.toMap(Restaurant::getRestaurantName, Restaurant::getCity));
+  }
 }

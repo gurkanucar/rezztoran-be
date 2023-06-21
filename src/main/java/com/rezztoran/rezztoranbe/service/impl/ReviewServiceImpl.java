@@ -2,7 +2,6 @@ package com.rezztoran.rezztoranbe.service.impl;
 
 import static java.util.stream.Collectors.groupingBy;
 
-import com.rezztoran.rezztoranbe.aop.AuthorizeCheck;
 import com.rezztoran.rezztoranbe.dto.ReviewDTO;
 import com.rezztoran.rezztoranbe.dto.request.ReviewRequestModel;
 import com.rezztoran.rezztoranbe.exception.BusinessException.Ex;
@@ -16,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
         .id(x.getId())
         .restaurantId(x.getRestaurant().getId())
         .restaurantName(x.getRestaurant().getRestaurantName())
-        .userId(x.getId())
+        .userId(x.getUser().getId())
         .username(x.getUser().getUsername())
         .content(x.getContent())
         .star(x.getStar())
@@ -45,9 +45,6 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
-  @AuthorizeCheck(
-      field = "userId",
-      exceptRoles = {"ADMIN", "RESTAURANT_ADMIN"})
   public ReviewDTO createReview(ReviewRequestModel request) {
     var user = userService.findUserByID(request.getUserId());
     var restaurant = restaurantService.getById(request.getRestaurantId());
@@ -73,9 +70,19 @@ public class ReviewServiceImpl implements ReviewService {
 
     var existing = getReviewById(request.getId());
 
-    // for checking user and restaurant
-    userService.findUserByID(request.getUserId());
-    restaurantService.getById(request.getRestaurantId());
+    var user = userService.findUserByID(request.getUserId());
+    var restaurant = restaurantService.getById(request.getRestaurantId());
+
+    var loggedInUser = authService.getAuthenticatedUser().get();
+
+    if (!loggedInUser.getId().equals(user.getId())) {
+      throw exceptionUtil.buildException(Ex.FORBIDDEN_EXCEPTION);
+    }
+
+    if (Boolean.FALSE.equals(
+        reviewRepository.existsByUser_IdAndRestaurant_Id(user.getId(), restaurant.getId()))) {
+      throw exceptionUtil.buildException(Ex.REVIEW_NOT_FOUND_EXCEPTION);
+    }
 
     existing.setContent(request.getContent());
     existing.setStar(request.getStar());
@@ -105,8 +112,9 @@ public class ReviewServiceImpl implements ReviewService {
   }
 
   @Override
+  @Transactional
   public List<ReviewDTO> getReviewsByRestaurant(Long id) {
-    return reviewRepository.findAllByRestaurant_Id(id).stream()
+    return reviewRepository.findAllByRestaurant_IdAndRestaurant_DeletedFalse(id).stream()
         .map(ReviewServiceImpl::getReviewDTO)
         .collect(Collectors.toList());
   }
@@ -120,7 +128,7 @@ public class ReviewServiceImpl implements ReviewService {
 
   @Override
   public Double calculateStarCountByRestaurant(Long id) {
-    var restaurantData = reviewRepository.findAllByRestaurant_Id(id);
+    var restaurantData = reviewRepository.findAllByRestaurant_IdAndRestaurant_DeletedFalse(id);
     return restaurantData.stream().mapToInt(Review::getStar).average().orElse(0);
   }
 
@@ -148,4 +156,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     return resultMap;
   }
+
+  @Override
+  public void createReviewList(List<ReviewRequestModel> reviews) {
+    reviews.forEach(this::createReview);
+  }
+
+  @Override
+  public long getCount(){return reviewRepository.count();};
 }

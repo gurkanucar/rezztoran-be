@@ -7,6 +7,7 @@ import com.rezztoran.rezztoranbe.dto.request.PasswordResetRequest;
 import com.rezztoran.rezztoranbe.dto.request.RegisterModel;
 import com.rezztoran.rezztoranbe.response.ApiResponse;
 import com.rezztoran.rezztoranbe.service.AuthService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -45,8 +46,9 @@ public class AuthController {
    * @param loginModel the login model
    * @return the response entity
    */
+  @RateLimiter(name = "auth")
   @PostMapping("/login")
-  public ResponseEntity<ApiResponse<Object>> login(@RequestBody LoginModel loginModel) {
+  public ResponseEntity<ApiResponse<Object>> login(@Valid @RequestBody LoginModel loginModel) {
     var token = authService.tryLogin(loginModel);
     return ApiResponse.builder().data(token).build();
   }
@@ -68,9 +70,10 @@ public class AuthController {
    * @param passwordResetRequest the password reset request
    * @return the response entity
    */
+  @RateLimiter(name = "password-reset")
   @PostMapping("/reset-request")
   public ResponseEntity<ApiResponse<Object>> resetMail(
-      @RequestBody PasswordResetRequest passwordResetRequest) {
+      @Valid @RequestBody PasswordResetRequest passwordResetRequest) {
     authService.resetPasswordRequestCodeGenerate(passwordResetRequest.getMail());
     return ApiResponse.builder().build();
   }
@@ -83,7 +86,7 @@ public class AuthController {
    */
   @PostMapping("/reset-password")
   public ResponseEntity<ApiResponse<Object>> resetPassword(
-      @RequestBody PasswordResetModel passwordResetModel) {
+      @Valid @RequestBody PasswordResetModel passwordResetModel) {
     authService.resetPassword(passwordResetModel);
     return ApiResponse.builder().build();
   }

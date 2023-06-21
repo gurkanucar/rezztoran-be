@@ -1,7 +1,6 @@
-package com.rezztoran.rezztoranbe.service;
+package com.rezztoran.rezztoranbe.service.impl;
 
 import com.rezztoran.rezztoranbe.model.User;
-import com.rezztoran.rezztoranbe.service.impl.UserServiceImpl;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;

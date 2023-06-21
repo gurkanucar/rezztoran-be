@@ -6,8 +6,7 @@
   Rezztoran - Restaurant Reservation (Booking) System ~ University Graduation Project
 </h1>
 
--
-frontend: [https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal/web](https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal/web)
+- frontend: [https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal](https://github.com/thekinv21/rezztoran-frontend/tree/thekinv21/WebFinal)
 - admin
   panel: [https://github.com/alperenkapusuz/rezztoran-admin-panel](https://github.com/alperenkapusuz/rezztoran-admin-panel)
 
